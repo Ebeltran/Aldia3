@@ -1,0 +1,18 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 20/08/2015, 08:30:52 AM
+    Author     : ebeltran
+*/
+#bgVentanaModal {
+	background-image: url(../images/logos/watermark.gif);
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	left: 0px;
+	top: 0px;
+	z-index: 1;
+}

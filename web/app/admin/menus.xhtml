@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <p:growl id="msgs" showDetail="true" />
+                <h:form id="formDataTable">
+                    <p:dataTable var="aplMenu" value="#{aplMenuBean.aplMenus}"
+                                 emptyMessage="No se encontran resultados" paginator="true"
+                                 paginatorPosition="top" rows="10"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" scrollable="true" scrollWidth="100%">
+
+                        <f:facet name="header" class="center_content">
+                            Opciones del Sistema
+                        </f:facet>
+                        <p:column headerText="Id Menu"
+                                  style="width:32px;text-align: center;font-stretch: ultra-condensed">
+                            <h:outputText value="#{aplMenu.id_menu}" />
+                        </p:column>
+
+                        <p:column headerText="Id Padre"
+                                  style="width:32px;text-align: center;font-stretch: ultra-condensed"
+                                  filterBy="#{aplMenu.tab_menus_id}" footerText="exac"
+                                  filterMatchMode="exact">
+                            <h:outputText value="#{aplMenu.tab_menus_id}" />
+                        </p:column>
+
+                        <p:column headerText="Orden" style="width:32px;text-align: center;font-stretch: ultra-condensed">
+                            <h:outputText value="#{aplMenu.no_orden}" />
+                        </p:column>
+
+                        <p:column headerText="Nombre"
+                                  style="width:120px;text-align: justify"
+                                  filterBy="#{aplMenu.nombre_menu}" footerText="cont"
+                                  filterMatchMode="contains">
+                            <h:outputText value="#{aplMenu.nombre_menu}" />
+                        </p:column>
+                        <p:column headerText="Ruta pagina"
+                                  style="width:180px;text-align: justify">
+                            <h:outputText value="#{aplMenu.ruta_jsp}" />
+                        </p:column>
+                        <p:column headerText="Ruta Icon"
+                                  style="width:120px;text-align: justify">
+                            <h:outputText value="#{aplMenu.ruta_icon}" />
+                        </p:column>
+                        <p:column headerText="Hints Ayuda"
+                                  style="width:120px;text-align: justify">
+                            <h:outputText value="#{aplMenu.descripcion}" />
+                        </p:column>
+                        <p:column headerText="Ruta Ayuda"
+                                  style="width:180px;text-align: justify">
+                            <h:outputText value="#{aplMenu.ruta_ayuda}" />
+                        </p:column>
+                        <p:column headerText="Perm" style="width:32px;text-align: center;font-stretch: ultra-condensed">
+                            <h:outputText styleClass="fa fa-check" rendered="#{aplMenu.lpermiso}" />
+                        </p:column>
+                        <p:column headerText="Fecha" style="width:75px;text-align: justify">
+                            <h:outputText value="#{aplMenu.fecha}" />
+                        </p:column>
+                        <p:column headerText="T Menu"
+                                  style="width:75px;text-align: justify">
+                            <h:outputText value="#{aplMenu.tipo_menu}" />
+                        </p:column>
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton id="btnUpdate" update=":formUpdate"
+                                             oncomplete="PF('dialogAplMenuUpdate').show()" icon="icon-edit"
+                                             title="Modificar el menu seleccionado">
+                                <f:setPropertyActionListener value="#{aplMenu}"
+                                                             target="#{aplMenuBean.selectedAplMenu}" />
+                            </p:commandButton>
+                            <p:commandButton id="btnDesactivar" update=":formDesactivar"
+                                             oncomplete="PF('dialogAplMenuDesactivar').show()"
+                                             icon="icon-stop" title="Desabilita la opcion seleccionado">
+                                <f:setPropertyActionListener value="#{aplMenu}"
+                                                             target="#{aplMenuBean.selectedAplMenu}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <h:form>
+                        <p:commandButton id="bntAplMenuCreate" update=":formCreate"
+                                         onclick="#{aplMenuBean.resetFormulario()}"
+                                         oncomplete="PF('dialogAplMenuCreate').show()" icon="icon-new"
+                                         iconPos="right" alt="Crear Menu" value="Crear nueva opcion"
+                                         style="left: inherit"
+                                         title="Crear nueva opcion para la aplicacion"
+                                         actionListener="#{aplMenuBean.resetFormulario()}">
+                        </p:commandButton>
+                    </h:form>
+                </h:form>
+                <h:form id="formCreate">
+                    <p:dialog header="Crear Menu * el Id Menu es automatico"
+                              widgetVar="dialogAplMenuCreate" resizable="false"
+                              id="dlgAplMenuCreate" showEffect="fade" hideEffect="explode"
+                              modal="true">
+                        <h:panelGrid id="display" columns="3" cellpadding="4"
+                                     style="margin:0 auto;">
+                            <h:panelGroup>
+                                <h:outputLabel value="Id Padre: " for="tab_menus_id" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.tab_menus_id}"
+                                         required="true" title="Ingrese el Id del Menu Padre" size="40" />
+                            <h:message for="tab_menus_id" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Orden: " for="no_orden" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.no_orden}"
+                                         required="true" title="Ingrese el Orden de presentacion"
+                                         size="40" />
+                            <h:message for="no_orden" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Nombre menu: " for="nombre_menu" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.nombre_menu}"
+                                         required="true" title="Ingrese el nombre de la opcion a craer" size="40" />
+                            <h:message for="nombre_menu" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Ruta Pagina: " for="ruta_jsp" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.ruta_jsp}"
+                                         required="true" title="Ingrese el ruta de la pagina a crear" size="40" />
+                            <h:message for="ruta_jsp" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Hints Ayuda: " for="descripcion" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.descripcion}"
+                                         required="true" title="Ingrese la ayuda de opcion a crear" size="40" />
+                            <h:message for="descripcion" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Ruta Icono: " for="ruta_icon" />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.ruta_icon}"
+                                         required="false" title="Ingrese el ruta del Icono" size="40" />
+                            <h:message for="ruta_icon" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Ruta ayuda: " for="ruta_ayuda" />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.ruta_ayuda}"
+                                         required="false" title="Ingrese el ruta de la ayuda" size="40" />
+                            <h:message for="ruta_ayuda" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Permiso general: " for="ruta_ayuda" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:column headerText="Permiso general:"
+                                      style="width:15px;text-align: center">
+                                <p:selectBooleanCheckbox
+                                    value="#{aplMenuBean.selectedAplMenu.lpermiso}">
+                                </p:selectBooleanCheckbox>
+                            </p:column>
+
+                            <h:message for="si_permiso" />
+
+                            <f:facet name="footer">
+                                <p:separator />
+                                <p:commandButton id="btnCreateAceptar"
+                                                 update=":formDataTable, :msgs"
+                                                 oncomplete="PF('dialogAplMenuCreate').hide()"
+                                                 actionListener="#{aplMenuBean.btnCreateAplMenu(actionEvent)}"
+                                                 icon="icon-save" title="Guarda la informacion modificada"
+                                                 value="Guardar" />
+                                <p:commandButton id="btnCreateCancelar"
+                                                 oncomplete="PF('dialogAplMenuCreate').hide()" icon="icon-cancel"
+                                                 title="Cancelar los cambios" value="Cancelar" />
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+                <h:form id="formUpdate">
+                    <p:dialog header="Modificar Menu" widgetVar="dialogAplMenuUpdate"
+                              resizable="false" id="dlgAplMenuUpdate" showEffect="fade"
+                              hideEffect="explode" modal="true">
+                        <h:panelGrid id="display" columns="3" cellpadding="4"
+                                     style="margin:0 auto;">
+
+                            <h:outputLabel value="Id Menu:" />
+                            <p:outputLabel value="#{aplMenuBean.selectedAplMenu.id_menu}" />
+                            <h:message for="id_menu" />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Id Padre: " for="tab_menus_id" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.tab_menus_id}"
+                                         required="true" title="Ingrese el Id del Menu Padre" size="40" />
+                            <h:message for="tab_menus_id" />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Orden: " for="no_orden" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.no_orden}"
+                                         required="true" title="Ingrese el Orden de presentacion"
+                                         size="40" />
+                            <h:message for="no_orden" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Nombre menu: " for="nombre_menu" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.nombre_menu}"
+                                         required="true" title="Ingrese el nombre de la opcion" size="40" />
+                            <h:message for="nombre_menu" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Hints Ayuda: " for="descripcion" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.descripcion}"
+                                         required="true" title="Ingrese el ruta de la pagina" size="40" />
+                            <h:message for="descripcion" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Ruta Pagina: " for="ruta_jsp" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.ruta_jsp}"
+                                         required="true" title="Ingrese el ruta de la pagina" size="40" />
+                            <h:message for="ruta_jsp" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Ruta Icono: " for="ruta_icon" />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.ruta_icon}"
+                                         required="false" title="Ingrese el ruta del Icono" size="40" />
+                            <h:message for="ruta_icon" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Ruta ayuda: " for="ruta_ayuda" />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplMenuBean.selectedAplMenu.ruta_ayuda}"
+                                         required="false" title="Ingrese el ruta de la ayuda" size="40" />
+                            <h:message for="ruta_ayuda" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Permiso general: " for="ruta_ayuda" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:column headerText="Permiso general:"
+                                      style="width:15px;text-align: center">
+                                <p:selectBooleanCheckbox
+                                    value="#{aplMenuBean.selectedAplMenu.lpermiso}">
+                                </p:selectBooleanCheckbox>
+                            </p:column>
+                            <h:message for="si_permiso" />
+                            <f:facet name="footer">
+                                <p:separator />
+                                <p:commandButton id="btnUpdateAceptar"
+                                                 update=":formDataTable, :msgs"
+                                                 oncomplete="PF('dialogAplMenuUpdate').hide()"
+                                                 actionListener="#{aplMenuBean.btnUpdateAplMenu(actionEvent)}"
+                                                 icon="icon-save" title="Guarda la informacion modificada"
+                                                 value="Guardar" />
+                                <p:commandButton id="btnUpdateCancelar"
+                                                 oncomplete="PF('dialogAplMenuUpdate').hide()" icon="icon-cancel"
+                                                 title="Cancelar los cambios" value="Cancelar" />
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+                <h:form id="formDesactivar">
+                    <p:confirmDialog id="confirmDialog"
+                                     message="Esta seguro para desctivar la opcion?"
+                                     header="Desactiva Menu" severity="alert" height="50"
+                                     widgetVar="dialogAplMenuDesactivar" global="true" showEffect="fade"
+                                     hideEffect="explode">
+                        <p:commandButton id="confirm" update=":formDataTable, :msgs"
+                                         oncomplete="PF('dialogAplMenuDesactivar').hide()"
+                                         actionListener="#{aplMenuBean.btnDesActivateAplMenu(actionEvent)}"
+                                         icon="icon-save"
+                                         title="Guardar los cambios para desctivar la opcion"
+                                         value="Aceptar" />
+                        <p:commandButton id="decline" value="Cancelar"
+                                         onclick="PF('dialogAplMenuDesactivar').hide()" type="button"
+                                         styleClass="icon-cancel" title="Cancelar la operacion"
+                                         icon="icon-cancel" />
+                    </p:confirmDialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

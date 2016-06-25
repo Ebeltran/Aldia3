@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:form id="todo">
+                    <h:outputScript library="js" name="calendar_es.js" />
+                    <h:outputScript library="js" name="format.js" />
+                    <p:growl id="msgs" showDetail="true" life="4000" />
+                    <p:panel id="consulta" header="Cartas Ingreso Prospectos">
+                        <h:panelGrid columns="2" cellpadding="0" style="font-size: 80%">
+                            <p:spacer width="5" height="20" />
+                            <p:spacer width="5" height="20" />
+                            <p:outputLabel value="Documento No:" style="font-weight:bold"
+                                           rendered="#{documentoProspectoBean.empS.lpersona eq true}" />
+                            <p:outputLabel value="#{documentoProspectoBean.empS.tipo_doc} - #{documentoProspectoBean.empS.identi_con}"
+                                           rendered="#{documentoProspectoBean.empS.lpersona eq true}" />
+                            
+                            <p:outputLabel value="Apellidos y Nombres: "
+                                           style="font-weight:bold" />
+                            <p:outputLabel value="#{documentoProspectoBean.empS.apellidos_nombres}"
+                                           rendered="#{documentoProspectoBean.empS.lpersona eq true}" />
+                            
+                            <p:autoComplete value="#{documentoProspectoBean.empS}" id="completaNit"
+                                            rendered="#{documentoProspectoBean.empS.lpersona ne true}"
+                                            minQueryLength="3" size="60"
+                                            
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                            completeMethod="#{documentoProspectoBean.completePropecto}"
+                                            var="ni" itemLabel="#{ni.apellidos_nombres}" itemValue="#{ni}"
+                                            converter="alistarConverter" forceSelection="true">
+
+                                <p:column headerText="Pri apellido"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.apellido_1}" />
+                                </p:column>
+                                <p:column headerText="Seg apellido"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.apellido_2}" />
+                                </p:column>
+                                <p:column headerText="Pri nombre"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.nombre_1}" />
+                                </p:column>
+                                <p:column headerText="Seg nombre"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.nombre_2}" />
+                                </p:column>
+                                <p:column headerText="Identificacion" style="text-align: right">
+                                    <h:outputText value="#{ni.identi_con}" />
+                                </p:column>
+                            </p:autoComplete>
+                            
+                            <p:outputLabel value="Sueldo Aspira:"
+                                           style="font-weight:bold"
+                                           rendered="#{documentoProspectoBean.empS.lpersona eq true}" />
+                            <p:outputLabel value="#{documentoProspectoBean.empS.vr_salario_aspira}"
+                                           rendered="#{documentoProspectoBean.empS.lpersona eq true}" />
+
+                            <p:outputLabel value="Cargo Aspira:"
+                                           style="font-weight:bold"
+                                           rendered="#{documentoProspectoBean.empS.lpersona eq true}" />
+                            <p:outputLabel value="#{documentoProspectoBean.empS.nom_cargo_aspira}"
+                                           rendered="#{documentoProspectoBean.empS.lpersona eq true}" />
+                            
+                            <p:outputLabel value="Centro Costo:"
+                                           style="font-weight:bold"
+                                           rendered="#{documentoProspectoBean.empS.lpersona eq true}" />
+                            <p:outputLabel value="#{documentoProspectoBean.empS.nom_cen_costo}"
+                                           rendered="#{documentoProspectoBean.empS.lpersona eq true}" />
+                            
+                            <p:spacer width="5" height="20" />
+                            <p:spacer width="5" height="20" />
+                            
+                        </h:panelGrid>
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton id="seleccionar" value="Seleccionar"
+                                                 icon="ui-icon-check" update="todo"
+                                                 disabled="#{documentoProspectoBean.empS.lpersona eq true}"
+                                                 style="margin-right:20px;" title="Seleccionar empleado" />
+                                
+                                <p:commandButton id="examenMedico" value="Examen Ingreso"
+                                                 icon="icon-report" update="todo"
+                                                 rendered="#{documentoProspectoBean.empS.lpersona eq true}"
+                                                 actionListener="#{documentoProspectoBean.btnExamenMedicoIngreso(actionEvent)}"
+                                                 style="margin-right:20px;" 
+                                                 title="Preparar carta para Examen Medico de Ingreso" 
+                                                 oncomplete="window.open('#{appBean.baseUrl}reports/PDF/Carta_Examen/#{documentoProspectoBean.empS.reporte_nombre}_ExamenIngreso.PDF');"/>
+                                
+                                <p:commandButton id="cartaBanco" value="Apertura Cuenta"
+                                                 icon="icon-report" update="todo"
+                                                 rendered="#{documentoProspectoBean.empS.lpersona eq true}"
+                                                 actionListener="#{documentoProspectoBean.btnCartaBanco(actionEvent)}"
+                                                 style="margin-right:20px;" 
+                                                 title="Preparar carta para Apertura Cuenta del prospecto" 
+                                                 oncomplete="window.open('#{appBean.baseUrl}reports/PDF/Carta_Banco/#{documentoProspectoBean.empS.reporte_nombre}_CartaBanco.PDF');"/>
+                                
+                                <p:commandButton id="regresar" value="Inicio" 
+                                                 icon="icon-home"
+                                                 immediate="true"
+                                                 actionListener="#{documentoProspectoBean.resetFinalizar()}"
+                                                 action="app/inicio.xhtml?faces-redirect=true"
+                                                 ajax="false" 
+                                                 title="Regresar al menu inicial">
+                                    <p:resetInput target="panel" />
+                                </p:commandButton>
+                                
+                            </f:facet>
+                        </p:toolbar>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

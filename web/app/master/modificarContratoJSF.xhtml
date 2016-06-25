@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<body>
+
+	<ui:composition template="./../template.xhtml">
+
+		<ui:define name="content">
+			<h1>JSF 2 panelGrid example</h1>
+
+			<h:form id="form1">
+				<p:panelGrid id="panelGrid1" columns="1">
+					<f:facet name="header">
+						<h:outputText value="PrimeFaces AJAX Example" />
+					</f:facet>
+					<h:panelGroup>
+						<p:outputLabel for="selectBooleanCheckbox1"
+							value="Enable and Render?" />
+						<p:selectBooleanCheckbox id="selectBooleanCheckbox1"
+							value="#{indexBean.selectedBoolean}">
+							<p:ajax event="change" update="panelGroup1 message1" />
+						</p:selectBooleanCheckbox>
+					</h:panelGroup>
+
+					<h:panelGroup id="panelGroup1">
+						<p:inputText id="inputText1"
+							disabled="#{!indexBean.selectedBoolean}" value="Hello World!" />
+					</h:panelGroup>
+
+					<h:panelGroup id="message1">
+						<h:outputText id="outputText1"
+							rendered="#{indexBean.selectedBoolean eq true? true: false}"
+							value="I am message 1!" />
+					</h:panelGroup>
+				</p:panelGrid>
+			</h:form>
+
+			<h:form id="form2">
+				<h:panelGrid id="panelGrid2">
+					<f:facet name="header">
+						<h:outputText value="h:selectOneRadio example with f:ajax" />
+					</f:facet>
+					<h:panelGroup id="panelGroup2">
+						<h:outputLabel for="selectOneRadio1" value="Display Message?" />
+						<h:selectOneRadio id="selectOneRadio1"
+							value="#{indexBean.selectedRadioValue1}">
+							<f:selectItem itemLabel="Yes" itemValue="#{true}" />
+							<f:selectItem itemLabel="No" itemValue="#{false}" />
+							<f:ajax event="change" render="message2" />
+						</h:selectOneRadio>
+					</h:panelGroup>
+
+					<h:panelGroup id="message2">
+						<h:outputText id="outputText2"
+							rendered="#{indexBean.selectedRadioValue1 eq true ? true : false}"
+							value="I am message 2!" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</h:form>
+
+			<h:form id="form3">
+				<h:outputScript name="jsf.js" library="javax.faces" target="head" />
+				<h:panelGrid id="panelGrid3">
+					<f:facet name="header">
+						<h:outputText
+							value="h:selectOneRadio example with onchange event using jsf.ajax.request()" />
+					</f:facet>
+					<h:panelGroup id="panelGroup3">
+						<h:outputLabel for="selectOneRadio2" value="Display Message 3?" />
+						<h:selectOneRadio id="selectOneRadio2"
+							value="#{indexBean.selectedRadioValue2}"
+							onchange="jsf.ajax.request(this,event,{render:'@form'});return false;">
+							<f:selectItem itemLabel="Yes" itemValue="true" />
+							<f:selectItem itemLabel="No" itemValue="false" />
+						</h:selectOneRadio>
+					</h:panelGroup>
+
+					<h:panelGroup id="message3">
+						<h:outputText id="outputText3"
+							rendered="#{indexBean.selectedRadioValue2 eq true ? true: false}"
+							value="Hello John" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</h:form>
+		</ui:define>
+
+	</ui:composition>
+
+</body>
+</html>

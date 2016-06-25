@@ -1,0 +1,264 @@
+
+.ui-state-default .icon-home {
+	background-image: url(./../images/icons/icon/Home.png);
+}
+
+.ui-state-default .icon-back {
+	background-image: url(./../images/icons/icon/Back.png);
+}
+
+.ui-state-default .icon-dian {
+	background-image: url(./../images/icons/icon/Dian.png);
+}
+
+.ui-state-default .icon-rut {
+	background-image: url(./../images/icons/icon/RUT_nuevo.png);
+}
+
+.ui-state-default .icon-rutNuevo {
+	background-image: url(./../images/icons/icon/RUT_nuevo.png);
+}
+
+.ui-state-default .icon-accept {
+	background-image: url(./../images/icons/icon/accept.png);
+}
+
+.ui-state-default .icon-new {
+	background-image: url(./../images/icons/icon/add.png);
+}
+
+.ui-state-default .icon-ajaxloadingbar {
+	background-image: url(./../images/icons/icon/ajaxloadingbar.png);
+}
+
+.ui-state-default .icon-undo {
+	background-image: url(./../images/icons/icon/arrow_undo.png);
+}
+
+.ui-state-default .icon-borrar {
+	background-image: url(./../images/icons/icon/borrar.png);
+}
+
+.ui-state-default .icon-calendar {
+	background-image: url(./../images/icons/icon/calendar.png);
+}
+
+.ui-state-default .icon-cancel {
+	background-image: url(./../images/icons/icon/cancel.png);
+}
+
+.ui-state-default .icon-chartbar {
+	background-image: url(./../images/icons/icon/chrat_bar.png);
+}
+
+.ui-state-default .icon-charline {
+	background-image: url(./../images/icons/icon/chart_line.png);
+}
+
+.ui-state-default .icon-chartpie {
+	background-image: url(./../images/icons/icon/chart_pie.png);
+}
+
+.ui-state-default .icon-compress {
+	background-image: url(./../images/icons/icon/compress.png);
+}
+
+.ui-state-default .icon-delete {
+	background-image: url(./../images/icons/icon/cross.png);
+}
+
+.ui-state-default .icon-cut {
+	background-image: url(./../images/icons/icon/cut.png);
+}
+
+.ui-state-default .icon-data {
+	background-image: url(./../images/icons/icon/data.png);
+}
+
+.ui-state-default .icon-database {
+	background-image: url(./../images/icons/icon/database.png);
+}
+
+.ui-state-default .icon-save {
+	background-image: url(./../images/icons/icon/disk.png);
+}
+
+.ui-state-default .icon-excel {
+	background-image: url(./../images/icons/icon/doc_excel.png);
+}
+
+.ui-state-default .icon-pdf {
+	background-image: url(./../images/icons/icon/doc_pdf.png);
+}
+
+.ui-state-default .icon-info {
+	background-image: url(./../images/icons/icon/doc_info.png);
+}
+
+.ui-state-default .icon-doctext {
+	background-image: url(./../images/icons/icon/doc_text.png);
+}
+
+.ui-state-default .icon-docword {
+	background-image: url(./../images/icons/icon/doc_word.png);
+}
+
+.ui-state-default .icon-edit {
+	background-image: url(../images/icons/icon/edit.png);
+}
+
+.ui-state-default .icon-email {
+	background-image: url(./../images/icons/icon/email.png);
+}
+
+.ui-state-default .icon-emailopen {
+	background-image: url(./../images/icons/icon/email_open.png);
+}
+
+.ui-state-default .icon-error {
+	background-image: url(./../images/icons/icon/error.png);
+}
+
+.ui-state-default .icon-find {
+	background-image: url(./../images/icons/icon/find.png);
+}
+
+.ui-state-default .icon-folder {
+	background-image: url(./../images/icons/icon/folder.png);
+}
+
+.ui-state-default .icon-help {
+	background-image: url(./../images/icons/icon/help.png);
+}
+
+.ui-state-default .icon-lock {
+	background-image: url(./../images/icons/icon/lock.png);
+}
+
+.ui-state-default .icon-unlock {
+	background-image: url(./../images/icons/icon/lock_unlock.png);
+}
+
+.ui-state-default .icon-money {
+	background-image: url(./../images/icons/icon/money.png);
+}
+
+.ui-state-default .icon-check {
+	background-image: url(./../images/icons/icon/ok.png);
+}
+
+.ui-state-default .icon-pasteplain {
+	background-image: url(./../images/icons/icon/paste_plain.png);
+}
+
+.ui-state-default .icon-pasteword {
+	background-image: url(./../images/icons/icon/pate_word.png);
+}
+
+.ui-state-default .icon-phone {
+	background-image: url(./../images/icons/icon/phone.png);
+}
+
+.ui-state-default .icon-phonemobile {
+	background-image: url(./../images/icons/icon/phone_mobile.png);
+}
+
+.ui-state-default .icon-photo {
+	background-image: url(./../images/icons/icon/photo.png);
+}
+
+.ui-state-default .icon-printer {
+	background-image: url(./../images/icons/icon/printer.png);
+}
+
+.ui-state-default .icon-rainbow {
+	background-image: url(./../images/icons/icon/rainbow.png);
+}
+
+.ui-state-default .icon-report {
+	background-image: url(./../images/icons/icon/report.png);
+}
+
+.ui-state-default .icon-server {
+	background-image: url(./../images/icons/icon/server.png);
+}
+
+.ui-state-default .icon-sexfemale {
+	background-image: url(./../images/icons/icon/sex_female.png);
+}
+
+.ui-state-default .icon-sexmale {
+	background-image: url(./../images/icons/icon/sex_male.png);
+}
+
+.ui-state-default .icon-sort {
+	background-image: url(./../images/icons/icon/sort.png);
+}
+
+.ui-state-default .icon-sortalphabet {
+	background-image: url(./../images/icons/icon/sort_alphabet.png);
+}
+
+.ui-state-default .icon-sortdate {
+	background-image: url(./../images/icons/icon/sort_date.png);
+}
+
+.ui-state-default .icon-sortdisable {
+	background-image: url(./../images/icons/icon/sort_disable.png);
+}
+
+.ui-state-default .icon-sortnumber {
+	background-image: url(./../images/icons/icon/sort_number.png);
+}
+
+.ui-state-default .icon-sortprice {
+	background-image: url(./../images/icons/icon/sort_price.png);
+}
+
+.ui-state-default .icon-sortquantity {
+	background-image: url(./../images/icons/icon/sort_quantity.png);
+}
+
+.ui-state-default .icon-sortraiting {
+	background-image: url(./../images/icons/icon/sort_raiting.png);
+}
+
+.ui-state-default .icon-stop {
+	background-image: url(./../images/icons/icon/stop.png);
+}
+
+.ui-state-default .icon-user-add {
+	background-image: url(./../images/icons/icon/user_add.png);
+}
+
+.ui-state-default .icon-user {
+	background-image: url(./../images/icons/icon/user.png);
+}
+
+.ui-state-default .icon-userfemale {
+	background-image: url(./../images/icons/icon/user_female.png);
+}
+
+.ui-state-default .icon-usermale {
+	background-image: url(./../images/icons/icon/user_male.png);
+}
+
+.ui-state-default .icon-wait {
+	background-image: url(./../images/icons/icon/wait.png);
+}
+
+.ui-state-default .icon-webcam {
+	background-image: url(./../images/icons/icon/webcam.png);
+}
+
+.ui-state-default .icon-world {
+	background-image: url(./../images/icons/icon/world.png);
+}
+
+.ui-state-default .icon-traffic_lights {
+	background-image: url(./../images/icons/icon/traffic_lights.png);
+}
+
+.ui-state-default .icon-traffic_lights {
+	background-image: url(./../images/icons/icon/traffic_lights_32.png);
+}

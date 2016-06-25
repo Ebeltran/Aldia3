@@ -1,0 +1,20 @@
+body {
+	background-color: #ffffff;
+	font-size: 12px;
+	font-family: Verdana, "Verdana CE", Arial, "Arial CE",
+		"Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+	color: #000000;
+	margin: 10px;
+}
+
+.conteiner {
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10%;
+	font-size: 100%;
+}
+
+.ui-state-default .icon-cambioClave {
+	background-image: url(../images/icons/icon_16/user.png);
+}

@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<body>
+	<ui:composition template="./../template.xhtml">
+		<ui:define name="content">
+			<h:outputScript library="js" name="calendar_es.js" />
+			<p:growl id="msgs" showDetail="true" />
+			<h:form id="formDataTable">
+				<p:dataTable var="centroCosto"
+					value="#{centroCostoBean.lsCentroCosto}"
+					emptyMessage="No se encontran resultados" paginator="true"
+					paginatorPosition="top" rows="10"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15" scrollable="true" scrollWidth="100%">
+
+					<f:facet name="header" class="center_content">
+                            Centros de Costo
+                        </f:facet>
+					<p:column headerText="Id" style="width:35px;text-align: center">
+						<h:outputText value="#{centroCosto.n_cen_costo}" />
+					</p:column>
+					<p:column headerText="Nombre" style="width:150px;text-align: left">
+						<h:outputText value="#{centroCosto.nombre}"
+							style="text-align: right" />
+					</p:column>
+					<p:column headerText="ID Dep" style="width:35px;text-align: center">
+						<h:outputText value="#{centroCosto.n_cen_costo_padre}" />
+					</p:column>
+					<p:column headerText="Nivel" style="width:15px;text-align: center">
+						<h:outputText value="#{centroCosto.nivel}" />
+					</p:column>
+					<p:column headerText="Sel" style="width:15px;text-align: center">
+						<h:outputText styleClass="fa fa-check" rendered="#{centroCosto.si_interfaz}"/>
+					</p:column>
+					<p:column headerText="Afe" style="width:15px;text-align: center">
+						<h:outputText styleClass="fa fa-check" rendered="#{centroCosto.si_afectable}"/>
+					</p:column>
+					<p:column headerText="C Fe" style="width:15px;text-align: center">
+						<h:outputText styleClass="fa fa-check" rendered="#{centroCosto.si_control_fecha}"/>
+					</p:column>
+					<p:column headerText="Jor" style="width:15px;text-align: center">
+						<h:outputText styleClass="fa fa-check" rendered="#{centroCosto.si_pago_jornal}"/>
+					</p:column>
+					<p:column headerText="H E" style="width:15px;text-align: center">
+						<h:outputText styleClass="fa fa-check" rendered="#{centroCosto.si_pago_horas_extras}"/>
+					</p:column>
+					<p:column headerText="Des" style="width:15px;text-align: center">
+						<h:outputText styleClass="fa fa-check" rendered="#{centroCosto.si_descanso}"/>
+					</p:column>
+					<p:column headerText="Liq" style="width:15px;text-align: center">
+						<h:outputText styleClass="fa fa-check" rendered="#{centroCosto.si_liquidar}"/>
+					</p:column>
+					<p:column headerText="Tarifa" style="width:80px;text-align: left">
+						<h:outputText value="#{centroCosto.tarifa}" />
+					</p:column>
+					<p:column headerText="#d Nov" style="width:30px;text-align: left">
+						<h:outputText value="#{centroCosto.no_dias_novedad}" />
+					</p:column>
+					<p:column headerText="#d liq" style="width:30px;text-align: left">
+						<h:outputText value="#{centroCosto.no_dias_liquida}" />
+					</p:column>
+					<p:column headerText="#d Pag" style="width:30px;text-align: left">
+						<h:outputText value="#{centroCosto.no_dias_pago}" />
+					</p:column>
+					<p:column headerText="#h Jor" style="width:30px;text-align: left">
+						<h:outputText value="#{centroCosto.no_horas_jornada}" />
+					</p:column>
+					<p:column headerText="Ini Jor" style="width:60px;text-align: left">
+						<h:outputText value="#{centroCosto.ho_ini_jor}" />
+					</p:column>
+					<p:column headerText="Fin Jor" style="width:60px;text-align: left">
+						<h:outputText value="#{centroCosto.ho_fin_jor}" />
+					</p:column>
+					<p:column headerText="Ini Des" style="width:60px;text-align: left">
+						<h:outputText value="#{centroCosto.ho_ini_des}" />
+					</p:column>
+					<p:column headerText="Fin Des" style="width:60px;text-align: left">
+						<h:outputText value="#{centroCosto.ho_fin_des}" />
+					</p:column>
+					<p:column headerText="Periodo" style="width:130px;text-align: left">
+						<h:outputText value="#{centroCosto.nom_pperiodo}" />
+					</p:column>
+					<p:column headerText="Cuenta Base"
+						style="width:130px;text-align: left">
+						<h:outputText value="#{centroCosto.nom_cbase}" />
+					</p:column>
+					<p:column headerText="Nombre" style="width:150px;text-align: left">
+						<h:outputText value="#{centroCosto.nombre}"
+							style="text-align: right" />
+					</p:column>
+					<p:column headerText="Id" style="width:35px;text-align: center">
+						<h:outputText value="#{centroCosto.n_cen_costo}" />
+					</p:column>
+					<p:column style="width:32px;text-align: center">
+
+						<p:commandButton id="selectButton" icon="icon-edit"
+							title="Modificar Centro Costo" update=":formUpdate"
+							oncomplete="PF('dialogCentroCostoUpdate').show()">
+							<f:setPropertyActionListener value="#{centroCosto}"
+								target="#{centroCostoBean.centroCosto}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+			</h:form>
+			<h:form id="formUpdate">
+				<p:dialog header="Modificar Centro Costo"
+					widgetVar="dialogCentroCostoUpdate" resizable="false"
+					id="dlgCentroCostoUpdate" showEffect="fade" hideEffect="explode"
+					modal="true">
+
+					<h:panelGrid id="display" columns="3" cellpadding="4"
+						style="margin:0 auto;">
+
+
+
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

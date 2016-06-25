@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:outputScript library="js" name="calendar_es.js" />
+                <h:outputScript library="js" name="format.js" />
+                <p:growl id="msgs" showDetail="true" />
+                <h:form id="formDataTable">
+                    <p:dataTable id="tabla" var="tbla" value="#{empSNewBean.empSs}"
+                                 emptyMessage="No se encontran resultados" paginator="true"
+                                 paginatorPosition="top" rows="10"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" scrollable="true" scrollWidth="100%">
+                        <f:facet name="header" class="center_content">
+                            Modificar Prospecto
+                        </f:facet>
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton id="selectButton" icon="icon-edit"
+                                             title="Modifica prospecto" update=":formUpdate"
+                                             style="left: inherit" oncomplete="PF('dialogTablaUpdate').show()">
+                                <f:setPropertyActionListener value="#{tbla}"
+                                                             target="#{empSNewBean.empS}" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="TD" style="width:32px;text-align: center">
+                            <h:outputText value="#{tbla.tipo_doc}" />
+                        </p:column>
+                        <p:column headerText="Identificacion"
+                                  style="width:100px;text-align: right">
+                            <h:outputText value="#{tbla.identi_con}" style="text-align: right" />
+                        </p:column>
+                        <p:column headerText="Apellidos y Nombres" style="text-align: left">
+                            <h:outputText value="#{tbla.apellidos_nombres}" />
+                        </p:column>
+                        <p:column headerText="Centro Costo" style="text-align: left">
+                            <h:outputText value="#{tbla.nom_cen_costo}" />
+                        </p:column>
+                        <p:column headerText="Cargo aspira" style="text-align: left">
+                            <h:outputText value="#{tbla.nom_cargo_aspira}" />
+                        </p:column>
+                    </p:dataTable>
+                    <h:form>
+                        <p:commandButton id="bntAplMenuCreate" update=":formCreate"
+                                         onclick="#{empSNewBean.resetFormulario()}"
+                                         oncomplete="PF('dialogTablaCreate').show()" icon="icon-new"
+                                         iconPos="right" alt="Crear nuevo prospecto"
+                                         value="Crear nueva opcion" style="left: inherit"
+                                         title="Crear nueva opcion para la aplicacion"
+                                         actionListener="#{empSNewBean.resetFormulario()}">
+                        </p:commandButton>
+                    </h:form>
+                </h:form>
+                <h:form id="formCreate">
+                    <p:dialog header="Crear nuevo prospecto"
+                              widgetVar="dialogTablaCreate" resizable="false" id="dlgTablaCreate"
+                              showEffect="fade" hideEffect="explode" modal="true">
+                        <h:panelGrid id="display" columns="3" cellpadding="0"
+                                     style="margin:0 auto;">
+                            <p:outputLabel for="tipo_documento" value="Tipo Documento: " />
+                            <p:selectOneMenu id="tipo_documento"
+                                             value="#{empSNewBean.empS.n_nit_tip_identidad}"
+                                             valueChangeListener="#{autoCompletarProspecto.handleChangeTipoI()}"
+                                             required="true" label="tipo_documento">
+                                <p:ajax listener="#{empSNewBean.handleChangeTipoI()}" />
+                                <f:selectItem itemLabel=" -- Clase Documento -- " itemValue="" />
+                                <f:selectItems value="#{aplDefineBean.tipoIdentidad}" />
+                            </p:selectOneMenu>
+                            <h:message for="tipo_documento" />
+
+                            <p:outputLabel for="identicacion" value="Numero Documento: " />
+                            <p:inputText id="identicacion"
+                                         value="#{empSNewBean.empS.identi_con}"
+                                         onkeyup="#{empSNewBean.handleChangeNit()} format(this)"
+                                         onchange="format(this)" onkeypress="return validar(event)"
+                                         required="true" title="Numero de documento del prospecto a crear"
+                                         label="identicacion">
+                                <p:ajax listener="#{empSNewBean.handleChangeNit()}" />
+                            </p:inputText>
+                            <h:message for="identicacion" />
+
+                            <p:outputLabel for="primer_nombre" value="Primer Nombre: " />
+                            <p:inputText id="primer_nombre"
+                                         value="#{empSNewBean.empS.nombre_1}" required="true"
+                                         label="primer_nombre" title="Primer apellido del NIT a Craer" />
+                            <h:message for="primer_nombre" />
+
+                            <p:outputLabel for="segundo_nombre" value="Segundo Nombre: " />
+                            <p:inputText id="segundo_nombre"
+                                         value="#{empSNewBean.empS.nombre_2}" required="false"
+                                         label="segundo_nombre"
+                                         title="Segundo nombre si existe para el prospecto a crear" />
+                            <h:message for="segundo_nombre" />
+
+                            <p:outputLabel for="primer_apellido" value="Primer Apellido: " />
+                            <p:inputText id="primer_apellido"
+                                         value="#{empSNewBean.empS.apellido_1}" required="true"
+                                         label="primer_apellido"
+                                         title="Primer apellido del prospecto a crear" />
+                            <h:message for="primer_apellido" />
+
+                            <p:outputLabel for="segundo_apellido" value="Segundo Apellido: " />
+                            <p:inputText id="segundo_apellido"
+                                         value="#{empSNewBean.empS.apellido_2}" required="false"
+                                         label="segundo_apellido"
+                                         title="Segundo apellido del prospecto a crear" />
+                            <h:message for="segundo_apellido" />
+
+                            <p:outputLabel for="ciudad" value="Ciudad: " />
+                            <p:autoComplete id="ciudad"
+                                            value="#{empSNewBean.empS.ciudad_depto}" minQueryLength="3"
+                                            completeMethod="#{autoCompletarCiudad.completeCiudad}"
+                                            required="true" var="ci" size="54" itemLabel="#{ci.ciudad_depto}"
+                                            itemValue="#{ci}" converter="ciudadConv" forceSelection="true"
+                                            placeholder="Ingrese al menos 3 letras de la ciudad donde vive a buscar"
+                                            title="Ciudad donde vive el prospecto a crear">
+
+                                <p:column headerText="Ciudad" style="text-align: left">
+                                    <h:outputText value="#{ci.ciudad}" />
+                                </p:column>
+                                <p:column headerText="Departamento" style="text-align: left">
+                                    <h:outputText value="#{ci.departamento}" />
+                                </p:column>
+                                <p:column headerText="Codigo" style="text-align: right">
+                                    <h:outputText value="#{ci.n_apl_ciudad}" />
+                                </p:column>
+                            </p:autoComplete>
+                            <h:message for="ciudad" />
+
+                            <f:facet name="footer">
+                                <p:separator />
+                                <p:commandButton id="btnCreateAceptar"
+                                                 update=":formDataTable, :msgs"
+                                                 oncomplete="PF('dialogTablaCreate').hide()"
+                                                 actionListener="#{empSNewBean.btnCreate(actionEvent)}"
+                                                 icon="icon-save" title="Guarda la informacion modificada"
+                                                 value="Guardar" />
+                                <p:commandButton id="btnCreateCancelar"
+                                                 oncomplete="PF('dialogTablaCreate').hide()" icon="icon-cancel"
+                                                 title="Cancelar los cambios" value="Cancelar" />
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+                <h:form id="formUpdate">
+                    <p:dialog id="dlgTablaUpdate" header="Modificar Prospecto"
+                              widgetVar="dialogTablaUpdate" modal="true" showEffect="fade"
+                              hideEffect="explode" resizable="false">
+
+                        <h:panelGrid id="display" columns="3" cellpadding="0"
+                                     style="margin:0 auto;">
+
+                            <p:outputLabel value="Identificacion: " />
+                            <p:outputLabel
+                                value="#{empSNewBean.empS.tipo_doc} #{autoCompletarProspecto.empS.identi_con}" />
+                            <p:outputLabel value=" " />
+
+                            <p:outputLabel value="Apellidos y Nombres: " />
+                            <p:outputLabel value="#{empSNewBean.empS.razon_social}" />
+                            <p:outputLabel value=" " />
+
+                            <p:outputLabel for="primer_nombre" value="Primer Nombre: " />
+                            <p:inputText id="primer_nombre"
+                                         value="#{empSNewBean.empS.nombre_1}" required="true"
+                                         label="primer_nombre" title="Primer apellido del NIT a Craer" />
+                            <h:message for="primer_nombre" />
+
+                            <p:outputLabel for="segundo_nombre" value="Segundo Nombre: " />
+                            <p:inputText id="segundo_nombre"
+                                         value="#{empSNewBean.empS.nombre_2}" required="false"
+                                         label="segundo_nombre"
+                                         title="Segundo nombre si existe para el prospecto a crear" />
+                            <h:message for="segundo_nombre" />
+
+                            <p:outputLabel for="primer_apellido" value="Primer Apellido: " />
+                            <p:inputText id="primer_apellido"
+                                         value="#{empSNewBean.empS.apellido_1}" required="true"
+                                         label="primer_apellido"
+                                         title="Primer apellido del prospecto a crear" />
+                            <h:message for="primer_apellido" />
+
+                            <p:outputLabel for="segundo_apellido" value="Segundo Apellido: " />
+                            <p:inputText id="segundo_apellido"
+                                         value="#{empSNewBean.empS.apellido_2}" required="false"
+                                         label="segundo_apellido"
+                                         title="Segundo apellido del prospecto a crear" />
+                            <h:message for="segundo_apellido" />
+
+                            <p:outputLabel for="ciudad" value="Ciudad: " />
+                            <p:autoComplete id="ciudad"
+                                            value="#{empSNewBean.empS.ciudad_depto}" minQueryLength="3"
+                                            completeMethod="#{autoCompletarCiudad.completeCiudad}"
+                                            required="true" var="ci" size="54" itemLabel="#{ci.ciudad_depto}"
+                                            itemValue="#{ci}" converter="ciudadConv" forceSelection="true"
+                                            placeholder="Ingrese al menos 3 letras de la ciudad donde vive a buscar"
+                                            title="Ciudad donde vive el prospecto a crear">
+
+                                <p:column headerText="Ciudad" style="text-align: left">
+                                    <h:outputText value="#{ci.ciudad}" />
+                                </p:column>
+                                <p:column headerText="Departamento" style="text-align: left">
+                                    <h:outputText value="#{ci.departamento}" />
+                                </p:column>
+                                <p:column headerText="Codigo" style="text-align: right">
+                                    <h:outputText value="#{ci.n_apl_ciudad}" />
+                                </p:column>
+                            </p:autoComplete>
+                            <h:message for="ciudad" />
+
+                            <f:facet name="footer">
+                                <p:separator />
+                                <p:commandButton id="btnUpdateAceptar"
+                                                 update=":formDataTable, :msgs"
+                                                 oncomplete="PF('dialogTablaUpdate').hide()"
+                                                 actionListener="#{empSNewBean.btnUpdate(actionEvent)}"
+                                                 icon="icon-save" title="Guarda la informacion modificada"
+                                                 value="Guardar" />
+                                <p:commandButton id="btnUpdateCancelar"
+                                                 oncomplete="PF('dialogTablaUpdate').hide()" icon="icon-cancel"
+                                                 title="Cancelar los cambios" value="Cancelar" />
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

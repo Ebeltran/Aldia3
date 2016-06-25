@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <p:growl id="msgs" showDetail="true" />
+
+                <h:form id="formDataTable">
+                    <p:dataTable var="aplOperador"
+                                 value="#{aplMenuPermisoBean.lsOperador}"
+                                 emptyMessage="No se encontran resultados" paginator="true"
+                                 paginatorPosition="top" rows="10"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" style="left: 300px" scrollable="true"
+                                 scrollWidth="100%">
+                        <f:facet name="header">
+                            Operadores Activos
+                        </f:facet>
+                        <p:column headerText="Actualizar"
+                                  style="width:32px;text-align: center">
+                            <p:commandButton id="selectButton" icon="ui-icon-search"
+                                             title="Actualizar Permisos por Operador" update=":formUpdate"
+                                             oncomplete="PF('dialogAplOperPermisoUpdate').show()">
+                                <f:setPropertyActionListener value="#{aplOperador}"
+                                                             target="#{aplMenuPermisoBean.aplMenPer}" />
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column headerText="Usuario" style="width:30px;text-align: left">
+                            <h:outputText value="#{aplOperador.usuario}" />
+                        </p:column>
+
+                        <p:column headerText="Nombres" style="width:120px;text-align: left">
+                            <h:outputText value="#{aplOperador.nombre}" />
+                        </p:column>
+
+
+                    </p:dataTable>
+                </h:form>
+                <h:form id="formUpdate">
+                    <p:dialog header="Modificar Permisos Operador"
+                              widgetVar="dialogAplOperPermisoUpdate" modal="true"
+                              id="dlgAplOperPermisoUpdate" showEffect="fade" hideEffect="explode"
+                              resizable="false" width="700" height="400">
+                        <p:dataTable var="aplOperadorPermiso"
+                                     value="#{aplMenuPermisoBean.lsPermiso }"
+                                     emptyMessage="No se encontran resultados">
+
+                            <p:column headerText="Id Menu"
+                                      style="width:2px;text-align: center">
+                                <h:outputText value="#{aplOperadorPermiso.id_Menu}" />
+                            </p:column>
+
+                            <p:column headerText="Id Padre"
+                                      style="width:5px;text-align: center">
+                                <h:outputText value="#{aplOperadorPermiso.tab_Menus_Id}" />
+                            </p:column>
+
+                            <p:column headerText="Nombre"
+                                      style="width:50px;text-align: justify">
+                                <h:outputText value="#{aplOperadorPermiso.nombre_Menu}" />
+                            </p:column>
+
+                            <p:column headerText="T Menu" style="width:15px;text-align: left">
+                                <h:outputText value="#{aplOperadorPermiso.tipo_Menu}" />
+                            </p:column>
+
+                            <p:column headerText="Permiso"
+                                      style="width:5px;text-align: center">
+                                <p:selectBooleanCheckbox value="#{aplOperadorPermiso.lpermiso}">
+                                </p:selectBooleanCheckbox>
+                            </p:column>
+                        </p:dataTable>
+                        <f:facet name="footer">
+                            <p:separator />
+                            <p:commandButton id="btnUpdateAceptar"
+                                             update=":formDataTable, :msgs" style="margin-right:20px;"
+                                             oncomplete="PF('dialogAplOperPermisoUpdate').hide()"
+                                             actionListener="#{aplMenuPermisoBean.btnUpdateAplMenuPermiso(actionEvent)}"
+                                             icon="icon-save" title="Guarda la informacion modificada"
+                                             value="Guardar" />
+                            <p:commandButton id="btnUpdateCancelar"
+                                             oncomplete="PF('dialogAplOperPermisoUpdate').hide()"
+                                             icon="icon-cancel" title="Cancelar los cambios" value="Cancelar" />
+                        </f:facet>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

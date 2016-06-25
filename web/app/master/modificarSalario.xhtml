@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:form id="todo">
+                    <h:outputScript library="js" name="calendar_es.js" />
+                    <h:outputScript library="js" name="format.js" />
+                    <p:growl id="msgs" sticky="true" showDetail="true" life="4000" />
+                    <p:panel id="consulta" header="Modificacion Salario al Contrato Laboral">
+                        <h:panelGrid columns="2"  cellpadding="0" >
+                            <p:spacer width="5" height="20" rendered="#{empleadoConAutoComBean.empleado.lpersona ne true}"/>
+                            <p:spacer width="5" height="20" rendered="#{empleadoConAutoComBean.empleado.lpersona ne true}"/>
+                            
+                            <p:outputLabel value="Documento No: " 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.tipo_doc} - #{empleadoConAutoComBean.empleado.identi_con}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Numero Contrato: " 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.no_con_trabajo}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Apellidos y Nombres: " id="apellidosN" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.apellidos_nombres}" for="apellidosN"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:autoComplete value="#{empleadoConAutoComBean.empleado}" id="completaNit"
+                                            rendered="#{empleadoConAutoComBean.empleado.lpersona ne true}"
+                                            minQueryLength="3" size="60"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            completeMethod="#{empleadoConAutoComBean.completeEmpleadoVigente}"
+
+                                            var="ni" itemLabel="#{ni.apellidos_nombres}" itemValue="#{ni}"
+                                            converter="empleadoConverter" forceSelection="true">
+
+                                <p:column headerText="Apellidos y Nombres"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.apellidos_nombres}" />
+                                </p:column>
+                                <p:column headerText="Identificacion" style="text-align: right">
+                                    <h:outputText value="#{ni.identi_con}" />
+                                </p:column>
+                                <p:column headerText="Fecha Inicial" style="text-align: right">
+                                    <h:outputText value="#{ni.fecha_inicia}" />
+                                </p:column>
+                                <p:column headerText="Fecha Retiro" style="text-align: right">
+                                    <h:outputText value="#{ni.fecha_retiro}" />
+                                </p:column>
+
+                            </p:autoComplete>
+                            
+                            <p:outputLabel value="Salario de Contratacion: " 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.texto_salario_inicial}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            
+                            <p:outputLabel value="Ultimo Salario: " 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.texto_salario_ultimo}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            
+                            <p:outputLabel value="Fecha de Cambio: " 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.fecha_salario_cambio}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            
+                            <p:outputLabel style="color: #036fab; font-size: 150%"
+                                           value="Cambio de Salario"  
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value=" " 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            
+                            <p:outputLabel for="salario_nuevo" value="Salario Nuevo: "  
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}"/>
+                            <p:inputText id="salario_nuevo"
+                                         value="#{empleadoConAutoComBean.empleado.vr_salario_ultimo}"
+                                         rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}"
+                                         onkeyup="format(this)" onchange="format(this)"
+                                         onkeypress="return validar(event)" 
+                                         style="text-align: right"
+                                         immediate="true"
+                                         title="Aspiracion salarial del prospecto a crear" />
+                            
+                            <p:outputLabel value="Fecha de Cambio: " for="fecha_inicia" 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:calendar id="fecha_inicia"
+                                        value="#{empleadoConAutoComBean.empleado.fecha_auxiliar}" locale="es"
+                                        pattern="yyyy.MM.dd" readonlyInput="true" navigator="true"
+                                        yearRange="c-10:c+10" required="true"
+                                        label="Fecha de cambio del salario" 
+                                        rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}">
+                            </p:calendar>
+                            
+                            <p:spacer width="5" height="20" rendered="#{empleadoConAutoComBean.empleado.lpersona ne true}"/>
+                            <p:spacer width="5" height="20" rendered="#{empleadoConAutoComBean.empleado.lpersona ne true}"/>
+                        
+                        </h:panelGrid>
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton id="seleccionar" value="Seleccionar"
+                                                 disabled="#{empleadoConAutoComBean.empleado.lpersona eq true}"
+                                                 style="margin-right:20px;" 
+                                                 icon="ui-icon-check" update="todo"
+                                                 title="Seleccionar empleado" />
+
+                                <p:commandButton id="msalario" value="Guardar Salario"
+                                                 style="margin-right:20px;"
+                                                 rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}"
+                                                 icon="icon-save" 
+                                                 actionListener="#{empleadoConAutoComBean.btnUpdateSalario(actionEvent)}"
+                                                 title="Modifica el salario del funcionario" />
+
+                                <p:commandButton id="regresar" value="Inicio" 
+                                                 icon="icon-home"
+                                                 immediate="true"
+                                                 actionListener="#{empleadoConAutoComBean.resetFinalizar()}"
+                                                 action="app/inicio.xhtml?faces-redirect=true"
+                                                 ajax="false" 
+                                                 title="Regresar al menu inicial sin imprimir Contrato Laboral">
+                                    <p:resetInput target="panel" />
+                                </p:commandButton>
+                            </f:facet>
+                        </p:toolbar>
+                    </p:panel>
+                </h:form> 
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="./../template.xhtml">
+		<ui:define name="content">
+			<p:growl id="growl" showDetail="true" />
+			<h:form>
+				<p:panel header="Reporte de Operadores">
+					<h:panelGrid columns="4" border="0">
+						<br></br>
+						<p:spacer height="50" />
+						<h:outputLabel value=" " />
+						<h:outputLabel value=" " />
+						<h:panelGroup>
+							<h:outputLabel for="tipoiden" value="Fecha del reporte:"
+								title="Fecha del reporte" />
+							<h:outputText style="color:red" value="*  " />
+							<h:message for="tipoiden" />
+							<p:spacer height="20" />
+						</h:panelGroup>
+
+						<p:calendar value="#{aplOperadorBean.fecha}" id="popupCal"
+							locale="es" pattern="yyyy.mm.dd" maxdate="today"
+							readonlyInput="true" showWeek="true" required="true"
+							label="Fecha del Reporte" />
+
+						<p:commandButton value="Solicitar Reporte" update="display"
+							icon="icon-report" oncomplete="dialogAplOperadorDelete.hide()"
+							actionListener="#{aplOperadorBean.btnReporteAplOperador}"
+							title="Enviar para solicitar reporte" />
+						<br></br>
+						<p:spacer height="50" />
+
+						<p:dialog header="Seleccione Una Fecha" widgetVar="dialog"
+							showEffect="fade" hideEffect="fade">
+							<h:panelGrid id="display" columns="2" cellpadding="5">
+								<h:outputText value="Este campo debe ser diligenciado" />
+								<h:outputText value="#{aplOperadorBean.fechaReporte}"
+									id="popupDate">
+								</h:outputText>
+							</h:panelGrid>
+						</p:dialog>
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+
+</h:body>
+</html>

@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<body>
+	<ui:composition template="./../template.xhtml">
+
+		<ui:define name="content">
+			<h:form id="todo">
+				<table id="tabladeclaracion" cellspacing="2" cellpadding="3"
+					border="1" width="800" summary="ASISTENTE DE DIRECCIONES">
+					<tbody>
+						<tr>
+							<p:selectOneMenu id="calle_carrera"
+								value="#{selectOneMenuView.console}" style="width:125px">
+								<f:selectItem itemLabel="Escoja una opcion" itemValue="" />
+								<f:selectItem itemLabel="Avenida calle" itemValue="AC" />
+								<f:selectItem itemLabel="Avenida carrera" itemValue="AK" />
+								<f:selectItem itemLabel="Calle" itemValue="CL" />
+								<f:selectItem itemLabel="Carrera" itemValue="KR" />
+								<f:selectItem itemLabel="Diagonal" itemValue="DG" />
+								<f:selectItem itemLabel="Transversal" itemValue="TV" />
+							</p:selectOneMenu>
+						</tr>
+						<tr>
+							<p:inputText id="numero"
+								value="#{crearProspectoBean.empS.identi}"
+								title="Numero de AV, AK, CL, KR, DG, TV para crear" />
+
+						</tr>
+						<tr>
+							<p:selectOneMenu id="letra" value="#{selectOneMenuView.console}"
+								style="width:125px">
+								<f:selectItem itemLabel="" itemValue="" />
+								<f:selectItem itemLabel="A" itemValue="A" />
+								<f:selectItem itemLabel="B" itemValue="B" />
+								<f:selectItem itemLabel="C" itemValue="C" />
+								<f:selectItem itemLabel="D" itemValue="D" />
+								<f:selectItem itemLabel="E" itemValue="E" />
+								<f:selectItem itemLabel="F" itemValue="F" />
+								<f:selectItem itemLabel="G" itemValue="G" />
+								<f:selectItem itemLabel="H" itemValue="H" />
+								<f:selectItem itemLabel="I" itemValue="I" />
+								<f:selectItem itemLabel="J" itemValue="J" />
+								<f:selectItem itemLabel="K" itemValue="K" />
+								<f:selectItem itemLabel="L" itemValue="L" />
+								<f:selectItem itemLabel="M" itemValue="M" />
+								<f:selectItem itemLabel="N" itemValue="N" />
+								<f:selectItem itemLabel="O" itemValue="O" />
+								<f:selectItem itemLabel="P" itemValue="P" />
+								<f:selectItem itemLabel="Q" itemValue="Q" />
+								<f:selectItem itemLabel="R" itemValue="R" />
+								<f:selectItem itemLabel="S" itemValue="S" />
+								<f:selectItem itemLabel="T" itemValue="T" />
+								<f:selectItem itemLabel="U" itemValue="U" />
+								<f:selectItem itemLabel="V" itemValue="V" />
+								<f:selectItem itemLabel="W" itemValue="W" />
+								<f:selectItem itemLabel="X" itemValue="X" />
+								<f:selectItem itemLabel="Y" itemValue="Y" />
+								<f:selectItem itemLabel="Z" itemValue="Z" />
+							</p:selectOneMenu>
+						</tr>
+						<tr>
+							<p:selectOneMenu id="bis" value="#{selectOneMenuView.console}"
+								style="width:125px">
+								<f:selectItem itemLabel="" itemValue="" />
+								<f:selectItem itemLabel="BIS" itemValue="BIS" />
+							</p:selectOneMenu>
+						</tr>
+						<tr>
+							<p:selectOneMenu id="letraBis"
+								value="#{selectOneMenuView.console}" style="width:125px">
+								<f:selectItem itemLabel="" itemValue="" />
+								<f:selectItem itemLabel="A" itemValue="A" />
+								<f:selectItem itemLabel="B" itemValue="B" />
+								<f:selectItem itemLabel="C" itemValue="C" />
+								<f:selectItem itemLabel="D" itemValue="D" />
+								<f:selectItem itemLabel="E" itemValue="E" />
+								<f:selectItem itemLabel="F" itemValue="F" />
+								<f:selectItem itemLabel="G" itemValue="G" />
+								<f:selectItem itemLabel="H" itemValue="H" />
+								<f:selectItem itemLabel="I" itemValue="I" />
+								<f:selectItem itemLabel="J" itemValue="J" />
+								<f:selectItem itemLabel="K" itemValue="K" />
+								<f:selectItem itemLabel="L" itemValue="L" />
+								<f:selectItem itemLabel="M" itemValue="M" />
+								<f:selectItem itemLabel="N" itemValue="N" />
+								<f:selectItem itemLabel="O" itemValue="O" />
+								<f:selectItem itemLabel="P" itemValue="P" />
+								<f:selectItem itemLabel="Q" itemValue="Q" />
+								<f:selectItem itemLabel="R" itemValue="R" />
+								<f:selectItem itemLabel="S" itemValue="S" />
+								<f:selectItem itemLabel="T" itemValue="T" />
+								<f:selectItem itemLabel="U" itemValue="U" />
+								<f:selectItem itemLabel="V" itemValue="V" />
+								<f:selectItem itemLabel="W" itemValue="W" />
+								<f:selectItem itemLabel="X" itemValue="X" />
+								<f:selectItem itemLabel="Y" itemValue="Y" />
+								<f:selectItem itemLabel="Z" itemValue="Z" />
+							</p:selectOneMenu>
+						</tr>
+						<tr>
+							<p:selectOneMenu id="calleCarreraSurEste"
+								value="#{selectOneMenuView.console}" style="width:125px">
+								<f:selectItem itemLabel="" itemValue="" />
+								<f:selectItem itemLabel="SUR" itemValue="SUR" />
+								<f:selectItem itemLabel="ESTE" itemValue="ESTE" />
+							</p:selectOneMenu>
+						</tr>
+						<tr>
+							<p:outputLabel for="numeral" value=" No " />
+						</tr>
+						<tr>
+							<p:inputText id="placa" value="#{crearProspectoBean.empS.identi}"
+								title="Numero de placa de AV, AK, CL, KR, DG, TV para crear" />
+						</tr>
+						<tr>
+							<p:selectOneMenu id="nuemeralletra"
+								value="#{selectOneMenuView.console}" style="width:125px">
+								<f:selectItem itemLabel="" itemValue="" />
+								<f:selectItem itemLabel="A" itemValue="A" />
+								<f:selectItem itemLabel="B" itemValue="B" />
+								<f:selectItem itemLabel="C" itemValue="C" />
+								<f:selectItem itemLabel="D" itemValue="D" />
+								<f:selectItem itemLabel="E" itemValue="E" />
+								<f:selectItem itemLabel="F" itemValue="F" />
+								<f:selectItem itemLabel="G" itemValue="G" />
+								<f:selectItem itemLabel="H" itemValue="H" />
+								<f:selectItem itemLabel="I" itemValue="I" />
+								<f:selectItem itemLabel="J" itemValue="J" />
+								<f:selectItem itemLabel="K" itemValue="K" />
+								<f:selectItem itemLabel="L" itemValue="L" />
+								<f:selectItem itemLabel="M" itemValue="M" />
+								<f:selectItem itemLabel="N" itemValue="N" />
+								<f:selectItem itemLabel="O" itemValue="O" />
+								<f:selectItem itemLabel="P" itemValue="P" />
+								<f:selectItem itemLabel="Q" itemValue="Q" />
+								<f:selectItem itemLabel="R" itemValue="R" />
+								<f:selectItem itemLabel="S" itemValue="S" />
+								<f:selectItem itemLabel="T" itemValue="T" />
+								<f:selectItem itemLabel="U" itemValue="U" />
+								<f:selectItem itemLabel="V" itemValue="V" />
+								<f:selectItem itemLabel="W" itemValue="W" />
+								<f:selectItem itemLabel="X" itemValue="X" />
+								<f:selectItem itemLabel="Y" itemValue="Y" />
+								<f:selectItem itemLabel="Z" itemValue="Z" />
+							</p:selectOneMenu>
+						</tr>
+						<tr>
+							<p:outputLabel for="guion" value=" - " />
+						</tr>
+						<tr>
+							<p:inputText id="numero"
+								value="#{crearProspectoBean.empS.identi}"
+								title="Numero de placa de AV, AK, CL, KR, DG, TV para crear" />
+						</tr>
+						<tr>
+							<p:selectOneMenu id="numeroLetra"
+								value="#{selectOneMenuView.console}" style="width:125px">
+								<f:selectItem itemLabel="" itemValue="" />
+								<f:selectItem itemLabel="A" itemValue="A" />
+								<f:selectItem itemLabel="B" itemValue="B" />
+								<f:selectItem itemLabel="C" itemValue="C" />
+								<f:selectItem itemLabel="D" itemValue="D" />
+								<f:selectItem itemLabel="E" itemValue="E" />
+								<f:selectItem itemLabel="F" itemValue="F" />
+								<f:selectItem itemLabel="G" itemValue="G" />
+								<f:selectItem itemLabel="H" itemValue="H" />
+								<f:selectItem itemLabel="I" itemValue="I" />
+								<f:selectItem itemLabel="J" itemValue="J" />
+								<f:selectItem itemLabel="K" itemValue="K" />
+								<f:selectItem itemLabel="L" itemValue="L" />
+								<f:selectItem itemLabel="M" itemValue="M" />
+								<f:selectItem itemLabel="N" itemValue="N" />
+								<f:selectItem itemLabel="O" itemValue="O" />
+								<f:selectItem itemLabel="P" itemValue="P" />
+								<f:selectItem itemLabel="Q" itemValue="Q" />
+								<f:selectItem itemLabel="R" itemValue="R" />
+								<f:selectItem itemLabel="S" itemValue="S" />
+								<f:selectItem itemLabel="T" itemValue="T" />
+								<f:selectItem itemLabel="U" itemValue="U" />
+								<f:selectItem itemLabel="V" itemValue="V" />
+								<f:selectItem itemLabel="W" itemValue="W" />
+								<f:selectItem itemLabel="X" itemValue="X" />
+								<f:selectItem itemLabel="Y" itemValue="Y" />
+								<f:selectItem itemLabel="Z" itemValue="Z" />
+							</p:selectOneMenu>
+						</tr>
+						<tr>
+							<p:selectOneMenu id="numeroSurEste"
+								value="#{selectOneMenuView.console}" style="width:125px">
+								<f:selectItem itemLabel="" itemValue="" />
+								<f:selectItem itemLabel="SUR" itemValue="SUR" />
+								<f:selectItem itemLabel="ESTE" itemValue="ESTE" />
+							</p:selectOneMenu>
+						</tr>
+					</tbody>
+				</table>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

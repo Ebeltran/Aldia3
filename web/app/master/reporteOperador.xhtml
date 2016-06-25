@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <div class="entry">
+                        <p:panel id="dlg1" header="Reporte de usuarios">
+                            <p:spacer width="5" height="20" />
+                            <p:spacer width="5" height="20" />
+                            <p:commandButton value="Acciones del Informe" 
+                                             type="button" icon="icon-printer" 
+                                             onclick="PF('dlg1').show();" title="Para obtener acciones del informe"/>
+                            <!--                            <p:button value="Go to SO" 
+                                                                  onclick="window.open('http://www.stackoverflow.com')" />-->
+
+                            <p:dialog header="Seleccion de Opciones"
+                                      widgetVar="dlg1" 
+                                      position="250,150">
+                                <p:link href="#{appBean.baseUrl}reports/ALGO.PDF" 
+                                        target="_blank" 
+                                        title="Imprimir Reporte de Operadores" 
+                                        value="Imprimir" >
+                                </p:link>
+                            </p:dialog>
+                        </p:panel>    
+                    </div>
+                </h:form>    
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<body>
+	<ui:composition template="./../template.xhtml">
+		<ui:define name="content">
+			<h:form>
+
+				<p:growl id="msgs" showDetail="true" />
+
+				<h:panelGrid columns="2" cellpadding="5">
+
+					<p:outputLabel value="Razon Social:" for="acMinLength" />
+					<p:autoComplete id="acMinLength" minQueryLength="3"
+						value="#{nitBean.nit.query}" completeMethod="#{nitBean.buscaNit}"
+						valueChangeListener="#" style="width:400px" effect="blind" />
+
+					<p:outputLabel for="e_mail" value="E-mail Principal:" />
+					<p:inputText id="e_mail" value="#{nitBean.nit.e_mail}"
+						title="e-mail principal del NIT a crear" />
+
+
+
+					<!--                        <p:inputText id="email1" value="#{customValidationView.text}">
+                            <f:validator validatorId="custom.emailValidator" />
+                        </p:inputText>
+                        <p:message for="email1" display="tooltip" />
+                        <h:outputText value="#{customValidationView.text}" />
+
+                        <h:outputLabel for="email2" value="Email 2: (Bean Validation)" />
+                        <p:inputText id="email2" value="#{customValidationView.email}" />
+                        <p:message for="email2" display="tooltip" />
+                        <h:outputText value="#{customValidationView.email}" />-->
+
+				</h:panelGrid>
+
+
+
+				<p:commandButton value="Enviar" icon="ui-icon-check"
+					update="output msgs" oncomplete="PF('dlg').show()" />
+
+				<p:dialog header="Values" resizable="false" showEffect="fade"
+					widgetVar="dlg">
+					<p:panelGrid id="output" columns="2" columnClasses="label, value">
+
+						<h:outputText value="Min Length" />
+						<h:outputText value="#{nitBean.nit.query}" />
+
+					</p:panelGrid>
+				</p:dialog>
+			</h:form>
+			<script type="text/javascript">
+                    function validarEmail( email ) {
+                        expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                        if ( !expr.test(email) )
+                            alert("Error: La dirección de correo " + email + " es incorrecta.");
+                    }
+                </script>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

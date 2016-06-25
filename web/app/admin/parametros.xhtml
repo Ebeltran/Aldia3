@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:outputScript library="js" name="calendar_es.js" />
+                <p:growl id="msgs" showDetail="true" />
+                <h:form id="formDataTable">
+                    <p:dataTable var="aplParametro"
+                                 value="#{aplParametroBean.aplParametros}"
+                                 emptyMessage="No se encontran resultados" paginator="true"
+                                 paginatorPosition="top" rows="10"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" scrollable="true" scrollHeight="100%"
+                                 scrollWidth="100%">
+                        <f:facet name="header" class="center_content">
+                            Administra Parametros
+                        </f:facet>
+                        <p:column headerText="No Para"
+                                  style="width:32px;text-align: center">
+                            <h:outputText value="#{aplParametro.n_parametro}" />
+                        </p:column>
+                        <p:column headerText="Nombre" style="text-align: left">
+                            <h:outputText value="#{aplParametro.denominacion}" />
+                        </p:column>
+                        <p:column headerText="Valor" style="text-align: left">
+                            <h:outputText value="#{aplParametro.importe}" />
+                        </p:column>
+                        <p:column headerText="Descripcion" style="text-align: left">
+                            <h:outputText value="#{aplParametro.descripcion}" />
+                        </p:column>
+                        <p:column headerText="Fec Desde" style="text-align: left">
+                            <h:outputText value="#{aplParametro.fec_desde}" >
+                                <f:convertDateTime pattern="yyyy.MM.dd" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Fec Hasta" style="text-align: left">
+                            <h:outputText value="#{aplParametro.fec_hasta}" >
+                                <f:convertDateTime pattern="yyyy.MM.dd" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton id="selectButton" icon="icon-edit"
+                                             title="Modificar el parametro seleccionado" update=":formUpdate"
+                                             oncomplete="PF('dialogAplParametroUpdate').show()">
+                                <f:setPropertyActionListener value="#{aplParametro}"
+                                                             target="#{aplParametroBean.aplParametro}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                
+                <h:form id="formCreate">
+                    <p:dialog header="Crear Parametro " width="400px"
+                              widgetVar="dialogAplParametroCreate" resizable="false"
+                              id="dlgAplParametroCreate" showEffect="fade" hideEffect="explode"
+                              modal="true">
+                        <h:panelGrid id="display" columns="3" cellpadding="4"
+                                     style="margin:0 auto;">
+
+                            <h:panelGroup>
+                                <h:outputLabel value="N Para: " for="n_parametro" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="n_parametro"
+                                         value="#{aplParametroBean.aplParametro.n_parametro}"
+                                         required="true" title="Ingrese numero del parametro" />
+                            <h:message for="n_parametro" />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="N Orden: " for="n_orden" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="n_orden" 
+                                         value="#{aplParametroBean.aplParametro.n_orden}"
+                                         required="true" title="Ingrese numero de orden" />
+                            <h:message for="n_orden" />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Nombre " for="denominacion" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="denominacion" 
+                                         value="#{aplParametroBean.aplParametro.denominacion}"
+                                         required="true" title="Ingrese nombre del parametro" />
+                            <h:message for="denominacion" />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Valor " for="valor" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="valor" 
+                                         value="#{aplParametroBean.aplParametro.importe}"
+                                         required="true" title="Ingrese valor del parametro" />
+                            <h:message for="valor" />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Descipcion " for="descripcion" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputTextarea id="descripcion" 
+                                             value="#{aplParametroBean.aplParametro.descripcion}"
+                                             required="true" title="Ingrese descipcion del parametro" />
+                            <h:message for="descripcion" />
+
+                            <p:outputLabel value="Fecha Desde: " for="fec_desde" />
+                            <p:calendar id="fec_desde"
+                                        value="#{aplParametroBean.aplParametro.fecha_cambio}" locale="es"
+                                        pattern="yyyy.MM.dd" readonlyInput="true" navigator="true"
+                                        yearRange="c-10:c+10" required="true"
+                                        label="Fecha de desde cuando se inicia el parametro" />
+
+                            <f:facet name="footer">
+                                <p:separator />
+                                <p:commandButton id="btnCreateAceptar"
+                                                 update=":formDataTable, :msgs"
+                                                 oncomplete="PF('dialogAplParametroCreate').hide()"
+                                                 actionListener="#{aplParametroBean.btnCreateAplParametro(actionEvent)}"
+                                                 icon="icon-save" title="Guarda la informacion" value="Guardar" />
+                                <p:commandButton id="btnCreateCancelar"
+                                                 oncomplete="PF('dialogAplParametroCreate').hide()"
+                                                 icon="icon-cancel" title="Cancelar los cambios" value="Cancelar" />
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+                
+                <h:form id="formUpdate">
+                    <p:dialog header="Modificar Parametro "
+                              widgetVar="dialogAplParametroUpdate" resizable="false" 
+                              id="dlgAplParametroUpdate" showEffect="fade" hideEffect="explode"
+                              modal="true" >
+
+                        <h:panelGrid id="display" columns="3" cellpadding="4"
+                                     style="margin:0 auto;">
+
+                            <h:outputLabel value="N Para: " />
+                            <p:outputLabel value="#{aplParametroBean.aplParametro.n_parametro}" />
+                            <h:outputLabel value=" " />
+
+                            <h:outputLabel value="N Orden: " for="n_orden" />
+                            <p:outputLabel value="#{aplParametroBean.aplParametro.n_orden}" />
+                            <h:outputLabel value=" " />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Nombre " for="denominacion" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="denominacion"
+                                         value="#{aplParametroBean.aplParametro.denominacion}"
+                                         required="true" title="Ingrese nombre del parametro" size="50"/>
+                            <h:message for="denominacion" />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Valor " for="valor" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="valor" 
+                                         value="#{aplParametroBean.aplParametro.importe}"
+                                         required="true" title="Ingrese valor del parametro"  size="50"/>
+                            <h:message for="valor" />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Descipcion " for="descripcion" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText value="#{aplParametroBean.aplParametro.descripcion}" 
+                                required="true" title="Ingrese descipcion del parametro"  size="50"/>
+                            <h:message for="descripcion" />
+
+                            <p:outputLabel value="Fecha Cambio: " for="fec_desde" />
+                            <p:calendar id="fec_desde"
+                                        value="#{aplParametroBean.aplParametro.fecha_cambio}" locale="es"
+                                        pattern="yyyy.MM.dd" readonlyInput="true" navigator="true"
+                                        yearRange="c-10:c+10" required="true"
+                                        label="Fecha de cambio para el parametro" />
+                            <f:facet name="footer">
+                                <p:separator />
+                                <p:commandButton id="btnUpdateAceptar"
+                                                 update=":formDataTable, :msgs"
+                                                 oncomplete="PF('dialogAplParametroUpdate').hide()"
+                                                 actionListener="#{aplParametroBean.btnUpdateAplParametro(actionEvent)}"
+                                                 icon="icon-save" title="Guarda la informacion modificada"
+                                                 value="Guardar" />
+                                                             
+                                <p:commandButton id="btnUpdateCancelar"
+                                                 oncomplete="PF('dialogAplParametroUpdate').hide()"
+                                                 icon="icon-cancel" title="Cancelar los cambios" value="Cancelar" />
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

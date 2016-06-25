@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <!--                <p:growl id="msj" showDetail="true" />-->
+                <h:form id="formCambioClave">
+                    <f:facet name="last">
+                        <link href="#{appBean.baseUrl}resources/css/default.css"
+                              type="text/css" rel="stylesheet" />
+                    </f:facet>
+                    <p:panel id="match" header="Restablecer Clave" 
+                             widgetVar="panel" style="margin-bottom:20px; text-align: left">
+                        
+                        <div style="width: 500px" align="center">
+                        <h:panelGrid columns="2" id="matchGrid">
+                            <h:outputLabel for="pwd1" value="Password 1: " />
+                            <p:password id="pwd1"
+                                        value="#{aplOperadorBean.selectedAplOperador.clave}" match="pwd2"
+                                        label="Password 1" required="true" />
+                            <h:outputLabel for="pwd2" value="Password 2: " />
+                            <p:password id="pwd2"
+                                        value="#{aplOperadorBean.selectedAplOperador.clave_1}"
+                                        label="Password 2" required="true" redisplay="true" />
+                            <p:message for="pwd2" />
+                        </h:panelGrid>
+                        </div>
+                        </p:panel>
+                        <p:toolbar>
+                                    <f:facet name="left">
+                                        <p:commandButton value="Registrar" style="margin:20px"
+                                                         icon="icon-save"
+                                                         actionListener="#{aplOperadorBean.btnCambioClave()}"
+                                                         title="Guardar el cambio de clave o contraseña"
+                                                         action="#{loginBean.logout()}" />
+                                    </f:facet>
+                                    <f:facet name="left">
+                                        <p:commandButton value="Cancelar" icon="icon-cancel"
+                                                         actionListener="#{aplOperadorBean.resetFinalizar()}"
+                                                         immediate="true" ajax="false" title="Salir sin guradar la Clave">
+                                            <p:resetInput target="basic" />
+                                        </p:commandButton>
+                                    </f:facet>
+                                </p:toolbar>
+                    
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

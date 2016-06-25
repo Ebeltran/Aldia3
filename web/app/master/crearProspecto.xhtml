@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:form id="todo">
+                    <h:outputScript library="js" name="calendar_es.js" />
+                    <h:outputScript library="js" name="format.js" />
+                    <p:growl id="msgs" showDetail="true" life="4000" />
+                    <p:panel id="panel" header="Detalles Generales del Prospecto">
+                        <h:panelGrid columns="2" cellpadding="0" style="font-size: 80%">
+
+                            <p:outputLabel for="tipo_documento" value="Tipo Documento: " />
+                            <p:selectOneMenu id="tipo_documento"
+                                             value="#{crearProspectoBean.empS.n_nit_tip_identidad}"
+                                             valueChangeListener="#{crearProspectoBean.handleChangeTipoI()}"
+                                             style="width:381px;text-align: right"
+                                             required="true" label="tipo_documento">
+                                <p:ajax listener="#{crearProspectoBean.handleChangeTipoI()}" />
+                                <f:selectItem itemLabel=" -- Clase Documento -- " itemValue="" />
+                                <f:selectItems value="#{aplDefineBean.tipoIdentidad}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="identicacion" value="Numero Documento: " />
+                            <p:inputText id="identicacion"
+                                         value="#{crearProspectoBean.empS.identi_con}"
+                                         onkeyup="#{crearProspectoBean.handleChangeNit()} format(this)"
+                                         onchange="format(this)" onkeypress="return validar(event)"
+                                         required="true" title="Numero de documento del prospecto a crear"
+                                         label="identicacion">
+                                <p:ajax listener="#{crearProspectoBean.handleChangeNit()}" />
+                            </p:inputText>
+
+                            <p:outputLabel for="primer_nombre" value="Primer Nombre: " />
+                            <p:inputText id="primer_nombre"
+                                         value="#{crearProspectoBean.empS.nombre_1}" required="true"
+                                         style="width:400px; text-transform:uppercase;"
+                                         onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                         label="primer_nombre" title="Primer apellido del NIT a Craer" />
+
+                            <p:outputLabel for="segundo_nombre" value="Segundo Nombre: " />
+                            <p:inputText id="segundo_nombre"
+                                         value="#{crearProspectoBean.empS.nombre_2}" required="false"
+                                         style="width:400px; text-transform:uppercase;"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                         label="segundo_nombre"
+                                         title="Segundo nombre si existe para el prospecto a crear" />
+
+                            <p:outputLabel for="primer_apellido" value="Primer Apellido: " />
+                            <p:inputText id="primer_apellido"
+                                         value="#{crearProspectoBean.empS.apellido_1}" required="true"
+                                         style="width:400px; text-transform:uppercase;"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                         label="primer_apellido"
+                                         title="Primer apellido del prospecto a crear" />
+
+                            <p:outputLabel for="segundo_apellido" value="Segundo Apellido: " />
+                            <p:inputText id="segundo_apellido"
+                                         value="#{crearProspectoBean.empS.apellido_2}" required="false"
+                                         style="width:400px; text-transform:uppercase;"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                         label="segundo_apellido"
+                                         title="Segundo apellido del prospecto a crear" />
+
+                            <p:outputLabel for="direccion" value="Direccion:" />
+                            <p:inputText id="direccion"
+                                         value="#{crearProspectoBean.empS.direccion}" required="true"
+                                         style="width:400px" label="direccion"
+                                         title="Direccion del prospecto a crear" />
+
+                            <p:outputLabel for="barrio" value="Barrio:" />
+                            <p:inputText id="barrio" value="#{crearProspectoBean.empS.barrio}"
+                                         required="true" 
+                                         style="width:400px;text-transform:uppercase;"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                         label="barrio" title="Nombre del barrio del prospecto a crear" />
+
+                            <p:outputLabel for="telefono" value="Telefono 1:" />
+                            <p:inputMask id="telefono"
+                                         value="#{crearProspectoBean.empS.telefono}" mask="(999) 999-9999"
+                                         title="Telefono del prospecto a crear" />
+
+                            <p:outputLabel for="tel_aux" value="Telefono 2:"/>
+                            <p:inputMask id="tel_aux"
+                                         value="#{crearProspectoBean.empS.tel_aux}" mask="(999) 999-9999"
+                                         title="Telefono auxiliar del prospecto a crear" />
+
+                            <p:outputLabel for="fax" value="Fax:" />
+                            <p:inputMask id="fax" 
+                                         value="#{crearProspectoBean.empS.fax}"
+                                         mask="(999) 999-9999" 
+                                         title="Fax auxiliar del prospecto a crear" />
+
+                            <p:outputLabel for="ciudad" value="Ciudad: " />
+                            <p:autoComplete id="ciudad"
+                                            value="#{crearProspectoBean.empS.ciudad_depto}"
+                                            minQueryLength="3"
+                                            completeMethod="#{autoCoCiudadBean.completeCiudad}"
+                                            required="true" size="54" forceSelection="true"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            placeholder="Ingrese al menos 3 letras de la ciudad donde vive a buscar"
+                                            title="Ciudad donde vive el prospecto a crear">
+                            </p:autoComplete>
+
+                            <p:outputLabel for="e_mail" value="E-mail Principal:" />
+                            <p:inputText id="e_mail" value="#{crearProspectoBean.empS.e_mail}"
+                                         style="width:400px; text-transform:lowercase;"
+                                         onkeyup="javascript:this.value = this.value.toLowerCase();"
+                                         title="e-mail principal del prospecto a crear">
+                                <p:message for="e_mail" display="tooltip" />
+                            </p:inputText>
+
+                            <p:outputLabel for="e_mail_a" value="E-mail Auxiliar:" />
+                            <p:inputText id="e_mail_a"
+                                         value="#{crearProspectoBean.empS.e_mail_a}"
+                                         style="width:400px; text-transform:lowercase;"
+                                         onkeyup="javascript:this.value = this.value.toLowerCase();"
+                                         title="e-mail auxiliar del prospecto a crear">
+                                <p:message for="e_mail_a" display="tooltip" />
+
+                            </p:inputText>
+
+                            <p:outputLabel for="pagina_web" value="Pagina web:" />
+                            <p:inputText id="pagina_web"
+                                         value="#{crearProspectoBean.empS.pagina_web}" style="width:400px"
+                                         title="Pagina web del prospecto a crear" />
+
+                            <p:outputLabel for="centro_costo" value="Centro de trabajo: " />
+                            <p:autoComplete id="centro_costo"
+                                            value="#{crearProspectoBean.empS.nom_cen_costo}"
+                                            minQueryLength="3"
+                                            completeMethod="#{autoCoCentroCosto.completeCCosto}"
+                                            required="true" size="54" forceSelection="true"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            placeholder="Ingrese al menos 3 letras para el centro costo a buscar"
+                                            title="Cargo al que aspira el prospecto a crear">
+                            </p:autoComplete>
+
+                            <p:outputLabel for="cargo_aspira" value="Cargo que Aspira: " />
+                            <p:autoComplete id="cargo_aspira"
+                                            value="#{crearProspectoBean.empS.nom_cargo_aspira}"
+                                            minQueryLength="3"
+                                            completeMethod="#{autoCoCargoBean.completeCargo}" required="true"
+                                            size="54" forceSelection="true" style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            placeholder="Ingrese al menos 3 letras del cargo a buscar"
+                                            title="Cargo al que aspira el prospecto a crear">
+                            </p:autoComplete>
+
+                            <p:outputLabel for="vr_aspira" value="Aspiracion Salarial:" />
+                            <p:inputText id="vr_aspira"
+                                         value="#{crearProspectoBean.empS.salario_aspira}"
+                                         onkeyup="format(this)" onchange="format(this)"
+                                         onkeypress="return validar(event)" 
+                                         style="text-align: right"
+                                         immediate="true"
+                                         title="Aspiracion salarial del prospecto a crear" />
+
+                            <p:outputLabel for="sexo" value="Sexo:" />
+                            <p:selectOneRadio id="sexo"
+                                              value="#{crearProspectoBean.empS.n_apl_sexo}" layout="grid"
+                                              label="Sexo del del prospecto a crear" required="true" 
+                                              columns="2">
+                                <p:ajax update="libretaM, cabeza_f" />
+                                <f:selectItems value="#{aplDefineBean.sexo}" var="nombre" 
+                                               itemLabel="#{nombre}" itemValue="#{nombre}" />
+                            </p:selectOneRadio>
+
+                            <p:outputLabel for="cabeza_f" value="Es Cabeza de Familia:" />
+                            <p:selectBooleanCheckbox id="cabeza_f"
+                                                  value="#{crearProspectoBean.empS.si_es_cabeza_familia}"  
+                                                  disabled="#{crearProspectoBean.empS.n_apl_sexo == 1}"/>
+
+                            <p:outputLabel for="libretaM" value="Situacion Militar Definida:" />
+                            <p:selectBooleanCheckbox id="libretaM"
+                                                     value="#{crearProspectoBean.empS.si_es_situacion_militar}" 
+                                                     disabled="#{crearProspectoBean.empS.n_apl_sexo != 1}" />
+
+                            <p:outputLabel for="tipo_sangre" value="Tipo de Sangre: " />
+                            <p:selectOneMenu id="tipo_sangre"
+                                             value="#{crearProspectoBean.empS.n_apl_sangre_tipo}"
+                                             required="true" 
+                                             style="width:160px"
+                                             label="Tipo de sangre del prospecto a crear">
+                                <f:selectItem itemLabel=" -- Tipo de Sangre -- " itemValue="" />
+                                <f:selectItems value="#{aplDefineBean.tipoSangre}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Estatura en centimetros: " for="estatura" />
+                            <p:spinner id="estatura" 
+                                       value="#{crearProspectoBean.empS.no_estatura}"
+                                       min="120" max="230" suffix=" Cm"
+                                       title="Estatura en centimetros del prospecto" />
+
+                            <p:outputLabel value="Peso prospecto: " for="peso" />
+                            <p:spinner id="peso" 
+                                       value="#{crearProspectoBean.empS.no_peso}"
+                                       min="40" max="150" suffix=" Kg"
+                                       title="Peso expresado en KG del prospecto" />
+
+                            <p:outputLabel for="nivel_escolar" value="Estudios Realizados: " />
+                            <p:selectOneMenu id="nivel_escolar"
+                                             value="#{crearProspectoBean.empS.n_emp_edu_clase}"
+                                             style="width:381px"
+                                             required="true"
+                                             label="Estudios realizados por el prospecto a crear">
+                                <f:selectItem itemLabel=" -- Nivel de Estudios -- " itemValue="" />
+                                <f:selectItems value="#{aplDefineBean.educacionClase}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Profesion: " for="profesion" />
+                            <p:inputText id="profesion"
+                                         value="#{crearProspectoBean.empS.profesion}" 
+                                         style="width:400px;text-transform:uppercase;" 
+                                         title="Profesion del prospecto a crear" />
+                            
+                            <p:outputLabel value="Estado Civil:" for="apl_e_civil" />
+                            <p:selectOneMenu id="apl_e_civil"
+                                             value="#{crearProspectoBean.empS.n_apl_e_civil}" required="true"
+                                             style="width:381px"
+                                             label="Estado civil del del prospecto a crear">
+                                <f:selectItem itemLabel=" -- Estado Civil -- " itemValue="" />
+                                <f:selectItems value="#{aplDefineBean.estadoCivil}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="ciudad_nace" value="Ciudad Nacimiento: " />
+                            <p:autoComplete id="ciudad_nace"
+                                            value="#{crearProspectoBean.empS.ciudad_depto_nace}"
+                                            minQueryLength="3"
+                                            completeMethod="#{autoCoCiudadBean.completeCiudad}"
+                                            required="true" size="54" forceSelection="true"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            placeholder="Ingrese al menos 3 letras de ciudad de nacimiento a buscar"
+                                            title="Ciudad de nacimiento del prospecto a crear">
+                            </p:autoComplete>
+
+                            <p:outputLabel value="Fecha Nacimiento: " for="fecha_nace" />
+                            <p:calendar id="fecha_nace"
+                                        value="#{crearProspectoBean.empS.fecha_nace}" locale="es"
+                                        pattern="yyyy.MM.dd" readonlyInput="true" navigator="true"
+                                        yearRange="c-60:c+10" required="true"
+                                        label="Fecha de nacimiento del prospecto a crear" />
+
+                            <p:outputLabel value="Observaciones: " for="observacion" />
+                            <p:inputTextarea id="observacion" 
+                                             value="#{crearProspectoBean.empS.observacion}"
+                                             rows="3" cols="30" 
+                                             style="width:400px" title="Observaciones del prospecto a crear" />
+            
+                        </h:panelGrid>
+                        <p:toolbar >
+                            <f:facet name="left">
+                                <p:commandButton value="Salvar" icon="icon-save" update="todo"
+                                                 actionListener="#{crearProspectoBean.btnCreateEmpS()}"
+                                                 style="margin-right:20px;" ajax="false"
+                                                 title="Guardar la informacion del propecto actual" />
+
+                                <p:commandButton id="regresar" value="Inicio" 
+                                                 icon="icon-home"
+                                                 immediate="true"
+                                                 actionListener="#{crearProspectoBean.resetFinalizar()}"
+                                                 action="app/inicio.xhtml?faces-redirect=true"
+                                                 ajax="false" title="alir sin guardar el prospecto" />
+
+                            </f:facet>
+                        </p:toolbar>
+                    </p:panel>
+                </h:form>
+                <script type="text/javascript">
+                    /**
+                     * Faces Validator
+                     */
+                    PrimeFaces.validator['custom.emailValidator'] = {
+                        pattern: /\S+@\S+/,
+                        validate: function (element, value) {
+                            //use element.data() to access validation metadata, in this case there is none.
+                            if (!this.pattern.test(value)) {
+                                throw {
+                                    summary: 'Error DE Validacion',
+                                    detail: value + ' No es un email valido.'
+                                };
+                            }
+                        }
+                    };
+
+                    /**
+                     * Bean validator
+                     */
+                    PrimeFaces.validator['Email'] = {
+                        pattern: /\S+@\S+/,
+                        MESSAGE_ID: 'org.primefaces.examples.validate.email.message',
+                        validate: function (element, value) {
+                            var vc = PrimeFaces.util.ValidationContext;
+
+                            if (!this.pattern.test(value)) {
+                                var msgStr = element.data('p-email-msg'),
+                                        msg = msgStr ? {summary: msgStr, detail: msgStr} : vc.getMessage(this.MESSAGE_ID);
+
+                                throw msg;
+                            }
+                        }
+                    };
+                </script>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

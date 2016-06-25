@@ -1,0 +1,370 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:form id="todo">
+                    <h:outputScript library="js" name="calendar_es.js" />
+                    <h:outputScript library="js" name="format.js" />
+                    <p:growl id="msgs" showDetail="true" life="4000" />
+                    <p:panel id="consulta" header="Detalles Generales del Prospecto">
+                        <h:panelGrid columns="2" cellpadding="0" style="font-size: 80%">
+                            
+                            <p:spacer width="5" height="20" 
+                                      rendered="#{modificarPropesctoBean.empS.lpersona eq false}"/>
+                            <p:spacer width="5" height="20" 
+                                      rendered="#{modificarPropesctoBean.empS.lpersona eq false}"/>
+                            <p:outputLabel for="apellidos_nombres" value="Apellidos y nombres: " 
+                                           rendered="#{modificarPropesctoBean.empS.lpersona ne true}" />
+                            <p:autoComplete id="apellidos_nombres"
+                                            rendered="#{modificarPropesctoBean.empS.lpersona ne true}"
+                                            minQueryLength="3" size="60"
+                                            value="#{modificarPropesctoBean.empS}"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                            completeMethod="#{modificarPropesctoBean.completePropecto}"
+                                            var="ni" itemLabel="#{ni.apellidos_nombres}" itemValue="#{ni}"
+                                            converter="prospectoConverter" forceSelection="true">
+
+                                <p:column headerText="Pri apellido"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.apellido_1}" />
+                                </p:column>
+                                <p:column headerText="Seg apellido"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.apellido_2}" />
+                                </p:column>
+                                <p:column headerText="Pri nombre"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.nombre_1}" />
+                                </p:column>
+                                <p:column headerText="Seg nombre"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.nombre_2}" />
+                                </p:column>
+                                <p:column headerText="Identificacion" style="text-align: right">
+                                    <h:outputText value="#{ni.identi_con}" />
+                                </p:column>
+                            </p:autoComplete>
+                            
+                            <p:spacer width="5" height="20" 
+                                      rendered="#{modificarPropesctoBean.empS.lpersona eq false}"/>
+                            <p:spacer width="5" height="20" 
+                                      rendered="#{modificarPropesctoBean.empS.lpersona eq false}"/>
+                            <p:outputLabel value="Identificacion: "   
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:outputLabel
+                                value="#{modificarPropesctoBean.empS.tipo_doc} #{modificarPropesctoBean.empS.identi_con}"   
+                                rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            
+                            <p:outputLabel for="primer_nombre" value="Primer Nombre: " 
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputText id="primer_nombre"
+                                         value="#{modificarPropesctoBean.empS.nombre_1}" required="true"
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         style="width:400px; text-transform:uppercase;"
+                                         onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                         label="primer_nombre" title="Primer apellido del NIT a Craer" />
+
+                            <p:outputLabel for="segundo_nombre" value="Segundo Nombre: " 
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputText id="segundo_nombre"
+                                         value="#{modificarPropesctoBean.empS.nombre_2}" required="false"
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         style="width:400px; text-transform:uppercase;"
+                                         onkeyup="javascript:this.value= this.value.toUpperCase();"
+                                         label="segundo_nombre"
+                                         title="Segundo nombre si existe para el prospecto a modificar" />
+
+                            <p:outputLabel for="primer_apellido" value="Primer Apellido: " 
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputText id="primer_apellido"
+                                         value="#{modificarPropesctoBean.empS.apellido_1}" required="true"
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         style="width:400px; text-transform:uppercase;"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                         label="primer_apellido"
+                                         title="Primer apellido del prospecto a modificar" />
+
+                            <p:outputLabel for="segundo_apellido" value="Segundo Apellido: " 
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputText id="segundo_apellido"
+                                         value="#{modificarPropesctoBean.empS.apellido_2}" required="false"
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         style="width:400px; text-transform:uppercase;"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                         label="segundo_apellido"
+                                         title="Segundo apellido del prospecto a modificar" />
+                            
+                            <p:outputLabel for="direccion" value="Direccion:"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputText id="direccion"
+                                         value="#{modificarPropesctoBean.empS.direccion}" required="true"
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         style="width:400px" label="direccion"
+                                         title="Direccion del prospecto a modificar" />
+
+                            <p:outputLabel for="barrio" value="Barrio:"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputText id="barrio" 
+                                         value="#{modificarPropesctoBean.empS.barrio}"
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         required="true" 
+                                         style="width:400px;text-transform:uppercase;"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                         label="barrio" title="Nombre del barrio del prospecto a modificar" />
+
+                            <p:outputLabel for="ciudad" value="Ciudad: "  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:autoComplete id="ciudad"
+                                            value="#{modificarPropesctoBean.empS.ciudad_depto}"
+                                            rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                            minQueryLength="3"
+                                            completeMethod="#{autoCoCiudadBean.completeCiudad}"
+                                            required="true" size="54" forceSelection="true"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            placeholder="Ingrese al menos 3 letras de la ciudad donde vive a buscar"
+                                            title="Ciudad donde vive el prospecto a modificar">
+                            </p:autoComplete>
+
+                            <p:outputLabel for="telefono" value="Telefono 1:"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputMask id="telefono"
+                                         value="#{modificarPropesctoBean.empS.telefono}" mask="(999) 999-9999"
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         title="Telefono del prospecto a modificar" />
+
+                            <p:outputLabel for="tel_aux" value="Telefono 2:"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputMask id="tel_aux"
+                                         value="#{modificarPropesctoBean.empS.tel_aux}" mask="(999) 999-9999"
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         title="Telefono auxiliar del prospecto a modificar" />
+
+                            <p:outputLabel for="fax" value="Fax:"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputMask id="fax" 
+                                         value="#{modificarPropesctoBean.empS.fax}"
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         mask="(999) 999-9999" title="Fax auxiliar del prospecto a modificar" />
+
+                            <p:outputLabel for="e_mail" value="E-mail Principal:"   
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputText id="e_mail" 
+                                         value="#{modificarPropesctoBean.empS.e_mail}"
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         style="width:400px; text-transform:lowercase;"
+                                         onkeyup="javascript:this.value = this.value.toLowerCase();"
+                                         title="e-mail principal del prospecto a modificar">
+                                <p:message for="e_mail" display="tooltip" />
+                            </p:inputText>
+
+                            <p:outputLabel for="e_mail_a" value="E-mail Auxiliar:"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputText id="e_mail_a"
+                                         value="#{modificarPropesctoBean.empS.e_mail_a}"
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         style="width:400px; text-transform:lowercase;"
+                                         onkeyup="javascript:this.value = this.value.toLowerCase();"
+                                         title="e-mail auxiliar del prospecto a modificar">
+                                <p:message for="e_mail_a" display="tooltip" />
+
+                            </p:inputText>
+
+                            <p:outputLabel for="pagina_web" value="Pagina web:"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputText id="pagina_web"
+                                         value="#{modificarPropesctoBean.empS.pagina_web}" 
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         style="width:400px" title="Pagina web del prospecto a modificar" />
+
+                            <p:outputLabel for="centro_costo" value="Centro de trabajo: "  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:autoComplete id="centro_costo"
+                                            value="#{modificarPropesctoBean.empS.nom_cen_costo}"
+                                            rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                            minQueryLength="3"
+                                            completeMethod="#{autoCoCentroCosto.completeCCosto}"
+                                            required="true" size="54" forceSelection="true"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            placeholder="Ingrese al menos 3 letras para el centro costo a buscar"
+                                            title="Centro de trabajo que aspira el prospecto a modificar">
+                            </p:autoComplete>
+
+                            <p:outputLabel for="cargo_aspira" value="Cargo que Aspira: "  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:autoComplete id="cargo_aspira"
+                                            value="#{modificarPropesctoBean.empS.nom_cargo_aspira}"
+                                            rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                            minQueryLength="3"
+                                            completeMethod="#{autoCoCargoBean.completeCargo}" required="true"
+                                            size="54" forceSelection="true" 
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            placeholder="Ingrese al menos 3 letras del cargo a buscar"
+                                            title="Cargo al que aspira el prospecto a modificar">
+                            </p:autoComplete>
+
+                            <p:outputLabel for="vr_aspira" value="Aspiracion Salarial:"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputText id="vr_aspira"
+                                         value="#{modificarPropesctoBean.empS.salario_aspira}"
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         onkeyup="format(this)" onchange="format(this)"
+                                         onkeypress="return validar(event)" 
+                                         style="text-align: right"
+                                         immediate="true"
+                                         title="Aspiracion salarial del prospecto a modificar" />
+
+                            <p:outputLabel for="sexo" value="Sexo:"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:selectOneRadio id="sexo"
+                                              value="#{modificarPropesctoBean.empS.n_apl_sexo}" layout="grid"
+                                              rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                              label="Sexo del del prospecto a modificar" required="true"
+                                              columns="2">
+                                <p:ajax update="libretaM, cabeza_f" />
+                                <f:selectItems value="#{aplDefineBean.sexo}" var="nombre"
+                                               itemLabel="#{nombre}" itemValue="#{nombre}" />
+                            </p:selectOneRadio>
+
+                            <p:outputLabel for="cabeza_f" value="Es Cabeza de Familia:" 
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}" />
+                            <p:selectBooleanCheckbox id="cabeza_f"
+                                                     rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                                     value="#{crearProspectoBean.empS.si_es_cabeza_familia}"   
+                                                     disabled="#{crearProspectoBean.empS.n_apl_sexo == 1}"/>
+                            
+                            <p:outputLabel for="libretaM" value="Situacion Militar Definida:"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}" />
+                            <p:selectBooleanCheckbox id="libretaM"
+                                                     value="#{modificarPropesctoBean.empS.si_es_situacion_militar}" 
+                                                     rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                                     disabled="#{modificarPropesctoBean.empS.n_apl_sexo != 1}" />
+
+                            <p:outputLabel for="tipo_sangre" value="Tipo de Sangre: "  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:selectOneMenu id="tipo_sangre"
+                                             value="#{modificarPropesctoBean.empS.n_apl_sangre_tipo}"
+                                             rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                             required="true" 
+                                             style="width:144px" 
+                                             label="Tipo de sangre del prospecto a modificar">
+                                <f:selectItem itemLabel=" -- Tipo de Sangre -- " itemValue="" />
+                                <f:selectItems value="#{aplDefineBean.tipoSangre}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Estatura en centimetros: " for="estatura"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:spinner id="estatura" 
+                                       value="#{modificarPropesctoBean.empS.no_estatura}"
+                                       min="120" max="230" suffix=" Cm"
+                                       rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                       title="Estatura en centimetros del prospecto" />
+                            
+                            <p:outputLabel value="Peso prospecto: " for="peso"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:spinner id="peso" 
+                                       value="#{modificarPropesctoBean.empS.no_peso}"
+                                       min="40" max="150" suffix=" Kg"
+                                       rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                       title="Peso expresado en KG del prospecto" />
+                            
+                            <p:outputLabel for="nivel_escolar" value="Estudios Realizados: "  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:selectOneMenu id="nivel_escolar"
+                                             value="#{modificarPropesctoBean.empS.n_emp_edu_clase}"
+                                             rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                             required="true"
+                                             style="width:381px" label="Estudios realizados por el prospecto a modificar">
+                                <f:selectItem itemLabel=" -- Nivel de Estudios -- " itemValue="" />
+                                <f:selectItems value="#{aplDefineBean.educacionClase}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Profesion: " for="profesion"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputText id="profesion"
+                                         value="#{modificarPropesctoBean.empS.profesion}" 
+                                         rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                         style="width:400px;text-transform:uppercase;" 
+                                         title="Profesion del prospecto a modificar" />
+
+                            <p:outputLabel value="Estado Civil:" for="apl_e_civil"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:selectOneMenu id="apl_e_civil"
+                                             value="#{modificarPropesctoBean.empS.n_apl_e_civil}" required="true"
+                                             rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                             style="width:381px;text-align: right" 
+                                             label="Estado civil del del prospecto a modificar">
+                                <f:selectItem itemLabel=" -- Estado Civil -- " itemValue="" />
+                                <f:selectItems value="#{aplDefineBean.estadoCivil}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="ciudad_nace" value="Ciudad Nacimiento: "  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:autoComplete id="ciudad_nace"
+                                            value="#{modificarPropesctoBean.empS.ciudad_depto_nace}"
+                                            rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                            minQueryLength="3"
+                                            completeMethod="#{autoCoCiudadBean.completeCiudad}"
+                                            size="54" required="true" forceSelection="true"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            placeholder="Ingrese al menos 3 letras de ciudad de nacimiento a buscar"
+                                            title="Ciudad de nacimiento del prospecto a modificar">
+                            </p:autoComplete>
+                            
+                            <p:outputLabel value="Fecha Nacimiento: " for="fecha_nace"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:calendar id="fecha_nace"
+                                        value="#{modificarPropesctoBean.empS.fecha_nace}" locale="es"
+                                        rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                        pattern="yyyy.MM.dd" readonlyInput="true" navigator="true"
+                                        yearRange="c-60:c+10" required="true"
+                                        label="Fecha de nacimiento del prospecto a modificar" />
+                            
+                            <p:outputLabel value="Observaciones: " for="observacion"  
+                                           rendered="#{modificarPropesctoBean.empS.lpersona eq true}"/>
+                            <p:inputTextarea id="observacion" 
+                                             value="#{modificarPropesctoBean.empS.observacion}"
+                                             rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                             rows="3" cols="30" 
+                                             style="width:400px" title="Observaciones del prospecto a modificar" />
+                                
+                        </h:panelGrid>
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton id="seleccionar" value="Seleccionar"
+                                                 icon="ui-icon-check" update="todo"
+                                                 rendered="#{modificarPropesctoBean.empS.lpersona ne true}"
+                                                 style="margin-right:20px;" title="Seleccionar prospecto" />
+
+                                <p:commandButton value="Salvar" icon="icon-save" update="todo"
+                                                 actionListener="#{modificarPropesctoBean.btnUpdateProspecto(actionEvent)}"
+                                                 rendered="#{modificarPropesctoBean.empS.lpersona eq true}"
+                                                 style="margin-right:20px;" ajax="false"
+                                                 title="Guardar la informacion del propecto actual" />
+
+                                <p:commandButton id="regresar" value="Inicio" 
+                                                 icon="icon-home"
+                                                 immediate="true"
+                                                 actionListener="#{modificarPropesctoBean.resetFinalizar()}"
+                                                 action="app/inicio.xhtml?faces-redirect=true"
+                                                 ajax="false" title="Salir sin guardar el prospecto" />
+
+<!--                                    <p:resetInput target="panel" />
+                                </p:commandButton>-->
+                            </f:facet>
+                        </p:toolbar>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

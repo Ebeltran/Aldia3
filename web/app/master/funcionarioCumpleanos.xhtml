@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:form id="todo">
+                    <!--                    <p:growl id="growl" showDetail="true" />-->
+                    <h:outputScript library="js" name="calendar_es.js" />
+                    <p:panel id="reporte" header="Reporte de Cumpleaños de Funcionarios" >
+
+                        <h:panelGrid columns="2" cellpadding="0" style="font-size: 80%">    
+                            <p:spacer width="5" height="20" />
+                            <p:spacer width="5" height="20" />
+
+                            <p:outputLabel value="Fecha del reporte:" for="fechaReporte" />
+                            <p:calendar id="fechaReporte" 
+                                        value="#{empleadoReportBean.fecha_reporte_hasta}" 
+                                        locale="es" 
+                                        pattern="yyyy.MM.dd" maxdate="today"
+                                        readonlyInput="true" navigator="true"
+                                        showWeek="true" required="true"
+                                        label="Fecha del Reporte de Cumpleaños de Funcionarios"
+                                        title="Ingresar fecha de corte para el informe de cumpleaños de funcionarios" >
+                                <p:ajax event="dateSelect" update="dataTable" />
+                            </p:calendar> 
+
+                            <p:outputLabel value="Bajar arcivo Excel: "/>
+                            <h:commandLink>
+                                <p:graphicImage value="#{FacesContext.getCurrentInstance().getExternalContext()}/resources/images/excel.png" 
+                                                title="Reporte en Excel de cumpleaños de funcionarios" width="48px"/>
+
+                                <p:dataExporter type="xls" target="dataTable" fileName="cumpleanos"  />
+                            </h:commandLink>
+
+                            <p:commandButton id="regresar" value="Inicio" 
+                                             icon="icon-home"
+                                             immediate="true"
+                                             actionListener="#{empleadoReportBean.resetFinalizar()}"
+                                             action="app/inicio.xhtml?faces-redirect=true"
+                                             ajax="false" 
+                                             title="Regresar al menu inicial sin imprimir informe">
+                                <p:resetInput target="panel" />
+                            </p:commandButton>
+                            <p:outputLabel value=" " />
+
+                            <p:spacer width="5" height="20" />
+                            <p:spacer width="5" height="20" />
+
+                        </h:panelGrid>
+                        <p:dataTable value="#{empleadoReportBean.cumpleanos}"
+                                     tableStyle="width:auto"
+                                     id="dataTable" 
+                                     widgetVar="dataTable"
+                                     var="vig" 
+                                     paginator="true" 
+                                     rows="10"  
+                                     paginatorPosition="both" 
+                                     pageLinks="5"
+                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} 
+                                     {PageLinks} {NextPageLink} {LastPageLink} 
+                                     {RowsPerPageDropdown} {CurrentPageReport} {Exporters}"  
+                                     rowsPerPageTemplate="10,20,30,50,100"
+                                     resizableColumns="true" liveResize="true" sortMode="single"
+                                     style="ui-datatable"        
+                                     rendered="true" >
+
+                            <f:facet name="{Exporters}" >
+
+                                <p:commandButton id="toggler" type="button" value="Columnas" 
+                                                 style="float:right; width: 125px; " icon="ui-icon-calculator"  />
+                                <p:columnToggler datasource="dataTable" trigger="toggler" />
+                            </f:facet>
+
+                            <p:column >
+                                <f:facet name="header" >
+                                    <h:outputText value="Cod O" />
+                                </f:facet>
+                                <h:outputText value="#{vig.codo}" />
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header" >
+                                    <h:outputText value="Identi" />
+                                </f:facet>
+                                <h:outputText value="#{vig.identi}" />
+                            </p:column>
+
+                            <p:column rendered="false"  exportable="false">
+                                <f:facet name="header" >
+                                    <h:outputText value="Identi" />
+                                </f:facet>
+                                <h:outputText value="#{vig.identi_con}" />
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Apellido 1"/>
+                                </f:facet>
+                                <h:outputText value="#{vig.apellido_1}" />
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Apellido 2" />
+                                </f:facet>
+                                <h:outputText value="#{vig.apellido_2}" />
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre 1" />
+                                </f:facet>
+                                <h:outputText value="#{vig.nombre_1}" />
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre 2" />
+                                </f:facet>
+                                <h:outputText value="#{vig.nombre_2}" />
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Mes Cumple" />
+                                </f:facet>
+                                <h:outputText value="#{vig.mes_cumple}" />
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Dia Cumple" />
+                                </f:facet>
+                                <h:outputText value="#{vig.dia_cumple}" />
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Ubicacion" />
+                                </f:facet>
+                                <h:outputText value="#{vig.cen_costo}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

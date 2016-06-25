@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+<body>
+
+	<ui:composition template="./../template.xhtml">
+		<ui:define name="content">
+			<p:growl id="msgs" showDetail="true" />
+			<h:form id="formDataTable">
+				<p:dataTable id="aplOperador" var="aplOperador"
+					value="#{aplOperadorBean.aplOperadors}"
+					emptyMessage="No se encontran resultados" paginator="true"
+					paginatorPosition="top" rows="10"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+
+					<f:facet name="header" class="center_content">
+                            Operadores del Sistema
+                        </f:facet>
+					<p:column headerText="Usuario" filterBy="#{aplOperador.usuario}"
+						footerText="cont" filterMatchMode="contains">
+						<h:outputText value="#{aplOperador.usuario}" />
+					</p:column>
+					<p:column headerText="A/I" filterBy="#{aplOperador.si_activo}"
+						footerText="cont" filterMatchMode="contains">
+						<h:outputText value="#{aplOperador.si_activo}" />
+					</p:column>
+					<p:column headerText="NIT">
+						<h:outputText value="#{aplOperador.identi}" />
+					</p:column>
+					<p:column headerText="Nombre 1">
+						<h:outputText value="#{aplOperador.nombre_1}" />
+					</p:column>
+					<p:column headerText="Nombre 2">
+						<h:outputText value="#{aplOperador.nombre_2}" />
+					</p:column>
+					<p:column headerText="Apellido 1">
+						<h:outputText value="#{aplOperador.apellido_1}" />
+					</p:column>
+					<p:column headerText="Apellido 2">
+						<h:outputText value="#{aplOperador.apellido_2}" />
+					</p:column>
+					<p:column headerText="Firma">
+						<h:outputText value="#{aplOperador.firma_mecanica}" />
+					</p:column>
+					<p:column headerText="e-mail">
+						<h:outputText value="#{aplOperador.correo_email}" />
+					</p:column>
+					<p:column headerText="Fec Desde">
+						<h:outputText value="#{aplOperador.fec_desde}" />
+					</p:column>
+					<p:column headerText="Fec Hasta">
+						<h:outputText value="#{aplOperador.fecha_hasta}" />
+					</p:column>
+					<p:column headerText="Ult Acceso">
+						<h:outputText value="#{aplOperador.fec_ult_acceso}" />
+					</p:column>
+					<p:column headerText="Cam Clave">
+						<h:outputText value="#{aplOperador.fec_cambio_clave}" />
+					</p:column>
+					<p:column headerText="Opc">
+						<p:commandButton id="selectButton" icon="icon-edit"
+							title="Modificar el usuario seleccionado" update=":formUpdate"
+							oncomplete="PF('dialogAplOperadorUpdate').show()">
+							<f:setPropertyActionListener value="#{aplOperador}"
+								target="#{aplOperadorBean.selectedAplOperador}" />
+						</p:commandButton>
+						<p:commandButton id="btnDelete" update=":formDelete"
+							oncomplete="PF('dialogAplOperadorDelete').show()"
+							icon="icon-delete" title="Elimina el usuario seleccionado">
+							<f:setPropertyActionListener value="#{aplOperador}"
+								target="#{aplOperadorBean.selectedAplOperador}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<h:form>
+					<p:commandButton id="bntAplOperadorCreate" update=":formCreate"
+						onclick="#{aplOperadorBean.resetFormulario()}"
+						oncomplete="PF('dialogAplOperadorCreate').show()" icon="icon-new"
+						iconPos="right" value="Crear un nuevo Operador"
+						alt="Crear Operadores" style="left: inherit"
+						title="Crear un nuevo usuario"
+						actionListener="#{aplMenuBean.resetFormulario()}">
+						<!--                            <f:setPropertyActionListener value="#{aplOperador}" 
+                                                         target="#{aplOperadorBean.selectedAplOperador}" />-->
+					</p:commandButton>
+				</h:form>
+			</h:form>
+			<h:form id="formCreate">
+				<p:dialog header="Crear Operador"
+					widgetVar="dialogAplOperadorCreate" resizable="false"
+					id="dlgAplOperadorCreate" showEffect="fade" hideEffect="explode"
+					modal="true">
+					<h:panelGrid id="display" columns="3" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:panelGroup>
+							<h:outputLabel value="Usuario" />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText
+							value="#{aplOperadorBean.selectedAplOperador.usuario}"
+							required="true" title="Ingrese Nombre del usuario" size="40" />
+						<h:message for="usuario" />
+						<h:panelGroup>
+							<h:outputLabel value="NIT: " />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText value="#{aplOperadorBean.selectedAplOperador.identi}"
+							required="true" title="Ingrese Numero del documento del usuario"
+							size="40" />
+						<h:message for="identi" />
+						<h:panelGroup>
+							<h:outputLabel value="Nombre 1: " />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText
+							value="#{aplOperadorBean.selectedAplOperador.nombre_1}"
+							required="true" title="Ingrese primer nombre del usuario"
+							size="40" />
+						<h:message for="nombre_1" />
+						<h:panelGroup>
+							<h:outputLabel value="Nombre 2: " />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText
+							value="#{aplOperadorBean.selectedAplOperador.nombre_2}"
+							required="true" title="Ingrese segundo nombre del usuario"
+							size="40" />
+						<h:message for="nombre_2" />
+						<h:panelGroup>
+							<h:outputLabel value="Apellido 1: " />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText
+							value="#{aplOperadorBean.selectedAplOperador.apellido_1}"
+							required="true" title="Ingrese primer apellido del usuario"
+							size="40" />
+						<h:message for="apellido_1" />
+						<h:panelGroup>
+							<h:outputLabel value="Apellido 2: " />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText
+							value="#{aplOperadorBean.selectedAplOperador.apellido_2}"
+							required="true" title="Ingrese segundo apellido del usuario"
+							size="40" />
+						<h:message for="apellido_2" />
+						<h:panelGroup>
+							<h:outputLabel value="Email: " />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText
+							value="#{aplOperadorBean.selectedAplOperador.correo_email}"
+							required="true" title="Ingrese correo electronico del usuario"
+							size="40" />
+						<h:message for="email" />
+						<h:outputLabel value="Si es Activo: " />
+						<p:selectOneMenu id="si_activo"
+							value="#{aplOperadorBean.selectedAplOperador.si_activo}"
+							style="width:125px">
+							<f:selectItem itemLabel="Seleccione ..." itemValue="" />
+							<f:selectItem itemLabel="Si" itemValue="Si" />
+							<f:selectItem itemLabel="No" itemValue="No" /> />
+                            </p:selectOneMenu>
+						<h:message for="si_activo" />
+						<h:outputLabel value="Si Feriados: " />
+						<p:selectOneMenu id="si_festivo"
+							value="#{aplOperadorBean.selectedAplOperador.si_festivo}"
+							style="width:125px">
+							<f:selectItem itemLabel="Seleccione ..." itemValue="" />
+							<f:selectItem itemLabel="Si" itemValue="Si" />
+							<f:selectItem itemLabel="No" itemValue="No" /> />
+                            </p:selectOneMenu>
+						<h:message for="si_festivo" />
+						<h:outputLabel value="Firma:" />
+						<!--                            <p:fileUpload value="#{fileUploadController.file}"
+                                          mode="advanced"
+                                          label="Selecciona Archivo"
+                                          fileLimit="1" transient=""
+                                          fileLimitMessage="Solo puede seleccionar un archivo"
+                                          uploadLabel="Convertir"
+                                          cancelLabel="Cancelar"/>-->
+						<h:message for="firma" />
+						<f:facet name="footer">
+							<p:separator />
+							<p:commandButton id="btnCreateAceptar"
+								update=":formDataTable, :msgs"
+								oncomplete="PF('dialogAplOperadorCreate').hide()"
+								actionListener="#{aplOperadorBean.btnCreateAplOperador(actionEvent)}"
+								icon="icon-save" title="Guarda la informacion" value="Guardar" />
+							<p:commandButton id="btnCreateCancelar"
+								oncomplete="PF('dialogAplOperadorCreate').hide()"
+								icon="icon-cancel" title="Cancelar los cambios" value="Cancelar" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			<h:form id="formUpdate">
+				<p:dialog header="Modificar Operador"
+					widgetVar="dialogAplOperadorUpdate" resizable="false"
+					id="dlgAplOperadorUpdate" showEffect="fade" hideEffect="explode"
+					modal="true">
+					<!--                        <h:panelGrid id="display" 
+                                                             columns="3" 
+                                                             cellpadding="4" 
+                                                             style="margin:0 auto;">  -->
+					<h:panelGrid columns="3" cellpadding="5">
+						<h:outputLabel value="Usuario" />
+						<p:outputLabel
+							value="#{aplOperadorBean.selectedAplOperador.usuario}" />
+						<h:message for="usuario" />
+
+						<h:panelGroup>
+							<h:outputLabel value="NIT: " for="identi" />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText value="#{aplOperadorBean.selectedAplOperador.identi}"
+							required="true" title="Ingrese Numero del documento del usuario"
+							size="40" />
+						<h:message for="identi" />
+						<h:panelGroup>
+							<h:outputLabel value="Nombre 1: " />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText
+							value="#{aplOperadorBean.selectedAplOperador.nombre_1}"
+							required="true" title="Ingrese primer nombre del usuario"
+							size="40" />
+						<h:message for="nombre_1" />
+						<h:panelGroup>
+							<h:outputLabel value="Nombre 2: " />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText
+							value="#{aplOperadorBean.selectedAplOperador.nombre_2}"
+							required="true" title="Ingrese segundo nombre del usuario"
+							size="40" />
+						<h:message for="nombre_2" />
+						<h:panelGroup>
+							<h:outputLabel value="Apellido 1: " />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText
+							value="#{aplOperadorBean.selectedAplOperador.apellido_1}"
+							required="true" title="Ingrese primer apellido del usuario"
+							size="40" />
+						<h:message for="apellido_1" />
+						<h:panelGroup>
+							<h:outputLabel value="Apellido 2: " />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText
+							value="#{aplOperadorBean.selectedAplOperador.apellido_2}"
+							required="true" title="Ingrese segundo apellido del usuario"
+							size="40" />
+						<h:message for="apellido_2" />
+						<h:panelGroup>
+							<h:outputLabel value="Email: " />
+							<h:outputText style="color:red" value="*  " />
+						</h:panelGroup>
+						<p:inputText
+							value="#{aplOperadorBean.selectedAplOperador.correo_email}"
+							required="true" title="Ingrese correo electronico del usuario"
+							size="40" />
+						<h:message for="email" />
+						<h:outputLabel value="Es Activo: " />
+						<p:selectOneMenu id="si_activo"
+							value="#{aplOperadorBean.selectedAplOperador.si_activo}"
+							style="width:125px">
+							<f:selectItem itemLabel="Seleccione ..." itemValue="" />
+							<f:selectItem itemLabel="Si" itemValue="Si" />
+							<f:selectItem itemLabel="No" itemValue="No" /> />
+                            </p:selectOneMenu>
+						<h:message for="si_activo" />
+						<h:outputLabel value="Si Feriados: " />
+						<p:selectOneMenu id="si_festivo"
+							value="#{aplOperadorBean.selectedAplOperador.si_festivo}"
+							style="width:125px">
+							<f:selectItem itemLabel="Seleccione ..." itemValue="" />
+							<f:selectItem itemLabel="Si" itemValue="Si" />
+							<f:selectItem itemLabel="No" itemValue="No" /> />
+                            </p:selectOneMenu>
+						<h:message for="si_festivo" />
+						<h:outputLabel value="Firma:" />
+						<!--                            <h:outputLabel value="Firma:" />
+                                                        <p:fileUpload value="#{fileUploadController.file}"
+                                                                      mode="advanced"
+                                                                      label="Selecciona Archivo"
+                                                                      fileLimit="1" transient=""
+                                                                      fileLimitMessage="Solo puede seleccionar un archivo"
+                                                                      uploadLabel="Convertir"
+                                                                      cancelLabel="Cancelar"/>
+                                                        <h:message for="firma" />-->
+						<f:facet name="footer">
+							<p:separator />
+							<p:commandButton id="btnUpdateAceptar"
+								update=":formDataTable, :msgs"
+								oncomplete="PF('dialogAplOperadorUpdate').hide()"
+								actionListener="#{aplOperadorBean.btnUpdateAplOperador(actionEvent)}"
+								icon="icon-save" title="Guarda la informacion modificada"
+								value="Guardar" />
+							<p:commandButton id="btnUpdateCancelar"
+								oncomplete="PF('dialogAplOperadorUpdate').hide()"
+								icon="icon-cancel" title="Cancelar los cambios" value="Cancelar" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			<h:form id="formDelete">
+				<p:confirmDialog id="confirmDialog"
+					message="Esta seguro de eliminar el registro?"
+					header="Eliminar Operador" severity="alert"
+					widgetVar="dialogAplOperadorDelete">
+					<h:inputHidden
+						value="#{aplOperadorBean.selectedAplOperador.usuario}" />
+					<p:commandButton id="confirm" value="Aceptar"
+						update=":formDataTable, :msgs"
+						oncomplete="PF('dialogAplOperadorDelete').hide()"
+						actionListener="#{aplOperadorBean.btnDeleteAplOperador(actionEvent)}"
+						icon="icon-accept" title="Elimina el registro seleccionado"
+						type="button" />
+					<p:commandButton id="decline" value="Cancelar"
+						onclick="PF('dialogAplOperadorDelete').hide()" type="button"
+						styleClass="icon-cancel" title="Cancelar la operacion"
+						icon="icon-cancel" />
+				</p:confirmDialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<body>
+	<ui:composition template="./../template.xhtml">
+		<ui:define name="content">
+			<h:form>
+				<h:outputScript library="js" name="calendar_es.js" />
+				<p:growl id="growl" sticky="true" showDetail="true" />
+				<p:panel id="panel" header="Detalles Generales del NIT">
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<p:outputLabel for="elnit_es" value="El Nit a Crear Es:" />
+						<p:selectManyCheckbox id="elnit_es" value="#{nitBean.nit.nit_es}"
+							layout="grid" required="true" columns="2">
+							<f:ajax event="change" listener="#{nitBean.handleChangeNitEs}" />
+							<f:selectItems value="#{aplDefineBean.grupo}" />
+						</p:selectManyCheckbox>
+
+						<p:outputLabel for="tipo_documento" value="Tipo Documento: " />
+						<p:selectOneMenu id="tipo_documento"
+							value="#{nitBean.nit.n_nit_tip_identidad}"
+							valueChangeListener="#{nitBean.handleChangeTipoI()}"
+							required="true" label="tipo_documento">
+							<p:ajax listener="#{nitBean.handleChangeTipoI}" />
+							<f:selectItem itemLabel=" -- Clase Documento -- " itemValue="" />
+							<f:selectItems value="#{aplDefineBean.tipoIdentidad}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="identicacion" value="Numero Documento: " />
+						<p:inputText id="identicacion" value="#{nitBean.nit.identi}"
+							onkeyup="#{nitBean.handleChangeNit()}" required="true"
+							title="Numero del NIT a crear" label="identicacion">
+							<p:ajax listener="#{nitBean.handleChangeNit()}" />
+						</p:inputText>
+
+						<p:outputLabel for="digito_verificacion"
+							value="Digito Verificacion: " />
+						<p:inputText id="digito_verificacion" value="#{nitBean.nit.d_v}"
+							onkeyup="#{nitBean.handleChangeDV()}"
+							title="Numero del Digito de verificacion del NIT a crear"
+							label="digito_verificacion">
+							<p:ajax listener="#{nitBean.handleChangeDV()}" />
+						</p:inputText>
+
+						<p:outputLabel for="razonsocial" value="Razon Social: *"
+							rendered="#{nitBean.nit.ljuridica eq true}" />
+						<p:inputText id="razonsocial" value="#{nitBean.nit.razon_social}"
+							required="false" label="razonsocial" style="width:400px"
+							title="Indique la Razon Social del Nit a craer"
+							rendered="#{nitBean.nit.ljuridica eq true}" />
+
+						<p:outputLabel for="razoncomercial" value="Razon Comercial: "
+							rendered="#{nitBean.nit.ljuridica eq true}" />
+						<p:inputText id="razoncomercial"
+							value="#{nitBean.nit.razon_comercial}" label="razoncomercial"
+							style="width:400px"
+							title="Indique la Razon Comercial del Nit a crear si existe"
+							rendered="#{nitBean.nit.ljuridica eq true}" />
+
+						<p:outputLabel for="primer_nombre" value="Primer Nombre: "
+							rendered="#{nitBean.nit.lpersona eq true}" />
+						<p:inputText id="primer_nombre" value="#{nitBean.nit.nombre_1}"
+							required="true" label="primer_nombre"
+							title="Primer apellido del NIT a Craer"
+							rendered="#{nitBean.nit.lpersona eq true}" />
+
+						<p:outputLabel for="segundo_nombre" value="Segundo Nombre: "
+							rendered="#{nitBean.nit.lpersona eq true}" />
+						<p:inputText id="segundo_nombre" value="#{nitBean.nit.nombre_2}"
+							required="false" label="segundo_nombre"
+							title="Segundo nombre si existe del NIT a Craer"
+							rendered="#{nitBean.nit.lpersona eq true}" />
+
+						<p:outputLabel for="primer_apellido" value="Primer Apellido: "
+							rendered="#{nitBean.nit.lpersona eq true}" />
+						<p:inputText id="primer_apellido"
+							value="#{nitBean.nit.apellido_1}" required="true"
+							label="primer_apellido" title="Primer apellido del NIT a crear"
+							rendered="#{nitBean.nit.lpersona eq true}" />
+
+						<p:outputLabel for="segundo_apellido" value="Segundo Apellido: "
+							rendered="#{nitBean.nit.lpersona eq true}" />
+						<p:inputText id="segundo_apellido"
+							value="#{nitBean.nit.apellido_2}" required="false"
+							label="segundo_apellido" title="Segundo apellido del NIT a crear"
+							rendered="#{nitBean.nit.lpersona eq true}" />
+
+						<p:outputLabel for="tipo_contribuyente"
+							value="Tipo Contribuyente: " />
+						<p:selectOneMenu id="tipo_contribuyente"
+							value="#{nitBean.nit.n_nit_tip_contribuyente}"
+							label="tipo_contribuyente">
+							<f:selectItem itemLabel=" -- Tipo Contribuyente -- " itemValue="" />
+							<f:selectItems value="#{aplDefineBean.tipoConstribuyente}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="clase_sociedad" value="Clase de Sociedad: "
+							rendered="#{nitBean.nit.ljuridica eq true}" />
+						<p:selectOneMenu id="clase_sociedad"
+							value="#{nitBean.nit.n_nit_cla_sociedad}" required="true"
+							label="clase_sociedad"
+							rendered="#{nitBean.nit.ljuridica eq true}">
+							<f:selectItem itemLabel=" -- Clase Sociedad -- " itemValue="" />
+							<f:selectItems value="#{aplDefineBean.claseSocidad}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="nit_autorete" value="Es AutoRtenedor:"
+							rendered="#{nitBean.nit.si_es_ter eq true}" />
+						<p:selectOneRadio id="nit_autorete"
+							value="#{nitBean.nit.si_auto_rf}" layout="grid" required="true"
+							rendered="#{nitBean.nit.si_es_ter eq true}" columns="2">
+							<f:ajax event="change" listener="#{nitBean.handleChangeAutoRete}" />
+							<f:selectItem itemLabel="Si" itemValue="Auto Retenedor" />
+							<f:selectItem itemLabel="No" itemValue="Auto Retenedor" />
+						</p:selectOneRadio>
+
+						<p:outputLabel for="direccion" value="Direccion:" />
+						<p:inputText id="direccion" value="#{nitBean.nit.direccion}"
+							required="true" style="width:400px" label="direccion"
+							title="Direccion del Nit a crear" />
+
+						<p:outputLabel for="barrio" value="Barrio:" />
+						<p:inputText id="barrio" value="#{nitBean.nit.barrio}"
+							required="true" style="width:400px" label="barrio"
+							title="Nombre del barrio del Nit a crear" />
+
+						<p:outputLabel value="Ciudad:" for="ciudad" />
+						<p:autoComplete id="ciudad" minQueryLength="3"
+							value="#{autoCompletarCiudad.aplDefine.nom_ciudad}"
+							completeMethod="#{autoCompletarCiudad.completeCiudad(query)}"
+							required="true" size="54" effect="fade" var="ci"
+							itemLabel="#{ci.nom_ciudad}" itemValue="#{ci}"
+							converter="ciudadConverter" forceSelection="true"
+							title="Ciudad donde se encuentra el Nit a crear">
+
+							<p:column headerText="Apellidos y Nombres"
+								style="text-align: left">
+								<h:outputText value="#{ni.nom_ciudad}" />
+							</p:column>
+							<p:column headerText="Identificacion" style="text-align: right">
+								<h:outputText value="#{ni.n_nom_ciudad}" />
+							</p:column>
+						</p:autoComplete>
+
+						<p:outputLabel for="telefono" value="Telefono 1:" />
+						<p:inputText id="telefono" value="#{nitBean.nit.telefono}"
+							title="Telefono del NIT a crear" />
+
+						<p:outputLabel for="tel_aux" value="Telefono 2:" />
+						<p:inputText id="tel_aux" value="#{nitBean.nit.tel_aux}"
+							title="Telefono auxiliar del NIT a crear" />
+
+						<p:outputLabel for="fax" value="Fax:" />
+						<p:inputText id="fax" value="#{nitBean.nit.fax}"
+							title="Fax auxiliar del NIT a crear" />
+
+						<p:outputLabel for="e_mail" value="E-mail Principal:" />
+						<p:inputText id="e_mail" value="#{nitBean.nit.e_mail}"
+							title="e-mail principal del NIT a crear">
+							<f:validator validatorId="custom.emailValidator" />
+						</p:inputText>
+
+						<p:outputLabel for="e_mail_a" value="E-mail Auxiliar:" />
+						<p:inputText id="e_mail_a" value="#{nitBean.nit.e_mail_a}"
+							title="e-mail auxiliar del NIT a crear">
+							<f:validator validatorId="custom.emailValidator" />
+						</p:inputText>
+
+						<p:outputLabel for="pagina_web" value="Pagina web:" />
+						<p:inputText id="pagina_web" value="#{nitBean.nit.pagina_web}"
+							style="width:400px" title="Pagina web del NIT a crear" />
+
+						<p:outputLabel for="sexo" value="Sexo:"
+							rendered="#{nitBean.nit.si_es_emp eq true}" />
+						<p:selectOneRadio id="sexo" value="#{nitBean.nit.n_apl_sexo}"
+							layout="grid" label="Sexo del  del empleado" required="true"
+							rendered="#{nitBean.nit.si_es_emp eq true}" columns="2">
+							<f:selectItems value="#{aplDefineBean.sexo}" var="nombre"
+								itemLabel="#{nombre}" itemValue="#{nombre}" />
+						</p:selectOneRadio>
+
+						<p:outputLabel value="Estado Civil:" for="apl_e_civil"
+							rendered="#{nitBean.nit.si_es_emp eq true}" />
+						<p:selectOneMenu id="apl_e_civil"
+							value="#{nitBean.nit.n_apl_e_civil}" required="true"
+							label="Estado civil del  del empleado"
+							rendered="#{nitBean.nit.si_es_emp eq true}">
+							<f:selectItem itemLabel=" -- Estado Civil -- " itemValue="" />
+							<f:selectItems value="#{aplDefineBean.estadoCivil}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Ciudad Nacimiento:" for="ciudad_nace"
+							rendered="#{nitBean.nit.si_es_emp eq true}" />
+						<p:autoComplete id="ciudad_nace" minQueryLength="3"
+							maxResults="10" value="#{nitBean.nit.nom_apl_ciudad_nace}"
+							completeMethod="#{nitBean.buscaCiudad}"
+							rendered="#{nitBean.nit.si_es_emp eq true}" required="true"
+							size="54" title="Ciudad de nacimiento del empleado" effect="fade" />
+
+						<p:outputLabel value="Fecha Nacimiento: " for="fecha_nace"
+							rendered="#{nitBean.nit.si_es_emp eq true}" />
+						<p:calendar id="fecha_nace" value="#{nitBean.nit.fec_nace}"
+							locale="es" pattern="yyyy.MM.dd" readonlyInput="true"
+							navigator="true" yearRange="c-60:c+10" required="true"
+							rendered="#{nitBean.nit.si_es_emp eq true}"
+							label="Fecha de nacimiento del empleado" />
+
+					</h:panelGrid>
+
+					<p:toolbar>
+						<f:facet name="left">
+							<p:commandButton value="Agregar"
+								actionListener="#{nitBean.btnCreateNit()}" icon="icon-save"
+								title="Guardar el NIT creado" style="margin-right:20px;"
+								action="#{nitBean.resetFormulario()}" />
+						</f:facet>
+						<f:facet name="left">
+							<p:commandButton value="Cancelar" icon="icon-cancel"
+								actionListener="#{nitBean.resetFinalizar()}" immediate="true"
+								ajax="false" title="Salir sin guradar el NIT">
+								<p:resetInput target="panel" />
+							</p:commandButton>
+						</f:facet>
+					</p:toolbar>
+				</p:panel>
+			</h:form>
+			<script type="text/javascript">
+                    /**
+                    * Faces Validator
+                    */
+                    PrimeFaces.validator['custom.emailValidator'] = {
+ 
+                        pattern: /\S+@\S+/,
+ 
+                        validate: function(element, value) {
+                            //use element.data() to access validation metadata, in this case there is none.
+                            if(!this.pattern.test(value)) {
+                                throw {
+                                    summary: 'Error DE Validacion',
+                                    detail: value + ' No es un email valido.'
+                                };
+                            }
+                        }
+                    };
+ 
+                    /**
+                    * Bean validator
+                    */
+                    PrimeFaces.validator['Email'] = {
+ 
+                        pattern: /\S+@\S+/,
+ 
+                        MESSAGE_ID: 'org.primefaces.examples.validate.email.message',
+ 
+                        validate: function(element, value) {
+                            var vc = PrimeFaces.util.ValidationContext;
+ 
+                            if(!this.pattern.test(value)) {
+                                var msgStr = element.data('p-email-msg'),
+                                msg = msgStr ? {summary:msgStr, detail: msgStr} : vc.getMessage(this.MESSAGE_ID);
+ 
+                                throw msg;
+                                }
+                            }
+                        };
+                </script>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

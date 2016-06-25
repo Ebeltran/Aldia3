@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<body>
+
+	<ui:composition template="./../template.xhtml">
+
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="msgs" showDetail="true" />
+				<p:dataTable var="aplMenuPermiso"
+					value="#{aplMenuPermisoBean.aplMenuPermisos}"
+					emptyMessage="No se encontran resultados" paginator="true"
+					paginatorPosition="top" rows="15"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="10,15,20">
+
+					<f:facet name="header">
+                            Permiso para #{loginBean.aplOperador.nombre_1} #{loginBean.aplOperador.nombre_2}
+                                         #{loginBean.aplOperador.apellido_1} #{loginBean.aplOperador.apellido_2}
+                        </f:facet>
+					<!--                        <p:column selectionMode="multiple" 
+                                                          style="width:16px;text-align:center"/>-->
+
+					<p:column headerText="Id Menu" style="width:15%;text-align: center">
+						<h:outputText value="#{aplMenuPermiso.id_Menu}" />
+					</p:column>
+
+					<p:column headerText="Id Padre"
+						style="width:15%;text-align: center">
+						<h:outputText value="#{aplMenuPermiso.tab_Menus_Id}" />
+					</p:column>
+
+					<p:column headerText="Nombre">
+						<h:outputText value="#{aplMenuPermiso.nombre_Menu}" />
+					</p:column>
+
+					<p:column headerText="T Menu">
+						<h:outputText value="#{aplMenuPermiso.tipo_Menu}" />
+					</p:column>
+
+					<p:column headerText="Si Permiso"
+						style="width:15%;text-align: center">
+						<h:outputText value="#{aplMenuPermiso.si_Permiso}" />
+					</p:column>
+
+					<!--                        <f:facet name="footer">
+                                                    <p:commandButton process="checkboxDT" 
+                                                                     update=":form:multiCarDetail" 
+                                                                     icon="ui-icon-search" 
+                                                                     value="View" 
+                                                                     oncomplete="PF('multiCarDialog').show()" />
+                                                </f:facet>-->
+					<!--                    </p:dataTable>
+                                            <p:dialog header="Selected Cars" widgetVar="multiCarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="200">
+                                                <p:outputPanel id="multiCarDetail" style="text-align:center;">
+                                                    <ui:repeat value="#{dtSelectionView.selectedCars}" var="car">
+                                                        <h:outputText value="#{car.id} - #{car.brand}" style="display:block"/>
+                                                    </ui:repeat>
+                                                </p:outputPanel>
+                                            </p:dialog>-->
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+
+	</ui:composition>
+
+</body>
+</html>

@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                Contratar
+                <h:outputScript library="js" name="calendar_es.js" />
+                <p:growl id="msgs" showDetail="true" />
+                <h:form id="formDataTable">
+                    <p:dataTable var="empSAlista" value="#{empSBean.lsEmpSs}"
+                                 emptyMessage="No se encontran resultados" paginator="true"
+                                 paginatorPosition="top" rows="10"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" scrollable="true" scrollWidth="100%">
+
+                        <f:facet name="header" class="center_content">
+                            Alistar Contrato
+                        </f:facet>
+                        <p:column headerText="TD" style="width:10px;text-align: center">
+                            <h:outputText value="#{empSAlista.tipo_doc}" />
+                        </p:column>
+                        <p:column headerText="Identificacion"
+                                  style="width:35px;text-align: right">
+                            <h:outputText value="#{empSAlista.identi_con}"
+                                          style="text-align: right" />
+                        </p:column>
+                        <p:column headerText="Primer Apellidos"
+                                  style="width:80px;text-align: left">
+                            <h:outputText value="#{empSAlista.apellido_1}" />
+                        </p:column>
+                        <p:column headerText="Segundo Apellidos"
+                                  style="width:80px;text-align: left">
+                            <h:outputText value="#{empSAlista.apellido_1}" />
+                        </p:column>
+                        <p:column headerText="Primer Nombre"
+                                  style="width:80px;text-align: left">
+                            <h:outputText value="#{empSAlista.nombre_1}" />
+                        </p:column>
+                        <p:column headerText="Segundo Nombre"
+                                  style="width:80px;text-align: left">
+                            <h:outputText value="#{empSAlista.nombre_2}" />
+                        </p:column>
+                        <p:column headerText="epse" style="width:80px;text-align: left">
+                            <h:outputText value="#{empSAlista.nom_cargo_aspira}" />
+                        </p:column>
+
+                        <p:column style="width:32px;text-align: center">
+
+                            <p:commandButton id="selectButton" icon="icon-edit"
+                                             title="Alistar prospecto" update=":formUpdate"
+                                             oncomplete="PF('dialogEmpSUpdate').show()">
+                                <f:setPropertyActionListener value="#{empSAlista}"
+                                                             target="#{empSBean.empS}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                </h:form>
+
+                <h:form id="formUpdate">
+                    <p:dialog
+                        header="Contratar Funcionario #{empSBean.empS.razon_social}"
+                        widgetVar="dialogEmpSUpdate" resizable="false" id="dlgEmpSUpdate"
+                        showEffect="fade" hideEffect="explode" modal="true" width="750"
+                        height="400">
+
+
+                        <h:panelGrid id="display" columns="2" cellpadding="0"
+                                     style="margin:0 auto;">
+                            <p:outputLabel style="color: #036fab;"
+                                           value="Informacion del Contrato" />
+                            <p:outputLabel value=" " />
+
+                            <p:outputLabel value="Duracion Contrato: " />
+                            <p:selectOneMenu id="duracion" required="true"
+                                             value="#{empSBean.empS.n_con_duracion}">
+                                <p:ajax update="contratos"
+                                        listener="#{empSBean.onCambioContratoTrabajo}" />
+                                <f:selectItem itemLabel="Seleccione Duracion Contrato"
+                                              itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{empSBean.contratoDuracion}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Clase de Contrato: " />
+                            <p:selectOneMenu id="contratos" required="true"
+                                             value="#{empSBean.empS.n_apl_con_trabajo}">
+                                <p:ajax update="fecha_final, si_a_transporte, nom_eps, nom_fdp, nom_fdc"
+                                        listener="#{empSBean.onClaseContrato}" />
+                                <f:selectItem itemLabel="Seleccione Clase de Contrato"
+                                              itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{empSBean.contratoClases}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Fecha Inicio Contrato: " for="fecha_inicia" />
+                            <p:calendar id="fecha_inicia"
+                                        value="#{empSBean.empS.fecha_inicia}" locale="es"
+                                        pattern="yyyy.MM.dd" readonlyInput="true" navigator="true"
+                                        yearRange="c-10:c+10" required="true"
+                                        label="Fecha de inicio de contrato">
+                            </p:calendar>
+
+                            <p:outputLabel value="Fecha Final Contrato :" for="fecha_final" />
+                            <p:calendar id="fecha_final" value="#{empSBean.empS.fecha_final}"
+                                        locale="es" pattern="yyyy.MM.dd" readonlyInput="true"
+                                        navigator="true" yearRange="c-10:c+10" required="true"
+                                        disabled="#{empSBean.empS.lfechafin eq false}"
+                                        label="Fecha final de contrato" />
+
+                            <p:outputLabel value="Salario: " for="vr_salario" />
+                            <p:inputText id="vr_salario" value="#{empSBean.empS.vr_salario}"
+                                         required="true" label="vr_salario"
+                                         title="Valor salario de contratatacion" />
+
+
+                            <p:outputLabel value="Si Auxilio Transporte :"
+                                           for="si_a_transporte" />
+                            <p:column headerText="Permiso"
+                                      style="width:5px;text-align: center" id="si_a_transporte">
+                                <p:selectBooleanCheckbox
+                                    value="#{empSBean.empS.si_es_pago_aux_tran}"
+                                    disabled="#{empSBean.empS.lauxtran eq true}" required="true">
+                                </p:selectBooleanCheckbox>
+                            </p:column>
+
+                            <p:outputLabel value="Cargo :" for="nom_cargo_contra" />
+                            <p:autoComplete id="nom_cargo_contra" minQueryLength="3"
+                                            maxResults="10" value="#{empSBean.empS.nom_cargo}"
+                                            completeMethod="#{aplDefineBean.buscaCargo}" required="true"
+                                            size="40" title="Cargo en el cual se contratara" effect="fade" />
+
+                            <p:outputLabel value="Centro de Trabajo :" for="nom_centro_costo" />
+                            <p:autoComplete id="nom_centro_costo" minQueryLength="3"
+                                            maxResults="10" value="#{empSBean.empS.nom_cen_costo}"
+                                            completeMethod="#{centroCostoBean.buscaCentroCosto}"
+                                            required="true" size="40"
+                                            title="Centro de trabajo en el cual se contratara" effect="fade" />
+
+                            <p:outputLabel style="color: #036fab;"
+                                           value="Informacion Forma de Pago" />
+                            <p:outputLabel value=" " />
+
+                            <p:outputLabel value="Forma Pago :" for="n_pago_forma" />
+                            <p:selectOneMenu id="n_pago_forma"
+                                             value="#{empSBean.empS.n_emp_pago_forma}">
+                                <p:ajax
+                                    update="identi_banco,ban_sucursal,n_cuenta_tipo,cuenta_cta"
+                                    listener="#{empSBean.onCambioPagoForma}" />
+                                <f:selectItem itemLabel="Seleccione Forma de Pago" itemValue=""
+                                              noSelectionOption="true" />
+                                <f:selectItems value="#{aplDefineBean.pagoForma}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Banco :" for="identi_banco" />
+                            <p:selectOneMenu id="identi_banco"
+                                             value="#{empSBean.empS.identi_banco}"
+                                             disabled="#{empSBean.empS.lpagoforma eq false}" >
+                                <f:selectItem itemLabel="Seleccione Banco para realizar Pago"
+                                              itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{aplDefineBean.bancoCompensa}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Nombre Sucursal :" for="ban_sucursal" />
+                            <p:inputText id="ban_sucursal"
+                                         value="#{empSBean.empS.ban_sucursal}" required="false"
+                                         disabled="#{empSBean.empS.lpagoforma eq false}"
+                                         label="ban_sucursal" title="Nombre de la Sucursal del Banco" />
+
+                            <p:outputLabel value="Cuenta Tipo :" for="n_cuenta_tipo" />
+                            <p:selectOneMenu id="n_cuenta_tipo"
+                                             value="#{empSBean.empS.n_ban_cuenta_tipo}"
+                                             disabled="#{empSBean.empS.lpagoforma eq false}" >
+                                <f:selectItem itemLabel="Seleccione Cuenta Tipo para Pago"
+                                              itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{aplDefineBean.bancoCuentaTipo}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Numero de Cuenta :" for="cuenta_cta" />
+                            <p:inputText id="cuenta_cta"
+                                         value="#{empSBean.empS.cuenta_cta}" required="false"
+                                         disabled="#{empSBean.empS.lpagoforma eq false}"
+                                         label="cuenta_cta" title="Numero de cuenta sin espacios" />
+
+                            <p:outputLabel style="color: #036fab;"
+                                           value="Informacion de Seguridad Social" />
+                            <p:outputLabel value=" " />
+
+                            <p:outputLabel value="Razon Social Eps :" for="nom_eps" />
+                            <p:selectOneMenu id="nom_eps" required="true"
+                                             value="#{empSBean.empS.identi_eps}"
+                                             disabled="#{empSBean.empS.lsieps eq false}" >
+                                <f:selectItem itemLabel="Seleccione Empresa Prom Salud"
+                                              itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{aplDefineBean.nombreEps}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Razon Social FDP :" for="nom_fdp" />
+                            <p:selectOneMenu id="nom_fdp" required="true"
+                                             value="#{empSBean.empS.identi_fdp}"
+                                             disabled="#{empSBean.empS.lsifdp eq false}" >
+                                <f:selectItem itemLabel="Seleccione Fondo Pension" itemValue=""
+                                              noSelectionOption="true" />
+                                <f:selectItems value="#{aplDefineBean.nombreFdp}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Razon Social FDC :" for="nom_fdc" />
+                            <p:selectOneMenu id="nom_fdc" required="true"
+                                             value="#{empSBean.empS.identi_fdc}"
+                                             disabled="#{empSBean.empS.lsifdc eq false}" >
+                                <f:selectItem itemLabel="Seleccione Fondo Cesantias" itemValue=""
+                                              noSelectionOption="true" />
+                                <f:selectItems value="#{aplDefineBean.nombreFdc}" />
+                            </p:selectOneMenu>
+                            <f:facet name="footer">
+                                <p:separator />
+                                <p:commandButton id="btnUpdateAceptar"
+                                                 update=":formDataTable, :msgs" style="margin-right:20px;"
+                                                 oncomplete="PF('dialogEmpSUpdate').hide()"
+                                                 actionListener="#{empSBean.btnUpdateContratar(actionEvent)}"
+                                                 icon="icon-save" title="Guarda la informacion modificada"
+                                                 value="Guardar" />
+                                <p:commandButton id="btnUpdateCancelar"
+                                                 oncomplete="PF('dialogEmpsSUpdate').hide()" icon="icon-cancel"
+                                                 title="Cancelar los cambios" value="Cancelar" />
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

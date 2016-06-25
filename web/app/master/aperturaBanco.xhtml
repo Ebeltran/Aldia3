@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:form id="todo">
+                    <h:outputScript library="js" name="calendar_es.js" />
+                    <h:outputScript library="js" name="format.js" />
+                    <p:growl id="msgs" showDetail="true" life="4000" />
+                    <p:panel id="consulta" header="Solicitud Apertura Cuenta">
+                        <h:panelGrid columns="2" cellpadding="0" style="font-size: 80%">
+                            <p:spacer width="5" height="20" />
+                            <p:spacer width="5" height="20" />
+                            <p:outputLabel value="Identificacion: " 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:outputLabel
+                                rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                value="#{alistarContratoBean.empS.tipo_doc} - #{alistarContratoBean.empS.identi_con}" />
+
+                            <p:outputLabel value="Apellidos y Nombres:" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:outputLabel
+                                rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                value="#{alistarContratoBean.empS.apellidos_nombres}" />
+
+                            <p:outputLabel for="apellidos_nombres" value="Apellidos y nombres: " 
+                                           rendered="#{alistarContratoBean.empS.lpersona ne true}" />
+                            <p:autoComplete id="apellidos_nombres"
+                                            rendered="#{alistarContratoBean.empS.lpersona ne true}"
+                                            minQueryLength="3" size="60"
+                                            value="#{alistarContratoBean.empS}"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                            completeMethod="#{alistarContratoBean.completePropecto}"
+                                            var="ni" itemLabel="#{ni.apellidos_nombres}" itemValue="#{ni}"
+                                            converter="alistarConverter" forceSelection="true">
+
+                                <p:column headerText="Pri apellido"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.apellido_1}" />
+                                </p:column>
+                                <p:column headerText="Seg apellido"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.apellido_2}" />
+                                </p:column>
+                                <p:column headerText="Pri nombre"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.nombre_1}" />
+                                </p:column>
+                                <p:column headerText="Seg nombre"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.nombre_2}" />
+                                </p:column>
+                                <p:column headerText="Identificacion" style="text-align: right">
+                                    <h:outputText value="#{ni.identi_con}" />
+                                </p:column>
+                            </p:autoComplete>
+                            
+                            <p:spacer width="5" height="20" />
+                            <p:spacer width="5" height="20" />
+                            
+                        </h:panelGrid>
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton id="seleccionar" value="Carta Apertura Banco"
+                                                 icon="icon-report" update="todo"
+                                                 rendered="#{documentoProspectoBean.empS.lpersona ne true}"
+                                                 actionListener="#{documentoProspectoBean.btnCartaBanco(actionEvent)}"
+                                                 style="margin-right:20px;" 
+                                                 title="Preparar carta para Apertura Cuenta" />
+                                
+                                <p:commandButton id="regresar" value="Inicio" 
+                                                 icon="icon-home"
+                                                 immediate="true"
+                                                 actionListener="#{documentoProspectoBean.resetFinalizar()}"
+                                                 action="app/inicio.xhtml?faces-redirect=true"
+                                                 ajax="false" 
+                                                 title="Regresar al menu inicial sin imprimir Carta Apertura Cuenta">
+                                    <p:resetInput target="panel" />
+                                </p:commandButton>
+                                
+                            </f:facet>
+                        </p:toolbar>
+                        
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <p:growl id="msj" autoUpdate="true" />
+                <h:form id="formaCClave">
+                    <f:facet name="last">
+                        <link href="#{appBean.baseUrl}resources/css/default.css"
+                              type="text/css" rel="stylesheet" />
+                    </f:facet>
+                    <p:panel id="basic" header="Cambio de Clave o Contraseña"
+                             toggleable="true" closable="true" closeSpeed="500"
+                             widgetVar="panel" style="margin-bottom:20px; text-align: left">
+
+                        <div style="width: 500px" align="center">
+                            <p:fieldset style="height: auto">
+                                <h:outputText
+                                    style="color: #D20005; font-size: large; font-weight: bold"
+                                    value="Cambio de Clave o Contraseña " />
+                                <br/><br/>
+                                <h:outputText value="#{cambioClaveBean1.aplOperador.login}: Introduce una nueva contraseña." />
+                                <br/><br/>
+                                <h:outputText
+                                    value="#{cambioClaveBean1.aplOperador.usuario} Te recomendamos crear una contraseña única, que 
+                                           no utilices en otros sitios." />
+                                <br/><br/>
+                                <h:panelGroup>
+                                    <h:outputText style="color: #D20005" value="Nota: " />
+                                    <h:outputText value="No podrás volver a utilizar tu contraseña 
+                                                  anterior una vez que la hayas cambiado." />
+                                </h:panelGroup>
+                            </p:fieldset>
+                        </div>
+                        <div style="width: 500px" align="center">
+                            <p:panel id="panel-signup">
+                                <p:fieldset style="height: auto">
+                                    <!-- enable focus component -->
+                                    <p:focus context="panel-signup" id="password"/>
+                                    <p:password id="password" 
+                                                value="#{cambioClaveBean1.aplOperador.password}"
+                                                required="true" 
+                                                label="password"
+                                                size="35"
+                                                requiredMessage="Por favor entre su nueva clave o contraseña"
+                                                match="confirmPassword" 
+                                                maxlength="20">
+                                    </p:password>
+                                    <p:message for="password" />
+                                    
+                                    <p:watermark for="password2" value="Password *" />
+                                    <p:password id="confirmPassword" 
+                                                value="#{cambioClaveBean1.aplOperador.password}"
+                                                required="true" 
+                                                label="confirmPassword" 
+                                                size="35"
+                                                requiredMessage="Por favor confirme su clave o contraseña"
+                                                maxlength="20">
+                                    </p:password>
+                                    <p:watermark for="confirmPassword"
+                                                 value="Escriba de nuevo su clave o contraseña *" />
+                                    <p:message for="confirmPassword" />
+
+                                </p:fieldset>
+                                <p:spacer width="10" height="20" />
+                                <p:toolbar>
+                                    <f:facet name="left">
+                                        <p:commandButton value="Registrar" style="margin:20px"
+                                                         icon="icon-save"
+                                                         actionListener="#{aplOperadorBean.btnCambioClave()}"
+                                                         title="Guardar el cambio de clave o contraseña"
+                                                         action="/login.xhtml?faces-redirect=true" />
+                                    </f:facet>
+                                    <f:facet name="left">
+                                        <p:commandButton value="Cancelar" icon="icon-cancel"
+                                                         actionListener="#{aplOperadorBean.resetFinalizar()}"
+                                                         immediate="true" ajax="false" title="Salir sin guradar la Clave">
+                                            <p:resetInput target="basic" />
+                                        </p:commandButton>
+                                    </f:facet>
+                                </p:toolbar>
+                            </p:panel>
+                        </div>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

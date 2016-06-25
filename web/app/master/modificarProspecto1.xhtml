@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<body>
+
+	<ui:composition template="./../template.xhtml">
+		<ui:define name="content">
+			<h:outputScript library="js" name="calendar_es.js" />
+			<h:outputScript library="js" name="format.js" />
+			<p:growl id="msgs" showDetail="true" />
+			<h:form id="formDataTable">
+				<p:dataTable id="tabla" var="tabla"
+					value="#{autoCompletarProspecto.empSs}"
+					emptyMessage="No se encontran resultados" paginator="true"
+					paginatorPosition="top" rows="10"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15" scrollable="true" scrollWidth="100%">
+					<f:facet name="header" class="center_content">
+                            Modificar Prospecto
+                        </f:facet>
+					<p:column style="width:32px;text-align: center">
+						<p:commandButton id="selectButton" icon="icon-edit"
+							title="Modifica prospecto" update=":formUpdate"
+							oncomplete="PF('dialogTablaUpdate').show()">
+							<f:setPropertyActionListener value="#{tabla}"
+								target="#{autoCompletarProspecto.empS}" />
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="TD" style="width:32px;text-align: center">
+						<h:outputText value="#{tabla.tipo_doc}" />
+					</p:column>
+					<p:column headerText="Identificacion"
+						style="width:100px;text-align: right">
+						<h:outputText value="#{tabla.identi_con}" style="text-align: right" />
+					</p:column>
+					<p:column headerText="Apellidos y Nombres" style="text-align: left">
+						<h:outputText value="#{tabla.razon_social}" />
+					</p:column>
+					<p:column headerText="Centro Costo" style="text-align: left">
+						<h:outputText value="#{tabla.nom_cen_costo}" />
+					</p:column>
+					<p:column headerText="Cargo aspira" style="text-align: left">
+						<h:outputText value="#{tabla.nom_cargo_aspira}" />
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+
+			<h:form id="formUpdate">
+				<p:dialog id="dlgTablaUpdate" header="Modificar Prospecto"
+					widgetVar="dialogTablaUpdate" modal="true" showEffect="fade"
+					hideEffect="explode" resizable="false">
+
+					<h:panelGrid id="display" columns="3" cellpadding="0"
+						style="margin:0 auto;">
+
+						<p:outputLabel value="Identificacion: " />
+						<p:outputLabel
+							value="#{autoCompletarProspecto.empS.tipo_doc} #{autoCompletarProspecto.empS.identi_con}" />
+						<p:outputLabel value=" " />
+
+						<p:outputLabel value="Apellidos y Nombres: " />
+						<p:outputLabel value="#{autoCompletarProspecto.empS.razon_social}" />
+						<p:outputLabel value=" " />
+
+						<p:outputLabel for="primer_nombre" value="Primer Nombre: " />
+						<p:inputText id="primer_nombre"
+							value="#{autoCompletarProspecto.empS.nombre_1}" required="true"
+							label="primer_nombre" title="Primer apellido del NIT a Craer" />
+						<h:message for="primer_nombre" />
+
+						<p:outputLabel for="segundo_nombre" value="Segundo Nombre: " />
+						<p:inputText id="segundo_nombre"
+							value="#{autoCompletarProspecto.empS.nombre_2}" required="false"
+							label="segundo_nombre"
+							title="Segundo nombre si existe para el prospecto a crear" />
+						<h:message for="segundo_nombre" />
+
+						<p:outputLabel for="primer_apellido" value="Primer Apellido: " />
+						<p:inputText id="primer_apellido"
+							value="#{autoCompletarProspecto.empS.apellido_1}" required="true"
+							label="primer_apellido"
+							title="Primer apellido del prospecto a crear" />
+						<h:message for="primer_apellido" />
+
+						<p:outputLabel for="segundo_apellido" value="Segundo Apellido: " />
+						<p:inputText id="segundo_apellido"
+							value="#{autoCompletarProspecto.empS.apellido_2}"
+							required="false" label="segundo_apellido"
+							title="Segundo apellido del prospecto a crear" />
+						<h:message for="segundo_apellido" />
+
+						<p:outputLabel for="direccion" value="Direccion:" />
+						<p:inputText id="direccion"
+							value="#{autoCompletarProspecto.empS.direccion}" required="true"
+							style="width:400px" label="direccion"
+							title="Direccion del prospecto a crear" />
+						<h:message for="direccion" />
+
+						<p:outputLabel for="barrio" value="Barrio:" />
+						<p:inputText id="barrio"
+							value="#{autoCompletarProspecto.empS.barrio}" required="true"
+							style="width:400px" label="barrio"
+							title="Nombre del barrio del prospecto a crear" />
+						<h:message for="barrio" />
+
+						<p:outputLabel for="ciudad" value="Ciudad: " />
+						<p:autoComplete id="ciudad" value="#{autoCompletarProspecto.empS}"
+							minQueryLength="3"
+							completeMethod="#{autoCompletarProspecto.completeCiudad}"
+							required="true" var="ci" size="54" itemLabel="#{ci.ciudad_depto}"
+							itemValue="#{ci}" converter="ciudadConverter"
+							forceSelection="true"
+							placeholder="Ingrese al menos 3 letras de la ciudad donde vive a buscar"
+							title="Ciudad donde vive el prospecto a crear">
+
+							<p:column headerText="Ciudad" style="text-align: left">
+								<h:outputText value="#{ci.nom_apl_ciudad}" />
+							</p:column>
+							<p:column headerText="Departamento" style="text-align: left">
+								<h:outputText value="#{ci.departamento}" />
+							</p:column>
+							<p:column headerText="Codigo" style="text-align: right">
+								<h:outputText value="#{ci.no_apl_ciudad}" />
+							</p:column>
+						</p:autoComplete>
+						<h:message for="ciudad" />
+
+						<p:outputLabel for="telefono" value="Telefono 1:" />
+						<p:inputMask id="telefono"
+							value="#{autoCompletarProspecto.empS.telefono}"
+							mask="(999) 999-9999" title="Telefono del prospecto a crear" />
+						<h:message for="telefono" />
+
+						<p:outputLabel for="tel_aux" value="Telefono 2:" />
+						<p:inputMask id="tel_aux"
+							value="#{autoCompletarProspecto.empS.tel_aux}"
+							mask="(999) 999-9999"
+							title="Telefono auxiliar del prospecto a crear" />
+						<h:message for="tel_aux" />
+
+						<p:outputLabel for="fax" value="Fax:" />
+						<p:inputMask id="fax" value="#{autoCompletarProspecto.empS.fax}"
+							mask="(999) 999-9999" title="Fax auxiliar del prospecto a crear" />
+						<h:message for="fax" />
+
+						<p:outputLabel for="e_mail" value="E-mail Principal:" />
+						<p:inputText id="e_mail"
+							value="#{autoCompletarProspecto.empS.e_mail}"
+							title="e-mail principal del prospecto a crear">
+							<p:message for="e_mail" display="tooltip" />
+						</p:inputText>
+						<h:message for="e_mail" />
+
+						<p:outputLabel for="e_mail_a" value="E-mail Auxiliar:" />
+						<p:inputText id="e_mail_a"
+							value="#{autoCompletarProspecto.empS.e_mail_a}"
+							title="e-mail auxiliar del prospecto a crear">
+							<p:message for="e_mail_a" display="tooltip" />
+						</p:inputText>
+						<h:message for="e_mail_a" />
+
+						<p:outputLabel for="pagina_web" value="Pagina web:" />
+						<p:inputText id="pagina_web"
+							value="#{autoCompletarProspecto.empS.pagina_web}"
+							style="width:400px" title="Pagina web del prospecto a crear" />
+						<h:message for="pagina_web" />
+
+						<p:outputLabel for="cabeza_f" value="El Prospecto es:" />
+						<p:selectManyCheckbox id="cabeza_f"
+							value="#{autoCompletarProspecto.empS.cabeza_es}" layout="grid"
+							columns="2">
+							<f:ajax event="change"
+								listener="#{autoCompletarProspecto.handleChangeCabezaEs()}" />
+							<f:selectItems value="#{aplDefineBean.cabeza}" />
+						</p:selectManyCheckbox>
+						<h:message for="cabeza_f" />
+
+						<p:outputLabel for="centro_costo" value="Centro de trabajo: " />
+						<p:autoComplete id="centro_costo"
+							value="#{autoCompletarProspecto.empS}" minQueryLength="3"
+							completeMethod="#{autoCompletarProspecto.completeCCosto}"
+							required="true" var="cco" size="54"
+							itemLabel="#{cco.nom_cen_costo}" itemValue="#{cco}"
+							converter="centroCostoConverter" forceSelection="true"
+							placeholder="Ingrese al menos 3 letras para el centro costo a buscar"
+							title="Cargo al que aspira el prospecto a crear">
+
+							<p:column headerText="CentroTrabajo" style="text-align: left">
+								<h:outputText value="#{cco.nom_cen_costo}" />
+							</p:column>
+							<p:column headerText="Area Depende" style="text-align: left">
+								<h:outputText value="#{cco.nom_cen_costo_padre}" />
+							</p:column>
+						</p:autoComplete>
+						<h:message for="centro_costo" />
+
+						<p:outputLabel for="cargo_aspira" value="Cargo que Aspira: " />
+						<p:autoComplete id="cargo_aspira"
+							value="#{autoCompletarProspecto.empS}" minQueryLength="3"
+							completeMethod="#{autoCompletarProspecto.completeCargo}"
+							required="true" var="ca" size="54"
+							itemLabel="#{ca.nom_cargo_aspira}" itemValue="#{ca}"
+							converter="cargoConverter" forceSelection="true"
+							placeholder="Ingrese al menos 3 letras del cargo a buscar"
+							title="Cargo al que aspira el prospecto a crear">
+
+							<p:column headerText="Cargo" style="text-align: left">
+								<h:outputText value="#{ca.nom_cargo_aspira}" />
+							</p:column>
+							<p:column headerText="Es Jefe" style="text-align: left">
+								<h:outputText value="#{ca.si_es_jefe}" />
+							</p:column>
+							<p:column headerText="Cargo Jefe" style="text-align: left">
+								<h:outputText value="#{ca.nom_cargo_jefe}" />
+							</p:column>
+						</p:autoComplete>
+						<h:message for="cargo_aspira" />
+
+						<p:outputLabel for="vr_aspira" value="Aspiracion Salarial:" />
+						<p:inputText id="vr_aspira"
+							value="#{autoCompletarProspecto.empS.cvr_salario_aspira}"
+							onkeyup="format(this)" onchange="format(this)"
+							onkeypress="return validar(event)" style="text-align: right"
+							immediate="true"
+							title="Aspiracion salarial del prospecto a crear" />
+						<h:message for="vr_aspira" />
+
+						<p:outputLabel for="sexo" value="Sexo:" />
+						<p:selectOneRadio id="sexo"
+							value="#{autoCompletarProspecto.empS.n_apl_sexo}" layout="grid"
+							label="Sexo del del prospecto a crear" required="true"
+							columns="2">
+							<f:selectItems value="#{aplDefineBean.sexo}" var="nombre"
+								itemLabel="#{nombre}" itemValue="#{nombre}" />
+						</p:selectOneRadio>
+						<h:message for="sexo" />
+
+						<p:outputLabel for="tipo_sangre" value="Tipo de Sangre: " />
+						<p:selectOneMenu id="tipo_sangre"
+							value="#{autoCompletarProspecto.empS.n_apl_sangre_tipo}"
+							required="true" label="Tipo de sangre del prospecto a crear">
+							<f:selectItem itemLabel=" -- Tipo de Sangre -- " itemValue="" />
+							<f:selectItems value="#{aplDefineBean.tipoSangre}" />
+						</p:selectOneMenu>
+						<h:message for="tipo_sangre" />
+
+						<p:outputLabel for="nivel_escolar" value="Estudios Realizados: " />
+						<p:selectOneMenu id="nivel_escolar"
+							value="#{autoCompletarProspecto.empS.n_emp_edu_clase}"
+							required="true"
+							label="Estudios realizados por el prospecto a crear">
+							<f:selectItem itemLabel=" -- Nivel de Estudios -- " itemValue="" />
+							<f:selectItems value="#{aplDefineBean.educacionClase}" />
+						</p:selectOneMenu>
+						<h:message for="nivel_escolar" />
+
+						<p:outputLabel for="apl_e_civil" value="Estado Civil:" />
+						<p:selectOneMenu id="apl_e_civil"
+							value="#{autoCompletarProspecto.empS.n_apl_e_civil}"
+							required="true" label="Estado civil del del prospecto a crear">
+							<f:selectItem itemLabel=" -- Estado Civil -- " itemValue="" />
+							<f:selectItems value="#{aplDefineBean.estadoCivil}" />
+						</p:selectOneMenu>
+						<h:message for="apl_e_civil" />
+
+						<p:outputLabel for="ciudad_nace" value="Ciudad Nacimiento: " />
+						<p:autoComplete id="ciudad_nace"
+							value="#{autoCompletarProspecto.empS}" minQueryLength="3"
+							completeMethod="#{autoCompletarProspecto.completeCiudadNace}"
+							required="true" var="cn" size="54"
+							itemLabel="#{cn.ciudad_depto_nace}" itemValue="#{cn}"
+							converter="ciudadNaceConverter" forceSelection="true"
+							placeholder="Ingrese al menos 3 letras de ciudad de nacimiento a buscar"
+							title="Ciudad de nacimiento del prospecto a crear">
+							<p:column headerText="Ciudad" style="text-align: left">
+								<h:outputText value="#{cn.nom_ciudad_nace}" />
+							</p:column>
+							<p:column headerText="Departamento" style="text-align: left">
+								<h:outputText value="#{cn.departamento_nace}" />
+							</p:column>
+							<p:column headerText="Codigo" style="text-align: right">
+								<h:outputText value="#{cn.no_ciudad_nace}" />
+							</p:column>
+						</p:autoComplete>
+						<h:message for="ciudad_nace" />
+
+						<p:outputLabel value="Fecha Nacimiento: " for="fecha_nace" />
+						<p:calendar id="fecha_nace"
+							value="#{autoCompletarProspecto.empS.fecha_nace}" locale="es"
+							pattern="yyyy.MM.dd" readonlyInput="true" navigator="true"
+							yearRange="c-60:c+10" required="true"
+							label="Fecha de nacimiento del prospecto a crear" />
+						<h:message for="fecha_nace" />
+
+						<f:facet name="footer">
+							<p:separator />
+							<p:commandButton id="btnUpdateAceptar"
+								update=":formDataTable, :msgs"
+								oncomplete="PF('dialogTablaUpdate').hide()"
+								actionListener="#{autoCompletarProspecto.btnUpdateProspecto(actionEvent)}"
+								icon="icon-save" title="Guarda la informacion modificada"
+								value="Guardar" />
+							<p:commandButton id="btnUpdateCancelar"
+								oncomplete="PF('dialogTablaUpdate').hide()" icon="icon-cancel"
+								title="Cancelar los cambios" value="Cancelar" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

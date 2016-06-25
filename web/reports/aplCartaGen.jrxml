@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
+<!-- 2016-04-28T23:30:28 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="aplCartaGen" pageWidth="612" pageHeight="792" columnWidth="532" leftMargin="45" rightMargin="35" topMargin="110" bottomMargin="50" whenResourceMissingType="Error" uuid="7fc7a678-488d-4950-94dd-f036ec3b880f">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="net.sf.jasperreports.components.table.generate.pdf.tags" value="true"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AldiaDB"/>
+	<parameter name="IC_LOGIN" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["EBELTRAN"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ID_AGENCIA_E" class="java.lang.Integer" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ID_ALMACEN_E" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="IDENTI_E" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["1000692779"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="N_APL_CARTA_E" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[7]]></defaultValueExpression>
+	</parameter>
+	<parameter name="RUTA_RESOURCES" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:/MyWorkSpace/NB_8.1/Aldia/Aldia3/build/web/resources/images/logos/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * FROM RJ_APL_CARTA ($P{IC_LOGIN},$P{ID_AGENCIA_E},$P{ID_ALMACEN_E},$P{IDENTI_E},$P{N_APL_CARTA_E},$P{RUTA_RESOURCES})]]>
+	</queryString>
+	<field name="N_APL_CARTA" class="java.lang.Integer"/>
+	<field name="DESCRIPCION" class="java.lang.String"/>
+	<field name="CABECERA_1" class="java.lang.String"/>
+	<field name="CABECERA_2" class="java.lang.String"/>
+	<field name="CABECERA_3" class="java.lang.String"/>
+	<field name="CABECERA_4" class="java.lang.String"/>
+	<field name="CABECERA_5" class="java.lang.String"/>
+	<field name="REFERENCIA_1" class="java.lang.String"/>
+	<field name="REFERENCIA_2" class="java.lang.String"/>
+	<field name="SALUDO_1" class="java.lang.String"/>
+	<field name="SALUDO_2" class="java.lang.String"/>
+	<field name="PARRAFO" class="java.lang.String"/>
+	<field name="DESPEDIDA_1" class="java.lang.String"/>
+	<field name="DESPEDIDA_2" class="java.lang.String"/>
+	<field name="FIRMA_RAZON" class="java.lang.String"/>
+	<field name="FIRMA_NOMBRE" class="java.lang.String"/>
+	<field name="FIRMA_CARGO" class="java.lang.String"/>
+	<field name="ANEXO_1" class="java.lang.String"/>
+	<field name="ANEXO_2" class="java.lang.String"/>
+	<field name="FECHA_HOY" class="java.lang.String"/>
+	<field name="RAZON_EMPRESA" class="java.lang.String"/>
+	<field name="DIR_EMPRESA" class="java.lang.String"/>
+	<field name="EMAIL_EMPRESA" class="java.lang.String"/>
+	<field name="TELEFONO_EMPRESA" class="java.lang.String"/>
+	<field name="TELEFAX_EMPRESA" class="java.lang.String"/>
+	<field name="CIUDAD_EMPRESA" class="java.lang.String"/>
+	<field name="CIUDAD_DEP_EMPRESA" class="java.lang.String"/>
+	<field name="DEPTO_EMPRESA" class="java.lang.String"/>
+	<field name="CIUDAD_DEPTO_EMPRESA" class="java.lang.String"/>
+	<field name="IDENTI_EMPRESA_CON" class="java.lang.String"/>
+	<field name="OPE_IDENTI" class="java.lang.String"/>
+	<field name="OPE_IDENTI_CON" class="java.lang.String"/>
+	<field name="OPE_TIPO_DOC" class="java.lang.String"/>
+	<field name="OPE_CORREO_EMAIL" class="java.lang.String"/>
+	<field name="OPE_APELLIDOS_NOMBRE" class="java.lang.String"/>
+	<field name="OPE_NOMBRE_APELLIDOS" class="java.lang.String"/>
+	<field name="OPE_CARGO" class="java.lang.String"/>
+	<field name="LOGO_EMPRESA" class="java.lang.String"/>
+	<field name="MARCA_A_EMPRESA" class="java.lang.String"/>
+	<field name="SI_ES_LOGO" class="java.lang.String"/>
+	<variable name="CABECERA" class="java.lang.String">
+		<initialValueExpression><![CDATA[$F{CABECERA_1} + "\n" + $F{CABECERA_2} + "\n" + $F{CABECERA_3} + "\n" + $F{CABECERA_4} +"\n" + $F{CABECERA_5}]]></initialValueExpression>
+	</variable>
+	<variable name="ASUNTO" class="java.lang.String">
+		<initialValueExpression><![CDATA[$F{REFERENCIA_1} + "\n" + $F{REFERENCIA_2}]]></initialValueExpression>
+	</variable>
+	<variable name="SALUDO" class="java.lang.String">
+		<initialValueExpression><![CDATA[$F{SALUDO_1} + "\n" + $F{SALUDO_2}]]></initialValueExpression>
+	</variable>
+	<variable name="DESPEDIDA" class="java.lang.String">
+		<initialValueExpression><![CDATA[$F{DESPEDIDA_1} + "\n"  + $F{DESPEDIDA_2}]]></initialValueExpression>
+	</variable>
+	<variable name="TELEFONO" class="java.lang.String">
+		<initialValueExpression><![CDATA["Tel: " + $F{TELEFONO_EMPRESA}]]></initialValueExpression>
+	</variable>
+	<variable name="E_MAIL" class="java.lang.String">
+		<initialValueExpression><![CDATA["e-mail: " + $F{EMAIL_EMPRESA}]]></initialValueExpression>
+	</variable>
+	<variable name="NIT" class="java.lang.String">
+		<initialValueExpression><![CDATA["NIT: " + $F{IDENTI_EMPRESA_CON}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band height="631" splitType="Stretch">
+			<image hAlign="Right" vAlign="Middle">
+				<reportElement x="425" y="-104" width="105" height="40" uuid="b57146f9-4b81-4f66-89a3-3a03904f9d68">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<printWhenExpression><![CDATA[new Boolean (($F{SI_ES_LOGO}.compareToIgnoreCase( "SI" ))  == 0)]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$F{LOGO_EMPRESA}]]></imageExpression>
+			</image>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="260" y="-64" width="271" height="13" isRemoveLineWhenBlank="true" uuid="a2e4cf5d-31ed-4bdb-9d4c-3af5c9871905">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[new Boolean (($F{SI_ES_LOGO}.compareToIgnoreCase( "SI" ))  == 0)]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="0"/>
+				<textElement textAlignment="Right" markup="none">
+					<font size="10" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RAZON_EMPRESA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement key="" isPrintRepeatedValues="false" x="260" y="-50" width="272" height="11" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="6b0aacd8-9e55-458e-a061-b7b72ce2ebcb">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[new Boolean (($F{SI_ES_LOGO}.compareToIgnoreCase( "SI" ))  == 0)]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Top" markup="styled">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIR_EMPRESA}  + " - " + $V{TELEFONO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="260" y="-39" width="272" height="11" isRemoveLineWhenBlank="true" uuid="198bb774-136b-42a3-8afd-886fcd02e3ad">
+					<printWhenExpression><![CDATA[new Boolean (($F{SI_ES_LOGO}.compareToIgnoreCase( "SI" ))  == 0)]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Top" markup="styled">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{E_MAIL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="260" y="-28" width="271" height="11" isRemoveLineWhenBlank="true" uuid="dbd457b6-fec1-4d62-96b0-3bac36ef694c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<printWhenExpression><![CDATA[new Boolean (($F{SI_ES_LOGO}.compareToIgnoreCase( "SI" ))  == 0)]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Top" markup="styled">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIUDAD_EMPRESA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="260" y="-17" width="271" height="11" isRemoveLineWhenBlank="true" uuid="57f1c19a-0615-4f6e-a374-741ecf1fe6ed">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<printWhenExpression><![CDATA[new Boolean (($F{SI_ES_LOGO}.compareToIgnoreCase( "SI" ))  == 0)]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Top" markup="styled">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{NIT}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement key="" positionType="Float" x="65" y="100" width="400" height="400" uuid="b9999b59-3b29-46ff-82fd-c4d5b5c81730">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[new Boolean (($F{SI_ES_LOGO}.compareToIgnoreCase( "SI" ))  == 0)]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$F{MARCA_A_EMPRESA}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="10" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="218">
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="530" height="16" uuid="8b152321-fb11-47ad-86ff-232639257817">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA_HOY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="54" width="530" height="14" isRemoveLineWhenBlank="true" uuid="3c7ad97d-915f-470a-9446-8dcdd74f4413"/>
+				<textElement markup="none">
+					<font size="11"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CABECERA_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="68" width="530" height="14" isRemoveLineWhenBlank="true" uuid="4e481229-8706-4c9b-b35e-a7e680081747"/>
+				<textElement markup="none">
+					<font size="11"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CABECERA_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="82" width="530" height="14" isRemoveLineWhenBlank="true" uuid="1062cebf-9978-4e69-9074-805f64d0b1ce">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement markup="none">
+					<font size="11"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CABECERA_3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="96" width="530" height="14" isRemoveLineWhenBlank="true" uuid="c0b5e735-8b37-4e68-acda-1a683b3f4fff"/>
+				<textElement markup="none">
+					<font size="11"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CABECERA_4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="110" width="530" height="14" isRemoveLineWhenBlank="true" uuid="51dbb9c3-b768-4b53-b374-1c54b3b40237">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement markup="none">
+					<font size="11"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CABECERA_5}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="0" y="138" width="530" height="14" isRemoveLineWhenBlank="true" uuid="f61af0eb-b320-4694-9b6b-992310b8575b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REFERENCIA_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="0" y="152" width="530" height="14" isRemoveLineWhenBlank="true" uuid="269d71ca-1533-4432-84c6-d4dc9cafba5a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REFERENCIA_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="0" y="176" width="530" height="14" isRemoveLineWhenBlank="true" uuid="1b9dcd57-5430-4cc1-9703-62377d80fe6c"/>
+				<textElement verticalAlignment="Top">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALUDO_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="0" y="190" width="530" height="14" isRemoveLineWhenBlank="true" uuid="5895911b-4e67-4821-876c-b7dcdad7bd9a">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALUDO_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="532" height="15" uuid="668d70c4-6e68-4af2-b9ac-005a9903afd0">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PARRAFO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="192" splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement isPrintRepeatedValues="false" x="0" y="26" width="530" height="14" isRemoveLineWhenBlank="true" uuid="a33d29f2-734d-4add-a3ac-2bbd233783e0">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESPEDIDA_1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement isPrintRepeatedValues="false" x="0" y="40" width="530" height="14" isRemoveLineWhenBlank="true" uuid="ce532343-f6d9-448d-977c-ecd9c1e132d3">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESPEDIDA_2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement x="0" y="68" width="530" height="14" isRemoveLineWhenBlank="true" uuid="a84b922c-8f31-4f48-987b-35abc67a37e2">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FIRMA_RAZON}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement x="0" y="106" width="530" height="14" uuid="0b71e3e7-35a1-451b-aa1a-3670fcb655d2"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FIRMA_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement x="0" y="120" width="530" height="14" uuid="4146a09f-ce9d-4c79-9f5b-72cf5299ee9d"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FIRMA_CARGO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement x="0" y="162" width="530" height="14" uuid="c9610ae2-7fae-4bb1-9795-59e4f13917ed">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<printWhenExpression><![CDATA[new Boolean (($F{ANEXO_1}.compareToIgnoreCase( "LO ENUNCIADO" ))  == 1)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Anexo: " + $F{ANEXO_1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement x="0" y="176" width="530" height="14" uuid="00895f02-6159-4448-a68e-a5dde4ffd4bc">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<printWhenExpression><![CDATA[new Boolean (($F{ANEXO_1}.compareToIgnoreCase( "LO ENUNCIADO" ))  == 1)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ANEXO_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

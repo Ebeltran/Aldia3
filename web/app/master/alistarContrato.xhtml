@@ -1,0 +1,401 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:form id="todo">
+                    <h:outputScript library="js" name="calendar_es.js" />
+                    <h:outputScript library="js" name="format.js" />
+                    <p:growl id="msgs" showDetail="true" life="4000" />
+                    <p:panel id="consulta" header="Detalles Generales del Prospecto">
+                        <h:panelGrid columns="2" cellpadding="0" style="font-size: 80%">
+                            
+                            <p:spacer width="5" height="20" rendered="#{alistarContratoBean.empS.lpersona ne true}"/>
+                            <p:spacer width="5" height="20" rendered="#{alistarContratoBean.empS.lpersona ne true}"/>
+                            
+                            <p:outputLabel value="Identificacion: " 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:outputLabel
+                                rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                value="#{alistarContratoBean.empS.tipo_doc} - #{alistarContratoBean.empS.identi_con}" />
+                            
+                            <p:outputLabel value="Apellidos y Nombres:" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:outputLabel
+                                rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                value="#{alistarContratoBean.empS.apellidos_nombres}" />
+
+                            <p:outputLabel for="apellidos_nombres" value="Apellidos y nombres: " 
+                                           rendered="#{alistarContratoBean.empS.lpersona ne true}" />
+                            
+                            <p:autoComplete id="apellidos_nombres"
+                                            rendered="#{alistarContratoBean.empS.lpersona ne true}"
+                                            minQueryLength="3" size="60"
+                                            value="#{alistarContratoBean.empS}"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                            completeMethod="#{alistarContratoBean.completePropecto}"
+                                            var="ni" itemLabel="#{ni.apellidos_nombres}" itemValue="#{ni}"
+                                            converter="alistarConverter" forceSelection="true">
+
+                                <p:column headerText="Pri apellido"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.apellido_1}" />
+                                </p:column>
+                                <p:column headerText="Seg apellido"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.apellido_2}" />
+                                </p:column>
+                                <p:column headerText="Pri nombre"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.nombre_1}" />
+                                </p:column>
+                                <p:column headerText="Seg nombre"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.nombre_2}" />
+                                </p:column>
+                                <p:column headerText="Identificacion" style="text-align: right">
+                                    <h:outputText value="#{ni.identi_con}" />
+                                </p:column>
+                            </p:autoComplete>
+
+                            <p:spacer width="5" height="20" rendered="#{alistarContratoBean.empS.lpersona ne true}"/>
+                            <p:spacer width="5" height="20" rendered="#{alistarContratoBean.empS.lpersona ne true}"/>
+                            
+                            <p:outputLabel style="color: #036fab;"
+                                           value="Informacion del Contrato" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:outputLabel value=" " 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+
+                            <p:outputLabel value="Tipo de Contrato: " for="duracion"  
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:selectOneMenu id="duracion" required="false"
+                                             value="#{alistarContratoBean.empS.n_con_tipo}"
+                                             rendered="#{alistarContratoBean.empS.lpersona eq true}" 
+                                             style="width:381px;text-align: right"
+                                             converter="omnifaces.SelectItemsConverter" >
+                                <p:ajax update="contratos"
+                                        listener="#{alistarContratoBean.onCambioContratoTrabajo()}" />
+                                <f:selectItem itemValue=""
+                                              itemLabel="Seleccione tipo de contrato"  
+                                              noSelectionOption="true" />
+                                <f:selectItems value="#{alistarContratoBean.tipoContrato}" 
+                                               var="c" itemLabel="#{c.value}" itemValue="#{c}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Contrato Trabajo: " for="contratos"  
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:selectOneMenu id="contratos" required="true"
+                                             value="#{alistarContratoBean.empS.n_apl_con_trabajo}" 
+                                             disabled="#{alistarContratoBean.empS.n_con_tipo eq 0}"
+                                             rendered="#{alistarContratoBean.empS.lpersona eq true}" 
+                                             style="width:381px;text-align: right" 
+                                              converter="omnifaces.SelectItemsConverter">
+                                <p:ajax update="fecha_inicia, fecha_final, fecha_firma, identi_eps, identi_fdp, identi_fdc, si_a_transporte" 
+                                        listener="#{alistarContratoBean.onClaseContrato}" />
+                                <f:selectItem itemValue="" 
+                                              itemLabel="Seleccione contrato de trabajo" 
+                                              noSelectionOption="true" />
+                                <f:selectItems value="#{alistarContratoBean.contratoTrabajo}" 
+                                               var="c" itemLabel="#{c.value}" itemValue="#{c}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Fecha Inicio Contrato: " for="fecha_inicia" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}"/>
+                            <p:calendar id="fecha_inicia"
+                                        value="#{alistarContratoBean.empS.fecha_inicia}" 
+                                        locale="es"
+                                        rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                        pattern="yyyy.MM.dd" readonlyInput="true" navigator="true"
+                                        yearRange="c-10:c+10" required="true"
+                                        label="Fecha inicial de contrato" 
+                                        title="Igresar fecha inicial de contrato">
+                            </p:calendar>
+
+                            <p:outputLabel value="Fecha Final Contrato :" for="fecha_final" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}"/>
+                            <p:calendar id="fecha_final"
+                                        value="#{alistarContratoBean.empS.fecha_final}"
+                                        locale="es"
+                                        rendered="#{alistarContratoBean.empS.lpersona eq true}" 
+                                        pattern="yyyy.MM.dd" readonlyInput="true"
+                                        navigator="true" yearRange="c-10:c+10" required="true"
+                                        disabled="#{alistarContratoBean.empS.lfechafin eq false}"
+                                        label="Fecha final de contrato" 
+                                        title="Igresar fecha final de contrato" >
+                            </p:calendar>
+                            <p:outputLabel value="Fecha Firma Contrato: " for="fecha_firma" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}"/>
+                            <p:calendar id="fecha_firma"
+                                        value="#{alistarContratoBean.empS.fecha_firma_contra}" 
+                                        locale="es"
+                                        rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                        pattern="yyyy.MM.dd" readonlyInput="true" navigator="true"
+                                        yearRange="c-10:c+10" required="true"
+                                        label="Igresar fecha firma de contrato" >
+                            </p:calendar>
+                            
+                            <p:outputLabel value="Sueldo:" for="salario"
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:inputText id="salario"
+                                         value="#{alistarContratoBean.empS.salario}"
+                                         rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                         onkeyup="format(this)" onchange="format(this)"
+                                         onkeypress="return validar(event)" style="text-align: right"
+                                         immediate="true"
+                                         title="Valor salario de contratatacion" />
+
+                            <p:outputLabel value="Si Auxilio Transporte :" for="si_a_transporte" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}"/>
+                                <p:selectBooleanCheckbox  id="si_a_transporte"
+                                                          value="#{alistarContratoBean.empS.si_es_pago_aux_tran}"
+                                                          rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                                          disabled="#{alistarContratoBean.empS.lauxtran eq false}" />
+                            
+                            <p:outputLabel for="nom_cargo" value="Cargo: "  
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}"/>
+                            <p:autoComplete id="nom_cargo"
+                                            value="#{alistarContratoBean.empS.nom_cargo_aspira_id}"
+                                            rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                            minQueryLength="3"
+                                            completeMethod="#{autoCoCargoBean.completeCargo}" required="true"
+                                            size="54" forceSelection="true" style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            placeholder="Ingrese al menos 3 letras del cargo a buscar"
+                                            title="Cargo al que aspira el prospecto a crear">
+                            </p:autoComplete>
+
+                            <p:outputLabel for="centro_costo" value="Centro de trabajo: "  
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}"/>
+                            <p:autoComplete id="centro_costo"
+                                            value="#{alistarContratoBean.empS.nom_cen_costo_id}"
+                                            rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                            minQueryLength="3"
+                                            completeMethod="#{autoCoCentroCosto.completeCCosto}"
+                                            required="true" size="54" forceSelection="true"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            placeholder="Ingrese al menos 3 letras para el centro costo a buscar"
+                                            title="Cargo al que aspira el prospecto a crear">
+                            </p:autoComplete>
+
+                            <p:outputLabel value="Ciudad de contratacion:" for="ciudad_depto_contrata"
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:autoComplete id="ciudad_depto_contrata"
+                                            value="#{alistarContratoBean.empS.ciudad_depto_contrata}"
+                                            rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                            minQueryLength="3"
+                                            completeMethod="#{autoCoCiudadBean.completeCiudad}"
+                                            required="true" size="54" forceSelection="true"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            placeholder="Ingrese al menos 3 letras de la ciudad de contratacion"
+                                            title="Ciudad de contratacion">
+                            </p:autoComplete>
+
+                            <p:outputLabel value="Ciudad firma contrato:" for="ciudad_depto_firma"
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:autoComplete id="ciudad_depto_firma"
+                                            value="#{alistarContratoBean.empS.ciudad_depto_firma}"
+                                            rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                            minQueryLength="3"
+                                            completeMethod="#{autoCoCiudadBean.completeCiudad}"
+                                            required="true" size="54" forceSelection="true"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            placeholder="Ingrese al menos 3 letras de la ciudad donde firma contrato"
+                                            title="Ciudad donde firma contrato">
+                            </p:autoComplete>
+                            
+                            <p:outputLabel value="Ciudad donde laborara:" for="ciudad_depto_trabaja"
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:autoComplete id="ciudad_depto_trabaja"
+                                            value="#{alistarContratoBean.empS.ciudad_depto_trabaja}"
+                                            rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                            minQueryLength="3"
+                                            completeMethod="#{autoCoCiudadBean.completeCiudad}"
+                                            required="true" size="54" forceSelection="true"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            placeholder="Ingrese al menos 3 letras de la ciudad donde donde laborara"
+                                            title="Ciudad donde donde laborara">
+                            </p:autoComplete>
+                            
+                            <p:outputLabel style="color: #036fab;"
+                                           value="Informacion Forma de Pago" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:outputLabel value=" " 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+
+                            <p:outputLabel value="Pago Forma:" for="forma_pago"
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:selectOneMenu id="forma_pago"
+                                             value="#{alistarContratoBean.empS.n_emp_pago_forma}"
+                                             rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                             required="true" 
+                                             style="width:381px;text-align: right"
+                                             label="Seleccion forma de pago">
+                                <p:ajax update="identi_banco, ban_sucursal, n_ban_cuenta_tipo, cuenta_cta"
+                                        listener="#{alistarContratoBean.onCambioPagoForma}" />
+                                <f:selectItem itemLabel="Seleccione Forma de Pago" itemValue=""
+                                              noSelectionOption="true" />
+                                <f:selectItems value="#{aplDefineBean.pagoForma}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Banco:" for="identi_banco"
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:selectOneMenu id="identi_banco"
+                                             value="#{alistarContratoBean.empS.identi_banco}"
+                                             disabled="#{alistarContratoBean.empS.lpagoforma eq false}"
+                                             rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                             style="width:381px;text-align: right"
+                                             required="true" >
+                                <f:selectItem itemLabel="Seleccione Banco para realizar Pago"
+                                              itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{aplDefineBean.bancoCompensa}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Sucursal:" for="ban_sucursal"
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:inputText id="ban_sucursal" 
+                                         value="#{alistarContratoBean.empS.ban_sucursal}"
+                                         disabled="#{alistarContratoBean.empS.lpagoforma eq false}"
+                                         rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                         required="false" 
+                                         style="width:400px"
+                                         placeholder="Nombre de la sucursal del banco"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                         label="barrio" title="Nombre de la sucursal del banco" />
+
+                            <p:outputLabel value="Tipo Cuenta:" for="n_ban_cuenta_tipo"
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:selectOneMenu id="n_ban_cuenta_tipo"
+                                             value="#{alistarContratoBean.empS.n_ban_cuenta_tipo}"
+                                             disabled="#{alistarContratoBean.empS.lpagoforma eq false}"
+                                             rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                             required="true" 
+                                             style="width:381px;text-align: right"
+                                             label="Seleccion Cuentas">
+                                <f:selectItem itemLabel="Seleccione Cuenta Tipo para Pago"
+                                              itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{aplDefineBean.bancoCuentaTipo}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Numero Cuenta:" for="cuenta_cta"
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:inputText id="cuenta_cta" 
+                                         value="#{alistarContratoBean.empS.cuenta_cta}"
+                                         disabled="#{alistarContratoBean.empS.lpagoforma eq false}"
+                                         rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                         required="true" 
+                                         placeholder="Numero de cuenta sin rayas o espacios"
+                                         style="width:250px;"
+                                         label="barrio" title="Numero de cuenta del banco" />
+
+                            <p:outputLabel style="color: #036fab;"
+                                           value="Informacion de Seguridad Social" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}"/>
+                            <p:outputLabel value=" " 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}"/>
+
+                            <p:outputLabel value="Razon Social Eps :" for="identi_eps" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:selectOneMenu id="identi_eps"
+                                             value="#{alistarContratoBean.empS.identi_eps}"
+                                             disabled="#{alistarContratoBean.empS.lsieps eq false}"
+                                             rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                             required="true" 
+                                             style="width:381px;text-align: right"
+                                             label="Seleccion Empresa Promotora Salud">
+                                <f:selectItem itemLabel="Seleccione Empresa Prom Salud"
+                                              itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{aplDefineBean.nombreEps}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Razon Social FDP :" for="identi_fdp" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:selectOneMenu id="identi_fdp" 
+                                             value="#{alistarContratoBean.empS.identi_fdp}"
+                                             disabled="#{alistarContratoBean.empS.lsifdp eq false}"
+                                             rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                             required="true" 
+                                             style="width:381px;text-align: right"
+                                             label="Seleccion Fondo de Pension">
+                                <f:selectItem itemLabel="Seleccione Fondo Pension" itemValue=""
+                                              noSelectionOption="true" />
+                                <f:selectItems value="#{aplDefineBean.nombreFdp}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Razon Social FDC :" for="identi_fdc" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:selectOneMenu id="identi_fdc"
+                                             value="#{alistarContratoBean.empS.identi_fdc}"
+                                             disabled="#{alistarContratoBean.empS.lsifdc eq false}"
+                                             rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                             required="true" 
+                                             style="width:381px;text-align: right"
+                                             label="Seleccion Fondo de Cesantia">
+                                <f:selectItem itemLabel="Seleccione Fondo Cesantias" itemValue=""
+                                              noSelectionOption="true" />
+                                <f:selectItems value="#{aplDefineBean.nombreFdc}" />
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel style="color: #036fab;"
+                                           value="Informacion de Firma de Contrato" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:outputLabel value=" " 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+
+                            <p:outputLabel value="Firma del Contrato :" for="firmaContrato" 
+                                           rendered="#{alistarContratoBean.empS.lpersona eq true}" />
+                            <p:selectOneMenu id="firmaContrato"
+                                             value="#{alistarContratoBean.empS.identi_firma}"
+                                             rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                             required="true" 
+                                             style="width:381px;text-align: right"
+                                             label="Seleccion Firma Contrato">
+                                <f:selectItem itemLabel="Seleccione Firma Contrato"
+                                              itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{aplDefineBean.representanteLegal}" />
+                            </p:selectOneMenu>
+<!--                            <p:spacer width="5" height="20" rendered="{alistarContratoBean.empS.lpersona ne true}"/>
+                            <p:spacer width="5" height="20" rendered="{alistarContratoBean.empS.lpersona ne true}"/>-->
+                            
+                        </h:panelGrid>
+                        <p:toolbar>
+                            
+                            <f:facet name="left">
+                                <p:commandButton id="seleccionar" value="Seleccionar"
+                                                 icon="ui-icon-check" update="todo"
+                                                 rendered="#{alistarContratoBean.empS.lpersona ne true}"
+                                                 style="margin-right:20px;" title="Seleccionar prospecto" />
+
+                                <p:commandButton id="salvar" value="Contratar" 
+                                                 icon="icon-save" update="todo"
+                                                 actionListener="#{alistarContratoBean.btnContratar(actionEvent)}"
+                                                 rendered="#{alistarContratoBean.empS.lpersona eq true}"
+                                                 style="margin-right:20px;" ajax="false"
+                                                 title="Contrata el propecto actual" />
+
+                                <p:commandButton id="regresar" value="Inicio" 
+                                                 icon="icon-home"
+                                                 immediate="true"
+                                                 actionListener="#{alistarContratoBean.resetFinalizar()}"
+                                                 action="app/inicio.xhtml?faces-redirect=true"
+                                                 ajax="false" title="alir sin guardar el prospecto">
+                                    <p:resetInput target="panel" />
+                                </p:commandButton>
+                            </f:facet>
+                        </p:toolbar>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

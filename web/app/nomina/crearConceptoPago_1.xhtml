@@ -1,0 +1,396 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+       
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:outputScript library="js" name="calendar_es.js" />
+                <p:growl id="msgs" showDetail="true" />
+                <h:form id="formDataTable" >
+                    <p:dataTable var="var"
+                                 value="#{conceptoPagoBean.lista}"
+                                 emptyMessage="No se encontran resultados" paginator="true"
+                                 paginatorPosition="top" rows="10" style="width: 98%"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" scrollable="true" scrollHeight="100%"
+                                 scrollWidth="100%">
+
+                        <f:facet name="header" class="center_content">
+                            Conceptos de Pago
+                        </f:facet>
+                        <p:column headerText="Editar" style="width:32px;text-align: center">
+                            <p:commandButton id="selectButton" icon="icon-edit"
+                                             title="Modificar el concepto seleccionado" update=":formUpdate"
+                                             oncomplete="PF('dialogConceptoPagoUpdate').show()">
+                                <f:setPropertyActionListener value="#{var}"
+                                                             target="#{conceptoPagoBean.lista}" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Conce Pago" filterBy="#{var.n_pago_concepto}"
+                                  style="width:110px;text-align: left">
+                            <h:outputText value="#{var.n_pago_concepto}" />
+                        </p:column>
+                        <p:column headerText="Nombre"
+                                  style="width:80px;text-align: right">
+                            <h:outputText value="#{var.nombre}" />
+                        </p:column>
+                        <p:column headerText="Nom Corto"
+                                  style="width:110px;text-align: left">
+                            <h:outputText value="#{var.nombre_corto}" />
+                        </p:column>
+                        <p:column headerText="Descripcion"
+                                  style="width:110px;text-align: left">
+                            <h:outputText value="#{var.descripcion}" />
+                        </p:column>
+                        <p:column headerText="Tipo Concepto"
+                                  style="width:110px;text-align: left">
+                            <h:outputText value="#{var.nom_apl_conce_tipo}" />
+                        </p:column>
+                        <p:column headerText="Se liquida x"
+                                  style="width:110px;text-align: left">
+                            <h:outputText value="#{var.nom_apl_conce_liq}" />
+                        </p:column>
+                        <p:column headerText="Frecuencia de liquida" >
+                            <h:outputText value="#{var.nom_apl_perio_pago}" />
+                        </p:column>
+                        <p:column headerText="Cuenta Base DB" >
+                            <h:outputText value="#{var.nom_apl_cta_base_db}" />
+                        </p:column>
+                        <p:column headerText="Cuenta Base CR" >
+                            <h:outputText value="#{var.nom_apl_cta_base_cr}" />
+                        </p:column>
+                        <p:column headerText="Cuenta Sufijo DB" >
+                            <h:outputText value="#{var.nom_apl_cta_sufijo_db}" />
+                        </p:column>
+                        <p:column headerText="Cuenta Sufijo CR" >
+                            <h:outputText value="#{var.nom_apl_cta_sufijo_cr}" />
+                        </p:column>
+                        <p:column headerText="Valor" >
+                            <h:outputText value="#{var.vr_concepto}" />
+                        </p:column>
+                        <p:column headerText="Cantidad" >
+                            <h:outputText value="#{var.cantidad}" />
+                        </p:column>
+                        <p:column headerText="Factor %" >
+                            <h:outputText value="#{var.factor_x_100}" />
+                        </p:column>
+                        <p:column headerText="Cant Minimo" >
+                            <h:outputText value="#{var.cantidad_minima}" />
+                        </p:column>
+                        <p:column headerText="Cant Maxima" >
+                            <h:outputText value="#{var.cantidad_maxima}" />
+                        </p:column>
+                        <p:column headerText="Valor Minimo" >
+                            <h:outputText value="#{var.valor_minimo}" />
+                        </p:column>
+                        <p:column headerText="Valor Maximo" >
+                            <h:outputText value="#{var.valor_maximo}" />
+                        </p:column>
+                        <p:column headerText="Inter" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_interfaz}" />
+                        </p:column>
+                        <p:column headerText="Nomina" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_a_nomina}" />
+                        </p:column>
+                        <p:column headerText="Bas DB" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_puc_base_db}" />
+                        </p:column>
+                        <p:column headerText="Bas DB" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_puc_base_db}" />
+                        </p:column>
+                        <p:column headerText="Con Dia" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_control_dia}" />
+                        </p:column>
+                        <p:column headerText="Cierre" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_pago_cierre}" />
+                        </p:column>
+                        <p:column headerText="Ubica" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_por_ubicacion}" />
+                        </p:column>
+                        <p:column headerText="Cant" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_presenta_can}" />
+                        </p:column>
+                        <p:column headerText="Varia" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_sal_variable}" />
+                        </p:column>
+                        <p:column headerText="Recar" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_es_recargo}" />
+                        </p:column>
+                        <p:column headerText="Cesa" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_cesantia}" />
+                        </p:column>
+                        <p:column headerText="Prima" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_prima}" />
+                        </p:column>
+                        <p:column headerText="Vaca" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_vacacion}" />
+                        </p:column>
+                        <p:column headerText="A Tra" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_auxilio_tra}" />
+                        </p:column>
+                        <p:column headerText="POS" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_aporte_pos}" />
+                        </p:column>
+                        <p:column headerText="POS" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_aporte_pos}" />
+                        </p:column>
+                        <p:column headerText="FDP" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_aporte_fdp}" />
+                        </p:column>
+                        <p:column headerText="ARL" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_aporte_arl}" />
+                        </p:column>
+                        <p:column headerText="Para" >
+                            <p:selectBooleanCheckbox value="#{var.lsi_aporte_para}" />
+                        </p:column>
+              
+                    </p:dataTable>
+                    <h:form>
+                        <p:commandButton id="bntConceptoPagoCreate" update=":formCreate"
+                                         onclick="#{conceptoPagoBean.resetFormulario()}"
+                                         oncomplete="PF('dialogConceptoPagoCreate').show()" icon="icon-new"
+                                         iconPos="right" alt="Crear Concepto"
+                                         value="Crear un nuevo Concepto de Pago" style="left: inherit"
+                                         title="Crear un nuevo Concepto de Pago"
+                                         actionListener="#{conceptoPagoBean.resetFormulario()}">
+                        </p:commandButton>
+                    </h:form>
+                    <h:form id="formCreate">
+                        <p:dialog header="Crear Concepto de Pago "
+                                  widgetVar="dialogConceptoPagoCreate" resizable="false"
+                                  id="dlgConceptoPagoCreate" showEffect="fade" hideEffect="explode"
+                                  modal="true">
+                            <h:panelGrid id="display" columns="3" cellpadding="4"
+                                         style="margin:0 auto;">
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Nombre: " for="nombre" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="nombre"
+                                             value="#{conceptoPagoBean.var.nombre}"
+                                             required="true" title="Ingrese nombre del concepto de pago"
+                                             size="40" />
+                                <h:message for="nombre" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Nombre Corto: " for="nomCorto" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="nomCorto" 
+                                             value="#{conceptoPagoBean.var.nombre_corto}"
+                                             required="true" title="Ingrese nombre corto del concepto de pago"
+                                             size="40" />
+                                <h:message for="nomCorto" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Descripcion: " for="descripcion" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="descripcion" 
+                                             value="#{conceptoPagoBean.var.descripcion}"
+                                             required="true" title="Ingrese descripcion del concepto de pago"
+                                             size="40" />
+                                <h:message for="descripcion" />
+
+                                <h:outputLabel value="Tipo Concepto: " for="tipoConcepto" />
+                                <p:inputText id="tipoConcepto" 
+                                             value="#{conceptoPagoBean.var.n_apl_conce_tipo}"
+                                             required="false" title="Ingrese tipo concepto del concepto de pago"
+                                             size="40" />
+                                <h:message for="tipoConcepto" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Concepto se Liquida: " for="conceptoLiq" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="conceptoLiq"
+                                             value="#{conceptoPagoBean.var.n_apl_conce_liq}"
+                                             required="true" title="Ingrese como se liquida el concepto de pago"
+                                             size="40" />
+                                <h:message for="frecuenciaLiq" />
+
+                                <h:outputLabel value="Frecuencia Liquidacion: " for="frecuenciaLiq" />
+                                <p:inputText id="frecuenciaLiq"
+                                             value="#{conceptoPagoBean.var.n_apl_perio_pago}"
+                                             required="false" title="Ingrese la frecuencia como liquida el concepto de pago"
+                                             size="40" />
+                                <h:message for="frecuenciaLiq" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Cuenta Base DB: " for="cuentaDB" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="cuentaDB"
+                                             value="#{conceptoPagoBean.var.puc_base_db}"
+                                             required="true" title="Ingrese  base para cuenta DB"
+                                             size="40" />
+                                <h:message for="cuentaDB" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Cuenta Base CR: " for="cuentaCR" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="cuentaCR"
+                                             value="#{conceptoPagoBean.var.puc_base_cr}"
+                                             required="true" title="Ingrese  base para cuenta CR"
+                                             size="40" />
+                                <h:message for="cuentaCR" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Sufijo DB: " for="sufijoDB" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="sufijoDB"
+                                             value="#{conceptoPagoBean.var.puc_base_db}"
+                                             required="true" title="Ingrese sufijo para cuenta DB"
+                                             size="40" />
+                                <h:message for="sufijoDB" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Sufijo CR: " for="sufijoaCR" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="sufijoCR"
+                                             value="#{conceptoPagoBean.var.puc_base_cr}"
+                                             required="true" title="Ingrese sufijo para cuenta CR"
+                                             size="40" />
+                                <h:message for="sufijoCR" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Valor Concepto: " for="vrConcepto" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="vrConcepto"
+                                             value="#{conceptoPagoBean.var.vr_concepto}"
+                                             required="true" title="Ingrese el valor para cantidad"
+                                             size="40" />
+                                <h:message for="vrConcepto" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Cantidad: " for="cantidad" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="cantidad"
+                                             value="#{conceptoPagoBean.var.cantidad}"
+                                             required="true" title="Ingrese el valor para cantidad"
+                                             size="40" />
+                                <h:message for="cantidad" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Cantidad: " for="cantidad" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="cantidad"
+                                             value="#{conceptoPagoBean.var.cantidad}"
+                                             required="true" title="Ingrese el valor para cantidad"
+                                             size="40" />
+                                <h:message for="cantidad" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Factor en %: " for="factor_x_100" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="factor_x_100"
+                                             value="#{conceptoPagoBean.var.factor_x_100}"
+                                             required="true" title="Ingrese el valor para cantidad"
+                                             size="40" />
+                                <h:message for="factor_x_100" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Cantidad Minimo: " for="cantidad_min" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="cantidad_min"
+                                             value="#{conceptoPagoBean.var.cantidad_minima}"
+                                             required="true" title="Ingrese la cantidad minima para el concepto de pago"
+                                             size="40" />
+                                <h:message for="cantidad_min" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Cantidad Maxima: " for="cantidad_max" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="cantidad_max"
+                                             value="#{conceptoPagoBean.var.cantidad_maxima}"
+                                             required="true" title="Ingrese la cantidad maxima para el concepto de pago"
+                                             size="40" />
+                                <h:message for="cantidad_max" />
+
+                                <h:outputLabel value="Se Presenta a Interface: " for="siInterfaz"
+                                               title="Cuando el operador es activo" />
+                                <p:selectBooleanCheckbox id="siInterfaz"
+                                                         value="#{conceptoPagoBean.var.lsi_interfaz}">
+                                </p:selectBooleanCheckbox>
+                                <h:message for="siInterfaz" />
+
+                                <f:facet name="footer">
+                                    <p:separator />
+                                    <p:commandButton id="btnCreateAceptar"
+                                                     update=":formDataTable, :msgs"
+                                                     oncomplete="PF('dialogConceptoPagoCreate').hide()"
+                                                     actionListener="#{conceptoPagoBean.btnCreateConceptoPago(actionEvent)}"
+                                                     icon="icon-save" title="Guarda la informacion" value="Guardar" />
+                                    <p:commandButton id="btnCreateCancelar"
+                                                     oncomplete="PF('dialogConceptoPagoCreate').hide()"
+                                                     icon="icon-cancel" title="Cancelar los cambios" value="Cancelar" />
+                                </f:facet>
+                            </h:panelGrid>
+                        </p:dialog>
+
+                    </h:form>
+
+                    <h:form id="formUpdate" >
+                        <p:dialog header="Modificar Concepto Pago "
+                                  widgetVar="dialogConceptoPagoUpdate" resizable="false"
+                                  id="dlgConceptoPagoUpdate" showEffect="fade" hideEffect="explode"
+                                  modal="true">
+
+                            <h:panelGrid id="display" columns="3" cellpadding="4"
+                                         style="margin:0 auto;">
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Nombre: " for="nombre" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="nombre"
+                                             value="#{conceptoPagoBean.var.nombre}"
+                                             required="true" title="Ingrese nombre del concepto de pago"
+                                             size="40" />
+                                <h:message for="nombre" />
+
+                                <h:panelGroup>
+                                    <h:outputLabel value="Nombre Corto: " for="nomCorto" />
+                                    <h:outputText style="color:red" value="*  " />
+                                </h:panelGroup>
+                                <p:inputText id="nomCorto" 
+                                             value="#{conceptoPagoBean.var.nombre_corto}"
+                                             required="true" title="Ingrese nombre corto del concepto de pago"
+                                             size="40" />
+                                <h:message for="nomCorto" />
+
+                                <f:facet name="footer">
+                                    <p:separator />
+                                    <p:commandButton id="btnUpdateAceptar"
+                                                     update=":formDataTable, :msgs"
+                                                     oncomplete="PF('dialogConceptoPagoUpdate').hide()"
+                                                     actionListener="#{conceptoPagoBean.btnUpdateConceptoPago(actionEvent)}"
+                                                     icon="icon-save" title="Guarda la informacion modificada"
+                                                     value="Guardar" />
+                                    <p:commandButton id="btnUpdateCancelar"
+                                                     oncomplete="PF('dialogConceptoPagoUpdate').hide()"
+                                                     icon="icon-cancel" title="Cancelar los cambios" value="Cancelar" />
+                                </f:facet>
+                            </h:panelGrid>
+                        </p:dialog>
+                    </h:form>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<body>
+	<ui:composition template="./../template.xhtml">
+		<ui:define name="content">
+			<h:form id="todo">
+
+				<p:growl id="msgs" sticky="true" showDetail="true" />
+				<p:panel id="consultanit" header="Consultas del NIT">
+					<h:panelGrid columns="2" cellpadding="5">
+						<p:spacer width="10" height="10" />
+						<p:spacer width="10" height="10" />
+
+						<p:outputLabel for="nit" value="NIT: "
+							rendered="#{empleadoConAutoComBean.nit.ljuridica eq true}" />
+
+						<p:inputText id="nit"
+							rendered="#{empleadoConAutoComBean.nit.ljuridica eq true}"
+							value="#{empleadoConAutoComBean.nit.identi_con}" />
+
+						<p:outputLabel for="completaNit" value="Razon Social:" />
+						<p:autoComplete id="completaNit" minQueryLength="3" size="60"
+							value="#{empleadoConAutoComBean.nit}"
+							completeMethod="#{empleadoConAutoComBean.completeNit}" var="ni"
+							itemLabel="#{ni.razon_social}" itemValue="#{ni}"
+							converter="nitConverter" forceSelection="true">
+
+							<p:column headerText="Apellidos y Nombres"
+								style="text-align: left">
+								<h:outputText value="#{ni.razon_social}" />
+							</p:column>
+							<p:column headerText="Identificacion" style="text-align: right">
+								<h:outputText value="#{ni.identi_con}" />
+							</p:column>
+
+						</p:autoComplete>
+
+					</h:panelGrid>
+
+					<p:commandButton value="Seleccionar" icon="ui-icon-check"
+						update="todo"
+						disabled="#{empleadoConAutoComBean.nit.ljuridica eq true}"
+						image="ui-icon-transfer-e-w" />
+
+					<p:commandButton value="Verificar Contratos" icon="ui-icon-check"
+						update="todo" action="#{empleadoConAutoComBean.trasferirNit()}"
+						disabled="#{empleadoConAutoComBean.nit.ljuridica ne true}"
+						image="ui-icon-transfer-e-w" />
+
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<body>
+
+	<ui:composition template="./../template.xhtml">
+
+		<ui:define name="content">
+                Resumen Contrato
+                <h:outputScript library="js" name="calendar_es.js" />
+			<h:form>
+				<p:outputPanel>
+					<p:panel header="Reporte de Operadores" style="width: 450px">
+						<h:panelGrid id="display" columns="2" cellpadding="0"
+							style="margin:0 auto;">
+							<p:spacer width="5" height="20" />
+							<p:spacer width="5" height="20" />
+							<p:outputLabel value="Fecha del reporte:" for="fechaReporte" />
+							<p:calendar value="#{jaspRepBean.fecha_reporte}"
+								id="fechaReporte" locale="es" pattern="yyyy.MM.dd"
+								maxdate="today" readonlyInput="true" showWeek="true"
+								required="true" label="Fecha del Reporte">
+								<p:ajax update="fechaReporte"
+									listener="#{jaspRepBean.onPrinter()}" />
+							</p:calendar>
+							<f:facet name="footer">
+								<p:separator />
+								<p:commandButton value="Crear Reporte" icon="icon-report"
+									actionListener="#{jaspRepBean.btnReporteAplOperador(actionEvent)}"
+									title="Enviar para crear reporte" />
+							</f:facet>
+
+						</h:panelGrid>
+					</p:panel>
+				</p:outputPanel>
+			</h:form>
+		</ui:define>
+
+	</ui:composition>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <p:growl id="msgs" showDetail="true" />
+                    <p:panel header="Select a Location" style="margin-bottom:10px;">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            
+                            <p:outputLabel for="duracionContrato" value="Duracion Contrato: " />
+                            <p:selectOneMenu id="duracionContrato" value="#{contratosBean.empS.n_con_duracion}"
+                                             style="width:381px">
+                                <p:ajax listener="#{contratosBean.onCambioContratoTrabajo}" update="tipoContrato" />
+                                <f:selectItem itemLabel="Seleccione duracion contrato" itemValue=""
+                                              noSelectionOption="true" />
+                                <f:selectItems value="#{contratosBean.duracionContrato}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="tipoContrato" value="Tipo Contrato: " />
+                            <p:selectOneMenu id="tipoContrato" value="#{contratosBean.empS.n_apl_con_trabajo}"
+                                             disabled="#{contratosBean.empS.n_con_duracion eq 0}"
+                                             style="width:381px">
+                                <f:selectItem itemLabel="Seleccione tipo contrato" itemValue=""
+                                              noSelectionOption="true" />
+                                <f:selectItems value="#{contratosBean.contratoTrabajo}" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <p:separator />
+                        <p:commandButton value="Submit" update="msgs"
+                                         actionListener="#{contratosBean.displayLocation}"
+                                         icon="ui-icon-check" />
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

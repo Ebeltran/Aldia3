@@ -1,0 +1,435 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:outputScript library="js" name="calendar_es.js" />
+                <h:outputScript library="js" name="format.js" />
+                <p:growl id="msgs" showDetail="true" />
+                <h:form id="formDataTable">
+                    <p:dataTable var="aplOperador"
+                                 value="#{aplOperadorBean.aplOperadors}"
+                                 emptyMessage="No se encontran resultados" paginator="true"
+                                 paginatorPosition="top" rows="10" style="width: 98%"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" scrollable="true" scrollHeight="100%"
+                                 scrollWidth="100%">
+
+                        <f:facet name="header" class="center_content">
+                            Operadores del Sistema
+                        </f:facet>
+                        <p:column headerText="Editar" style="width:32px;text-align: center">
+                            <p:commandButton id="selectButton" icon="icon-edit"
+                                             title="Modificar el operador seleccionado" update=":formUpdate"
+                                             oncomplete="PF('dialogAplOperadorUpdate').show()">
+                                <f:setPropertyActionListener value="#{aplOperador}"
+                                                             target="#{aplOperadorBean.selectedAplOperador}" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Clave" style="width:32px;text-align: center">
+                            <p:commandButton id="passwordButton" icon="icon-unlock"
+                                             title="Restablecer la clave del operador seleccionado" update=":formPassword"
+                                             oncomplete="PF('dialogAplOperadorPassword').show()">
+                                <f:setPropertyActionListener value="#{aplOperador}"
+                                                             target="#{aplOperadorBean.selectedAplOperador}" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Login" filterBy="#{aplOperador.usuario}"
+                                  filterMatchMode="contains" resizable="true"
+                                  style="width:110px;text-align: left">
+                            <h:outputText value="#{aplOperador.usuario}" />
+                        </p:column>
+                        <p:column headerText="Identificacion"
+                                  style="width:80px;text-align: right">
+                            <h:outputText value="#{aplOperador.identi_con}" />
+                        </p:column>
+                        <p:column headerText="Primer Nombre"
+                                  style="width:110px;text-align: left">
+                            <h:outputText value="#{aplOperador.nombre_1}" />
+                        </p:column>
+                        <p:column headerText="Segundo Nombre"
+                                  style="width:110px;text-align: left">
+                            <h:outputText value="#{aplOperador.nombre_2}" />
+                        </p:column>
+                        <p:column headerText="Primer Apellido"
+                                  style="width:110px;text-align: left">
+                            <h:outputText value="#{aplOperador.apellido_1}" />
+                        </p:column>
+                        <p:column headerText="Segundo Apellido"
+                                  style="width:110px;text-align: left">
+                            <h:outputText value="#{aplOperador.apellido_2}" />
+                        </p:column>
+                        <!--                        <p:column headerText="Firma" >  
+            <h:outputText value="#{aplOperador.firma_mecanica}" />  
+        </p:column>-->
+                        <p:column headerText="e-mail"
+                                  filterBy="#{aplOperador.correo_email}" 
+                                  filterMatchMode="contains" style="width:150px;text-align: left">
+                            <h:outputText value="#{aplOperador.correo_email}" />
+                        </p:column>
+                        <p:column headerText="Fec Desde"
+                                  style="width:80px;text-align: left">
+                            <h:outputText value="#{aplOperador.fec_desde}" >
+                                <f:convertDateTime pattern="yyyy.MM.dd" />    
+                            </h:outputText>
+                        </p:column>        
+                        <p:column headerText="Fec Hasta"
+                                  style="width:80px;text-align: left">
+                            <h:outputText value="#{aplOperador.fec_hasta}" >
+                                <f:convertDateTime pattern="yyyy.MM.dd" />    
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Hora Desde"
+                                  style="width:60px;text-align: left">
+                            <h:outputText value="#{aplOperador.chora_desde}" />
+                        </p:column>
+                        <p:column headerText="Hora Hasta"
+                                  style="width:60px;text-align: left">
+                            <h:outputText value="#{aplOperador.chora_hasta}" />
+                        </p:column>    
+                        <p:column headerText="Ult Acceso"
+                                  style="width:80px;text-align: left">
+                            <h:outputText value="#{aplOperador.ultimo}" >
+                                <f:convertDateTime pattern="yyyy.MM.dd HH:mm" />  
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Cam Clave"
+                                  style="width:80px;text-align: left">
+                            <h:outputText value="#{aplOperador.cambio}" >
+                                <f:convertDateTime pattern="yyyy.MM.dd HH:mm" />
+                            </h:outputText>    
+                        </p:column>
+                        <p:column headerText="Fer" style="width:32px;text-align: center">
+                            <h:outputText styleClass="fa fa-check" rendered="#{aplOperador.lsi_festivo}"/>
+                        </p:column>
+                        <p:column headerText="Act" style="width:32px;text-align: center">
+                            <h:outputText styleClass="fa fa-check" rendered="#{aplOperador.lsi_activo}"/>
+                        </p:column>
+                        <p:column headerText="Login" style="width:110px;text-align: left">
+                            <h:outputText value="#{aplOperador.usuario}" />
+                        </p:column>
+                    </p:dataTable>
+
+                </h:form>
+                <h:form>
+                    <p:commandButton id="bntAplOperadorCreate" update=":formCreate"
+                                     onclick="#{aplOperadorBean.resetFormulario()}"
+                                     oncomplete="PF('dialogAplOperadorCreate').show()" icon="icon-new"
+                                     iconPos="right" alt="Crear Operador"
+                                     value="Crear un nuevo Operador" style="left: inherit"
+                                     title="Crear un nuevo Operador"
+                                     actionListener="#{aplOperadorBean.resetFormulario()}">
+                    </p:commandButton>
+                </h:form>
+                <h:form id="formCreate">
+                    <p:dialog header="Crear Operador "
+                              widgetVar="dialogAplOperadorCreate" resizable="false"
+                              id="dlgAplOperadorCreate" showEffect="fade" hideEffect="explode"
+                              modal="true">
+                        <h:panelGrid id="display" columns="3" cellpadding="4"
+                                     style="margin:0 auto;">
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Login: " for="usuario" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="usuario"
+                                         value="#{aplOperadorBean.selectedAplOperador.usuario}" required="true" 
+                                         style="width:400px; text-transform:uppercase;"
+                                         onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                         title="Ingrese nombre del usuario del usuario"
+                                size="40" />
+                            <h:message for="usuario" />
+                            <h:panelGroup>
+                                <h:outputLabel value="NIT: " for="identi" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="identi" 
+                                         value="#{aplOperadorBean.selectedAplOperador.identi}"
+                                         required="true" title="Ingrese numero del documento del usuario"
+                                         size="40" />
+                            <h:message for="identi" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Nombre 1: " for="nombre_1" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="nombre_1" 
+                                         value="#{aplOperadorBean.selectedAplOperador.nombre_1}"
+                                         required="true" title="Ingrese primer nombre del usuario"
+                                         size="40" />
+                            <h:message for="nombre_2" />
+                            <h:outputLabel value="Nombre 2: " for="nombre_2" />
+                            <p:inputText id="nombre_2" 
+                                         value="#{aplOperadorBean.selectedAplOperador.nombre_2}"
+                                         required="false" title="Ingrese segundo nombre del usuario"
+                                         size="40" />
+                            <h:message for="nombre_2" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Apellido 1: " for="apellido_1" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="apellido_1"
+                                         value="#{aplOperadorBean.selectedAplOperador.apellido_1}"
+                                         required="true" title="Ingrese primer apellido del usuario"
+                                         size="40" />
+                            <h:message for="apellido_1" />
+                            <h:outputLabel value="Apellido 2: " for="apellido_2" />
+                            <p:inputText id="apellido_2"
+                                         value="#{aplOperadorBean.selectedAplOperador.apellido_2}"
+                                         required="false" title="Ingrese segundo apellido del usuario"
+                                         size="40" />
+                            <h:message for="apellido_2" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Email: " for="email" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="email"
+                                         value="#{aplOperadorBean.selectedAplOperador.correo_email}"
+                                         required="true" title="Ingrese correo electronico del usuario"
+                                         size="40" />
+                            <h:message for="email" />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Fecha Desde: " for="fec_desde" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+
+                            <p:calendar id="fec_desde"
+                                        value="#{aplOperadorBean.selectedAplOperador.fec_desde}"
+                                        locale="es" pattern="yyyy.MM.dd" readonlyInput="true"
+                                        showWeek="true" required="true"
+                                        title="Fecha desde la cual el operador podra trabajar" />
+                            <h:message for="fec_desde" />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Hora Desde: " for="hora_desde" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+
+                            <p:calendar id="hora_desde"
+                                        value="#{aplOperadorBean.selectedAplOperador.hora_desde}"
+                                        locale="es" pattern="HH:mm" timeOnly="true"
+                                        title="Hora desde la cual el operador podra trabajar" />
+                            <h:message for="hora_desde" />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Hora Hasta: " for="hora_hasta" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:calendar id="hora_hasta"
+                                        value="#{aplOperadorBean.selectedAplOperador.hora_hasta}"
+                                        locale="es" pattern="HH:mm" timeOnly="true"
+                                        title="Hora hasta la cual el operador podra trabajar" />
+                            <h:message for="hora_hasta" />
+
+                            <h:outputLabel value="Si es Activo: " for="si_activo"
+                                           title="Cuando el operador es activo" />
+                            <p:selectBooleanCheckbox id="si_activo"
+                                                     value="#{aplOperadorBean.selectedAplOperador.lsi_activo}">
+                            </p:selectBooleanCheckbox>
+                            <h:message for="si_activo" />
+
+                            <h:outputLabel value="Si Feriados: " for="si_festivo"
+                                           title="Cuando el operador puede trabajar los dias feriados" />
+                            <p:selectBooleanCheckbox id="si_festivo"
+                                                     value="#{aplOperadorBean.selectedAplOperador.lsi_festivo}">
+                            </p:selectBooleanCheckbox>
+                            <h:message for="si_festivo" />
+                            <f:facet name="footer">
+                                <p:separator />
+                                <p:commandButton id="btnCreateAceptar"
+                                                 update=":formDataTable, :msgs"
+                                                 oncomplete="PF('dialogAplOperadorCreate').hide()"
+                                                 actionListener="#{aplOperadorBean.btnCreateAplOperador(actionEvent)}"
+                                                 icon="icon-save" title="Guarda la informacion" value="Guardar" />
+                                <p:commandButton id="btnCreateCancelar"
+                                                 oncomplete="PF('dialogAplOperadorCreate').hide()"
+                                                 icon="icon-cancel" title="Cancelar los cambios" value="Cancelar" />
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+
+                </h:form>
+
+                <h:form id="formUpdate">
+                    <p:dialog header="Modificar Operador "
+                              widgetVar="dialogAplOperadorUpdate" resizable="false"
+                              id="dlgAplOperadorUpdate" showEffect="fade" hideEffect="explode"
+                              modal="true">
+
+                        <h:panelGrid id="display" columns="3" cellpadding="4"
+                                     style="margin:0 auto;">
+
+                            <p:outputLabel value="Login: " />
+                            <p:outputLabel value="#{aplOperadorBean.selectedAplOperador.usuario}" />
+                            <p:outputLabel value=" " />
+                            
+                            <h:panelGroup>
+                                <h:outputLabel value="NIT: " for="identi" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="identi" 
+                                         value="#{aplOperadorBean.selectedAplOperador.identi}"
+                                         required="true" title="Ingrese numero del documento del usuario"
+                                         size="40" />
+                            <h:message for="identi" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Nombre 1: " for="nombre_1" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="nombre_1" 
+                                         value="#{aplOperadorBean.selectedAplOperador.nombre_1}"
+                                         required="true" title="Ingrese primer nombre del usuario"
+                                         size="40" />
+                            <h:message for="nombre_1" />
+                            <h:outputLabel value="Nombre 2: " for="nombre_2" />
+                            <p:inputText id="nombre_2" 
+                                         value="#{aplOperadorBean.selectedAplOperador.nombre_2}"
+                                         required="false" title="Ingrese segundo nombre del usuario"
+                                         size="40" />
+                            <h:message for="nombre_2" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Apellido 1: " for="apellido_1" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="apellido_1"
+                                         value="#{aplOperadorBean.selectedAplOperador.apellido_1}"
+                                         required="true" title="Ingrese primer apellido del usuario"
+                                         size="40" />
+                            <h:message for="apellido_2" />
+                            <h:outputLabel value="Apellido 2: " for="apellido_2" />
+                            <p:inputText id="apellido_2"
+                                         value="#{aplOperadorBean.selectedAplOperador.apellido_2}"
+                                         required="false" title="Ingrese segundo apellido del usuario"
+                                         size="40" />
+                            <h:message for="apellido_2" />
+                            <h:panelGroup>
+                                <h:outputLabel value="Email: " for="email" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:inputText id="email"
+                                         value="#{aplOperadorBean.selectedAplOperador.correo_email}"
+                                         required="true" title="Ingrese correo electronico del usuario"
+                                         size="40" />
+                            <h:message for="email" />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Hora Desde: " for="hora_desde" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+
+                            <p:calendar id="hora_desde"
+                                        value="#{aplOperadorBean.selectedAplOperador.hora_desde}"
+                                        locale="es" pattern="HH:mm" timeOnly="true"
+                                        title="Hora desde la cual el operador podra trabajar" />
+                            <h:message for="hora_desde" />
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Hora Hasta: " for="hora_hasta" />
+                                <h:outputText style="color:red" value="*  " />
+                            </h:panelGroup>
+                            <p:calendar id="hora_hasta"
+                                        value="#{aplOperadorBean.selectedAplOperador.hora_hasta}"
+                                        locale="es" pattern="HH:mm" timeOnly="true"
+                                        title="Hora hasta la cual el operador podra trabajar" />
+                            <h:message for="hora_hasta" />
+
+                            <h:outputLabel value="Si es Activo: " for="si_activo"
+                                           title="Cuando el operador es activo" />
+                            <p:selectBooleanCheckbox id="si_activo" 
+                                                     value="#{aplOperadorBean.selectedAplOperador.lsi_activo}">
+                            </p:selectBooleanCheckbox>
+                            <h:message for="si_activo" />
+
+                            <h:outputLabel value="Si Feriados: " for="si_festivo"
+                                           title="Cuando el operador puede trabajar los dias feriados" />
+                            <p:selectBooleanCheckbox id="si_festivo"
+                                                     value="#{aplOperadorBean.selectedAplOperador.lsi_festivo}">
+                            </p:selectBooleanCheckbox>
+                            <h:message for="si_festivo" />
+
+                            <f:facet name="footer">
+                                <p:separator />
+                                <p:commandButton id="btnUpdateAceptar"
+                                                 update=":formDataTable, :msgs"
+                                                 oncomplete="PF('dialogAplOperadorUpdate').hide()"
+                                                 actionListener="#{aplOperadorBean.btnUpdateAplOperador(actionEvent)}"
+                                                 icon="icon-save" title="Guarda la informacion modificada"
+                                                 value="Guardar" />
+                                <p:commandButton id="btnUpdateCancelar"
+                                                 oncomplete="PF('dialogAplOperadorUpdate').hide()"
+                                                 icon="icon-cancel" title="Cancelar los cambios" value="Cancelar" />
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+                
+                <h:form id="formPassword">
+                    <p:dialog header="Restablecer Clave del Operador "
+                              widgetVar="dialogAplOperadorPassword" resizable="false"
+                              id="dlgAplOperadorPassword" showEffect="fade" hideEffect="explode"
+                              modal="true">
+
+                        <h:panelGrid id="display" columns="3" cellpadding="4"
+                                     style="margin:0 auto;">
+
+                            <p:outputLabel value="Login: " />
+                            <p:outputLabel value="#{aplOperadorBean.selectedAplOperador.usuario}" />
+                            <p:outputLabel value=" " />
+
+                            <p:outputLabel value="NIT: "  />
+                            <p:outputLabel value="#{aplOperadorBean.selectedAplOperador.identi}" />
+                            <p:outputLabel value=" " />
+                            
+                            <p:outputLabel value="Nombre 1: " />
+                            <p:outputLabel value="#{aplOperadorBean.selectedAplOperador.nombre_1}" />
+                            <p:outputLabel value=" " />
+                            
+                            <p:outputLabel value="Nombre 2: " />
+                            <p:outputLabel value="#{aplOperadorBean.selectedAplOperador.nombre_2}" />
+                            <p:outputLabel value=" " />
+                            
+                            <p:outputLabel value="Apellido 1: " />
+                            <p:outputLabel value="#{aplOperadorBean.selectedAplOperador.apellido_1}" />
+                            <p:outputLabel value=" " />
+                            
+                            <p:outputLabel value="Apellido 2: " />
+                            <p:outputLabel value="#{aplOperadorBean.selectedAplOperador.apellido_2}" />
+                            <p:outputLabel value=" " />
+                            
+                            <p:outputLabel value="Email: " />
+                            <p:outputLabel value="#{aplOperadorBean.selectedAplOperador.correo_email}" />
+                            <p:outputLabel value=" " />
+                            
+                            <h:outputLabel value="Restablecer Clave: " for="si_clave"
+                                           title="Cuando el operador es activo" />
+                            <p:selectBooleanCheckbox
+                                value="#{aplOperadorBean.selectedAplOperador.lsi_activo}">
+                            </p:selectBooleanCheckbox>
+                            <h:message for="si_clave" />
+                            <f:facet name="footer">
+                                <p:separator />
+                                <p:commandButton id="btnUpdateAceptar"
+                                                 update=":formDataTable, :msgs"
+                                                 oncomplete="PF('dialogAplOperadorPassword').hide()"
+                                                 actionListener="#{aplOperadorBean.btnResetClave()}"
+                                                 icon="icon-save" title="Guarda la informacion modificada"
+                                                 value="Reset Clave" />
+                                <p:commandButton id="btnUpdateCancelar"
+                                                 oncomplete="PF('dialogAplOperadorPassword').hide()"
+                                                 icon="icon-cancel" title="Cancelar los cambios" value="Cancelar" />
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>    
+                </h:form>            
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

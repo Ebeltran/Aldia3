@@ -1,0 +1,242 @@
+@charset "utf-8";
+
+.titulo {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	color: #FFFFFF;
+	vertical-align: middle;
+	padding-right: 20px;
+	padding-left: 20px;
+	background-image:
+		url("http://www.shd.gov.co/plantillas/images/cabezote_izquierdo.jpg");
+	padding-bottom: 0px;
+	padding-top: 0px;
+	background-repeat: no-repeat;
+	background-position: center
+}
+
+.logosinstitucionales {
+	background-image:
+		url("http://www.shd.gov.co/plantillas/images/cabezote_derecho.gif");
+	height: 100px;
+	width: 300px;
+	background-repeat: no-repeat;
+	border-top-width: 3px;
+	border-top-style: solid;
+	vertical-align: bottom;
+}
+
+.lineadivisoriavertical {
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #486CCD;
+}
+
+.lineadivisoriahorizontal {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #486CCD;
+}
+
+.tablatitulo {
+	height: 20px;
+	background-color: #486CCD;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFFFFF;
+	font-weight: bold;
+	padding-right: 2px;
+	padding-left: 2px;
+	vertical-align: middle;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	text-align: center;
+}
+
+.tablacelda {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	vertical-align: middle;
+	height: 20px;
+	background-color: #FFFFFF;
+	font-weight: normal;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-right-color: #D2D6D7;
+	border-bottom-color: #486CCD;
+	border-left-color: #D2D6D7;
+	padding: 3px;
+	text-align: center;
+}
+
+.subtitlulo {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 28px;
+	color: #486CCD;
+	margin-bottom: 10px;
+}
+
+.cuerpo {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-align: justify;
+	vertical-align: text-top;
+	line-height: 17px;
+	margin-bottom: 10px;
+	margin-right: 20px;
+	margin-left: 10px;
+	margin-top: 0px;
+}
+
+.subtitulo {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	color: #000000;
+	vertical-align: text-top;
+	margin-top: 20px;
+	margin-right: 20px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+
+.datos {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	text-align: center;
+	vertical-align: middle;
+	height: 100px;
+	width: 500px;
+	line-height: 17px;
+	margin-top: 10px;
+	margin-right: 0px;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	padding: 0px;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-top-color: #9DA5A8;
+	border-right-color: #9DA5A8;
+}
+
+.foto {
+	text-align: left;
+	margin-top: 10px;
+}
+
+.logospie {
+	background-image:
+		url("http://www.shd.gov.co/plantillas/images/logospiepagina.gif");
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	height: 100px;
+	width: 500px;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #9DA5A8;
+	vertical-align: bottom;
+}
+
+.margenpagina {
+	border: 1px solid #768D98;
+	background-color: #FFFFFF;
+	vertical-align: top;
+}
+
+.formcampoyarea {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-top-color: #486CCD;
+	border-bottom-color: #486CCD;
+	background-color: #E5E7E8;
+	border-right-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-left-style: solid;
+	border-right-color: #FFFFFF;
+	border-left-color: #FFFFFF;
+}
+
+.formboton {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #FFFFFF;
+	font-weight: bold;
+	background-image:
+		url("http://www.shd.gov.co/plantillas/images/fondoboton.gif");
+	background-repeat: repeat-x;
+	height: 22px;
+	border: 1px solid #486CCD;
+	text-align: center;
+}
+
+.formopcionyverificacion {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #486CCD;
+	border-right-color: #FFFFFF;
+	border-bottom-color: #486CCD;
+	border-left-color: #FFFFFF;
+	background-color: #E5E7E8;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.formlista {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-color: #E5E7E8;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-top-color: #486CCD;
+	border-bottom-color: #486CCD;
+	border-right-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-left-style: solid;
+	border-right-color: #FFFFFF;
+	border-left-color: #FFFFFF;
+}
+
+.formexaminar {
+	background-color: #E5E7E8;
+}
+
+.tablaceldasinlineas {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	vertical-align: middle;
+	height: 20px;
+	background-color: #FFFFFF;
+	font-weight: normal;
+	padding: 3px;
+	text-align: center;
+}

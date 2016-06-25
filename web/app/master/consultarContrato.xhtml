@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:form id="todo">
+                    <h:outputScript library="js" name="calendar_es.js" />
+                    <h:outputScript library="js" name="format.js" />
+                    <p:growl id="msgs" sticky="true" showDetail="true" life="4000" />
+                    <p:panel id="consulta" header="Consultas al Contrato Laboral Inicial">
+                        <h:panelGrid columns="2"  cellpadding="0" style="font-size: 80%">
+                            <p:spacer width="5" height="20" rendered="#{alistarContratoBean.empS.lpersona ne true}"/>
+                            <p:spacer width="5" height="20" rendered="#{alistarContratoBean.empS.lpersona ne true}"/>
+                            <p:outputLabel value="Documento No: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.tipo_doc} - #{empleadoConAutoComBean.empleado.identi_con}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Numero Contrato: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.no_con_trabajo}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Apellidos y Nombres: " id="apellidosN"
+                                           style="font-weight:bold" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.apellidos_nombres}" for="apellidosN"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:autoComplete value="#{empleadoConAutoComBean.empleado}" id="completaNit"
+                                            rendered="#{empleadoConAutoComBean.empleado.lpersona ne true}"
+                                            minQueryLength="3" size="60"
+                                            style="text-transform:uppercase;"
+                                            onkeyup="javascript:this.value = this.value.toUpperCase();"
+                                            completeMethod="#{empleadoConAutoComBean.completeEmpleadoVigente}"
+
+                                            var="ni" itemLabel="#{ni.apellidos_nombres}" itemValue="#{ni}"
+                                            converter="empleadoConverter" forceSelection="true">
+
+                                <p:column headerText="Apellidos y Nombres"
+                                          style="text-align: left">
+                                    <h:outputText value="#{ni.apellidos_nombres}" />
+                                </p:column>
+                                <p:column headerText="Identificacion" style="text-align: right">
+                                    <h:outputText value="#{ni.identi_con}" />
+                                </p:column>
+                                <p:column headerText="Fecha Inicial" style="text-align: right">
+                                    <h:outputText value="#{ni.fecha_inicia}" />
+                                </p:column>
+                                <p:column headerText="Fecha Retiro" style="text-align: right">
+                                    <h:outputText value="#{ni.fecha_retiro}" />
+                                </p:column>
+
+                            </p:autoComplete>
+
+                            <p:outputLabel style="color: #036fab; font-size: 150%"
+                                           value="Informacion del Contrato" 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value=" " 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            
+                            <p:outputLabel value="Tipo Contrato: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.con_trabajo}" 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Duracion Contrato: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.con_trabajo_padre}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel  value="Fecha Inicio Contrato: " 
+                                            style="font-weight:bold"
+                                            rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.fecha_inicia}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel  value="Fecha final Periodo Prueba: "
+                                            style="font-weight:bold"
+                                            rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.fecha_prueba}" 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Fecha Final Contrato: " 
+                                           style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.fecha_final}" 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            
+                            <p:outputLabel value="Sueldo Inicial Contrato: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.texto_salario_inicial}" 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Sueldo Actual Contrato: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.texto_salario_ultimo}" 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="Fecha Ultimo Cambio: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.fecha_salario_cambio}" 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            
+                            <p:outputLabel value="Cargo: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.cargo}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Centro de Trabajo: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.cen_costo}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Ciudad de Trabajo: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.ciudad_trabaja_dep}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel style="color: #036fab; font-size: 150%"
+                                           value="Forma de Pago" 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value=" " 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="Pago Forma: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.pago_forma}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Banco: "
+                                           style="font-weight:bold; text-align: right"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true and empleadoConAutoComBean.empleado.n_emp_pago_forma==1}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.nombre_banco}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true and empleadoConAutoComBean.empleado.n_emp_pago_forma==1}" />
+
+                            <p:outputLabel value="Sucursal: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true and empleadoConAutoComBean.empleado.n_emp_pago_forma==1}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.ban_sucursal}" 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true and empleadoConAutoComBean.empleado.n_emp_pago_forma==1}" />
+
+                            <p:outputLabel value="Tipo Cuenta: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true and empleadoConAutoComBean.empleado.n_emp_pago_forma==1}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.cuenta_tipo}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true and empleadoConAutoComBean.empleado.n_emp_pago_forma==1}" />
+
+                            <p:outputLabel value="Numero Cuenta: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true and empleadoConAutoComBean.empleado.n_emp_pago_forma==1}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.cuenta_cta_con}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true and empleadoConAutoComBean.empleado.n_emp_pago_forma==1}" />
+
+                            <p:outputLabel style="color: #036fab; font-size: 150%"
+                                           value="Seguridad Social" 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value=" " 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="E P S: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel
+                                rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}"
+                                value="#{empleadoConAutoComBean.empleado.razon_eps}" />
+
+                            <p:outputLabel value="F D P: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.razon_fdp}" 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="F D C: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.razon_fdc}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="A R L: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.razon_arl}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Tarifa ARL: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.tarifa_arl}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Vr Tarifa ARL: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.vr_tarifa_arl}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Caja de Subsidio: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.razon_ccf}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel style="color: #036fab; font-size: 150%"
+                                           value="Direccion del Funcionario" 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value=" " 
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="Direccion: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.direccion}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Telefonos: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.telefono}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="e-mail: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.e_mail}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Barrio: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.barrio}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:outputLabel value="Ciudad: " style="font-weight:bold"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+                            <p:outputLabel value="#{empleadoConAutoComBean.empleado.ciudad_dep}"
+                                           rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}" />
+
+                            <p:spacer width="5" height="20" rendered="#{alistarContratoBean.empS.lpersona ne true}"/>
+                            <p:spacer width="5" height="20" rendered="#{alistarContratoBean.empS.lpersona ne true}"/>
+
+                        </h:panelGrid>
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton id="seleccionar" value="Seleccionar"
+                                                 disabled="#{empleadoConAutoComBean.empleado.lpersona eq true}"
+                                                 style="margin-right:20px;" 
+                                                 icon="ui-icon-check" update="todo"
+                                                 title="Seleccionar empleado" />
+
+                                <p:commandButton id="contato" value="Contrato"
+                                                 style="margin-right:20px;"
+                                                 rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}"
+                                                 icon="icon-printer" 
+                                                 actionListener="#{empleadoConAutoComBean.btnReportContratoLaboral(actionEvent)}"
+                                                 title="Imprime contrato laboral del empleado" 
+                                                 oncomplete="window.open('#{appBean.baseUrl}reports/PDF/Contratos/#{empleadoConAutoComBean.empleado.reporte_nombre}_Contrato.PDF');"/>
+
+                                <p:commandButton id="resumen" value="Resumen"
+                                                 style="margin-right:20px;"
+                                                 rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}"
+                                                 icon="icon-printer" 
+                                                 actionListener="#{empleadoConAutoComBean.btnReportResumenContrato(actionEvent)}"
+                                                 title="Imprime resumen de contrato del empleado" 
+                                                 oncomplete="window.open('#{appBean.baseUrl}reports/PDF/Contratos/#{empleadoConAutoComBean.empleado.reporte_nombre}_Resumen.PDF');"/>
+
+                                <p:commandButton id="pendientes" value="Pendientes"
+                                                 style="margin-right:20px;"
+                                                 rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}"
+                                                 icon="icon-printer" 
+                                                 actionListener="#{empleadoConAutoComBean.btnReportPendientes(actionEvent)}"
+                                                 title="Imprime pendientes al contrato del empleado" 
+                                                 oncomplete="window.open('#{appBean.baseUrl}reports/PDF/Pendientes/#{empleadoConAutoComBean.empleado.reporte_nombre}_Pendiente.PDF');"/>
+
+                                <p:commandButton id="visita" value="Visita Domiciliaria"
+                                                 style="margin-right:20px;"
+                                                 rendered="#{empleadoConAutoComBean.empleado.lpersona eq true}"
+                                                 icon="icon-printer" 
+                                                 actionListener="#{empleadoConAutoComBean.btnReportVisita(actionEvent)}"
+                                                 title="Imprime autorizacion visita domiciliaria del empleado" 
+                                                 oncomplete="window.open('#{appBean.baseUrl}reports/PDF/Visitas/#{empleadoConAutoComBean.empleado.reporte_nombre}_Visita.PDF');"/>
+                                <p:commandButton id="regresar" value="Inicio" 
+                                                 icon="icon-home"
+                                                 immediate="true"
+                                                 actionListener="#{empleadoConAutoComBean.resetFinalizar()}"
+                                                 action="app/inicio.xhtml?faces-redirect=true"
+                                                 ajax="false" 
+                                                 title="Regresar al menu inicial sin imprimir Contrato Laboral">
+                                    <p:resetInput target="panel" />
+                                </p:commandButton>
+                            </f:facet>
+                        </p:toolbar>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
